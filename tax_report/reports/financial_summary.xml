@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <template id="financial_summary">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="head">
+                            <!-- code -->
+                        </div>
+
+                        <div class="page" style="font-size: 9pt;">
+                            <div class="row">
+                                <div class="col-5" style="font-size: 11pt;">
+                                    <div class="text-left">
+                                        <span t-field="o.company_id.name"/>
+                                        <br/>
+                                        <span>R.I.F. </span>
+                                        <span t-field="o.company_id.vat"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div style="font-size: 11pt;">
+                                <span>RESUMEN CONSOLIDADO DE DEBITOS Y CREDITOS DESDE EL: </span>
+                                <span t-field="o.start_date"/>
+                                <span> HASTA EL: </span>
+                                <span t-field="o.final_date"/>
+                            </div>
+                            <br/>
+                            <div>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th name="th_101" class="text-left"><span>DEBITOS FISCALES</span></th>
+                                            <th name="th_102" class="text-right"><span>BASE IMPONIBLE</span></th>
+                                            <th name="th_103" class="text-left"/>
+                                            <th name="th_104" class="text-right"><span>DEBITO FISCAL</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td name="td_101" class="text-left"><span>VENTAS INTERNAS NO GRAVADAS</span></td>
+                                            <td name="td_102" class="text-right"><span t-field="o.sale_sum_exempt_amount"/></td>
+                                            <td name="td_103"/>
+                                            <td name="td_104" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_111" class="text-left"><span>VENTAS DE EXPORTACION</span></td>
+                                            <td name="td_112" class="text-right"><span>0,00</span></td>
+                                            <td name="td_113"/>
+                                            <td name="td_114" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_121" class="text-left"><span>VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL</span></td>
+                                            <td name="td_122" class="text-right"><span t-field="o.sale_sum_tax_base_amount"/></td>
+                                            <td name="td_123" class="text-center"><span>16 %</span></td>
+                                            <td name="td_124" class="text-right"><span t-field="o.sale_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_131" class="text-left"><span>VENTAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</span></td>
+                                            <td name="td_132" class="text-right"><span>0,00</span></td>
+                                            <td name="td_133"/>
+                                            <td name="td_134" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_141" class="text-left"><span>VENTAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA</span></td>
+                                            <td name="td_142" class="text-right"><span>0,00</span></td>
+                                            <td name="td_143" class="text-center"><span>8 %</span></td>
+                                            <td name="td_144" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_151" class="text-left"><span>TOTAL VENTAS Y DEBITOS FISCAL PARA EFECTOS DE DETERMINACION</span></td>
+                                            <t t-set="total_ventas" t-value="o.sale_sum_exempt_amount + o.sale_sum_tax_base_amount" />
+                                            <td name="td_152" class="text-right"><span t-esc="total_ventas" t-options='{"widget": "float", "precision": 2}'/></td>
+                                            <td name="td_153"/>
+                                            <td name="td_154" class="text-right"><span t-field="o.sale_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_161" colspan="3" class="text-left"><span>AJUSTES A LOS DEBITOS FISCALES DE PERIODOS ANTERIORES</span></td>
+                                            <td name="td_164" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_171" colspan="3" class="text-left"><span>CERTIFICADOS DE DEBITOS FISCALES EXONERADOS(REC.DE ENTES EXON.) REG.DEL PER.</span></td>
+                                            <td name="td_174" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_181" colspan="3" class="text-left"><span>TOTAL DEBITOS FISCALES</span></td>
+                                            <t t-set="total_debitos_fiscales" t-value="o.sale_sum_tax_iva_amount" />
+                                            <td name="td_184" class="text-right"><span t-esc="total_debitos_fiscales" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <br/>
+                            <div>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th name="th_201" class="text-left"><span>CREDITOS FISCALES</span></th>
+                                            <th name="th_202" class="text-right"><span>BASE IMPONIBLE</span></th>
+                                            <th name="th_203" class="text-left"/>
+                                            <th name="th_204" class="text-right"><span>CREDITO FISCAL</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td name="td_201" class="text-left"><span>COMPRAS NO GRAVADAS Y/O SIN DERECHO A CREDITO FISCAL</span></td>
+                                            <td name="td_202" class="text-right"><span t-field="o.purchase_sum_exempt_amount"/></td>
+                                            <td name="td_203"/>
+                                            <td name="td_204" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_211" class="text-left"><span>IMPORTACION GRAVADA POR ALICUOTA GENERAL</span></td>
+                                            <td name="td_212" class="text-right"><span>0,00</span></td>
+                                            <td name="td_213"/>
+                                            <td name="td_214" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_221" class="text-left"><span>IMPORTACIONES GRAVADA POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</span></td>
+                                            <td name="td_222" class="text-right"><span>0,00</span></td>
+                                            <td name="td_223"/>
+                                            <td name="td_224" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_231" class="text-left"><span>IMPORTACIONES GRAVADA POR ALICUOTA REDUCIDA</span></td>
+                                            <td name="td_232" class="text-right"><span>0,00</span></td>
+                                            <td name="td_233"/>
+                                            <td name="td_234" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_241" class="text-left"><span>COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL</span></td>
+                                            <td name="td_242" class="text-right"><span t-field="o.purchase_sum_tax_base_amount"/></td>
+                                            <td name="td_243" class="text-center"><span>16 %</span></td>
+                                            <td name="td_244" class="text-right"><span t-field="o.purchase_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_251" class="text-left"><span>COMPRAS INTERNAS GRAVADAS POR ALICUOTA GENERAL MAS ALICUOTA ADICIONAL</span></td>
+                                            <td name="td_252" class="text-right"><span>0,00</span></td>
+                                            <td name="td_253"/>
+                                            <td name="td_254" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_261" class="text-left"><span>COMPRAS INTERNAS GRAVADAS POR ALICUOTA REDUCIDA</span></td>
+                                            <td name="td_262" class="text-right"><span>0,00</span></td>
+                                            <td name="td_263" class="text-center"><span>8 %</span></td>
+                                            <td name="td_264" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_271" class="text-left"><span>TOTAL COMPRAS Y CREDITOS FISCALES DEL PERIODO</span></td>
+                                            <t t-set="total_ventas_2" t-value="o.purchase_sum_exempt_amount + o.purchase_sum_tax_base_amount" />
+                                            <td name="td_272" class="text-right"><span t-esc="total_ventas_2"/></td>
+                                            <td name="td_273"/>
+                                            <td name="td_274" class="text-right"><span t-field="o.purchase_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_281" colspan="3" class="text-left"><span>CREDITOS FISCALES TOTALMENTE DEDUCIBLES</span></td>
+                                            <td name="td_284" class="text-right"><span t-field="o.purchase_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_291" colspan="3" class="text-left"><span>CREDITOS FISCALES PRODUCTO DE LA APLICACIÓN DEL PORCENTAJE DE PRORRATA</span></td>
+                                            <td name="td_294" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_2101" colspan="3" class="text-left"><span>TOTAL CREDITOS FISCALES DEDUCIBLES</span></td>
+                                            <td name="td_2104" class="text-right"><span t-field="o.purchase_sum_tax_iva_amount"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_2111" colspan="3" class="text-left"><span>EXCEDENTE DE CREDITOS FISCALES DEL MES ANTERIOR</span></td>
+                                            <td name="td_2114" class="text-right"><span t-field="o.last_excess_tax_credits"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_2121" colspan="3" class="text-left"><span>AJUSTES A LOS CREDITOS FISCALES DE PERIODOS ANTERIORES</span></td>
+                                            <td name="td_2124" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_2131" colspan="3" class="text-left"><span>CERTIFICADOS DE DEBITOS FISCALES EXONERADOS(REC.DE ENTES EXON.) REG.DEL PER. </span></td>
+                                            <td name="td_2134" class="text-right"><span>0,00</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_2141" colspan="3" class="text-left"><span>TOTAL CREDITOS FISCALES</span></td>
+                                            <t t-set="total_creditos_fiscales" t-value="o.purchase_sum_tax_iva_amount + o.last_excess_tax_credits" />
+                                            <td name="td_2144" class="text-right"><span t-esc="total_creditos_fiscales" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <div>
+                                <table class="table table-sm table-bordered">
+                                    <tbody class="invoice_tbody">
+
+                                        <!--Calculo de total cuota tributaria-->
+                                        <t t-if="total_debitos_fiscales &lt; total_creditos_fiscales">
+                                            <t t-set="total_cuota_tributaria" t-value="0.00"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="total_cuota_tributaria" t-value="total_debitos_fiscales - total_creditos_fiscales"/>
+                                        </t>
+
+                                        <!--Calculo de excedente de credito fiscal para el mes siguiente-->
+                                        <t t-if="total_debitos_fiscales &gt; total_creditos_fiscales">
+                                            <t t-set="next_excess_tax_credits" t-value="0.00"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="next_excess_tax_credits" t-value="total_creditos_fiscales-total_debitos_fiscales"/>
+                                        </t>
+
+                                        <!--Calculo de total de retenciones-->
+                                        <t t-set="total_withholdings" t-value="o.accumulated_withholdings_deducted + o.sale_sum_iva_withheld"/>
+
+                                        <!--Calculo de retenciones soportadas y descontadas en esta declaracion-->
+                                        <t t-if="total_withholdings &lt; total_cuota_tributaria">
+                                            <t t-set="retenciones_soportadas_descontadas" t-value="total_withholdings"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="retenciones_soportadas_descontadas" t-value="total_cuota_tributaria"/>
+                                        </t>
+
+                                        <!--Calculo de saldo retenciones de iva no aplicadas-->
+                                        <t t-if="retenciones_soportadas_descontadas == 0.00">
+                                            <t t-set="retenciones_iva_no_aplicadas" t-value="0.00"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="retenciones_iva_no_aplicadas" t-value="total_withholdings - retenciones_soportadas_descontadas"/>
+                                        </t>
+
+                                        <!--Calculo de impuesto a pagar-->
+                                        <t t-if="total_cuota_tributaria &gt; 0">
+                                            <t t-if="total_withholdings &gt; total_cuota_tributaria">
+                                                <t t-set="impuesto_pagar" t-value="0.00"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="impuesto_pagar" t-value="total_cuota_tributaria - total_withholdings"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="impuesto_pagar" t-value="0.00"/>
+                                        </t>
+
+                                        <tr>
+                                            <td name="td_301" class="text-left" colspan="3"><span>AUTOLIQUIDACION</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_311" class="text-left"><span>TOTAL CUOTA TRIBUTARIA</span></td>
+                                            <td name="td_312"/>
+                                            <td name="td_313" class="text-right"><span t-esc="total_cuota_tributaria" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_321" class="text-left"><span>EXCEDENTE DE CREDITO FISCAL PARA EL MES SIGUIENTE</span></td>
+                                            <td name="td_322"/>
+                                            <td name="td_323" class="text-right"><span t-esc="next_excess_tax_credits" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_331" class="text-left"><span>M E N O S:</span></td>
+                                            <td name="td_332"/>
+                                            <td name="td_333"/>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_341" class="text-left"><span>RETENCIONES ACUMULADAS POR DESCONTAR</span></td>
+                                            <td name="td_342"/>
+                                            <td name="td_343" class="text-right"><span t-field="o.accumulated_withholdings_deducted" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_351" class="text-left"><span>RETENCIONES DEL PERIODO</span></td>
+                                            <td name="td_352"/>
+                                            <td name="td_353" class="text-right"><span t-field="o.sale_sum_iva_withheld" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_361" class="text-left"><span>TOTAL RETENCIONES</span></td>
+                                            <td name="td_362"/>
+                                            <td name="td_363" class="text-right"><span t-esc="total_withholdings" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_371" class="text-left"><span>RETENCIONES SOPORTADAS Y DESCONTADAS EN ESTA DECLARACION</span></td>
+                                            <td name="td_372"/>
+                                            <td name="td_373" class="text-right"><span t-esc="retenciones_soportadas_descontadas" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_381" class="text-left"><span>SALDO RETENCIONES DE IVA NO APLICADAS</span></td>
+                                            <td name="td_382"/>
+                                            <td name="td_383" class="text-right"><span t-esc="retenciones_iva_no_aplicadas" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                        <tr>
+                                            <td name="td_391" class="text-left"><span>IMPUESTO A PAGAR</span></td>
+                                            <td name="td_392"/>
+                                            <td name="td_393" class="text-right"><span t-esc="impuesto_pagar" t-options='{"widget": "float", "precision": 2}'/></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

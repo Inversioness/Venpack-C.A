@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <template id="islr_listing">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="head">
+                            <!-- code -->
+                        </div>
+
+                        <div class="page">
+                        <div class="oe_structure"/>
+                            <div>
+                                <div class="row">
+                                    <div class="col-4" style="font-size: 10pt;">
+                                        <div class="text-left">
+                                            <span t-field="o.company_id.name"/>
+                                            <br/>
+                                            <span>R.I.F. </span>
+                                            <span t-field="o.company_id.vat"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="text-center" style="font-size: 12pt;">
+                                            <strong>Retenciones de Impusto Sobre la Renta en Proveedores</strong>
+                                        </div>
+                                        <div class="text-center" style="font-size: 10pt;">
+                                            <span>Fecha de Retención Desde: </span>
+                                            <span t-esc="start_date"/>
+                                            <span> Hasta: </span>
+                                            <span t-esc="final_date"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-left" style="font-size: 10pt;">
+                                            <span><stong>Fecha: </stong></span>
+                                            <span t-esc="fecha"/>
+                                            <br/>
+                                            <span><stong>Usuario: </stong></span>
+                                            <span t-esc="username"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div>
+                                <div style="font-size: 10pt;">
+                                    <table class="table table-sm table-borderless" name="invoice_line_table">
+                                        <thead>
+                                            <tr style="border:1px solid black">
+                                                <th name="th_provider" class="text-center" style="border:1px solid black;"><span>Proveedor</span></th>
+                                                <th name="th_provider_name" class="text-center" style="border:1px solid black;"><span>Nombre Proveedor</span></th>
+                                                <th name="th_retention_code" class="text-center" style="border:1px solid black;"><span>Cod Ret</span></th>
+                                                <th name="th_retention_number" class="text-center" style="border:1px solid black;"><span>Retenc.#</span></th>
+                                                <th name="th_document_type" class="text-center" style="border:1px solid black;"><span>Tipo Doc</span></th>
+                                                <th name="th_document" class="text-center" style="border:1px solid black;"><span>Documento</span></th>
+                                                <th name="th_control_number" class="text-center" style="border:1px solid black;"><span>Nro Control</span></th>
+                                                <th name="th_retention_date" class="text-center" style="border:1px solid black;"><span>Fecha Ret</span></th>
+                                                <th name="th_retention_percentage" class="text-center" style="border:1px solid black;"><span>%</span></th>
+                                                <th name="th_tax_base" class="text-center" style="border:1px solid black;"><span>Base Imponible</span></th>
+                                                <th name="th_tax_withheld" class="text-center" style="border:1px solid black;"><span>Monto Retención</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="invoice_tbody">
+                                            <t t-foreach="data_islr_listing" t-as="dil">
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['provider']"/>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span t-esc="dil['provider_name']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['retention_code']"/>
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <span t-esc="dil['retention_number']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['document_type']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['document']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['control_number']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['retention_date']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['retention_percentage']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['tax_base']"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-esc="dil['tax_withheld']"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td name="td_1" colspan="6">
+                                                </td>
+                                                <td name="td_15" colspan="5">
+                                                    <hr color="black" style="width: 100%"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td name="td2_1" colspan="8" class="text-right">
+                                                    <span>Totales Generales:</span>
+                                                </td>
+                                                <td name="td2_14">
+                                                </td>
+                                                <td name="tax_base_total" class="text-center">
+                                                    <span t-esc="tax_base_total"/>
+                                                </td>
+                                                <td name="tax_withheld_total" class="text-center">
+                                                    <span t-esc="tax_withheld_total"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            <!--  code -->
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

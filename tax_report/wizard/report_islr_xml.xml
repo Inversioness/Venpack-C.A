@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="action_report_islr_xml">
+            <field name="name">ISLR XML</field>
+            <field name="res_model">islr.xml</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            name="ISLR XML"
+            id="menu_islr_xml"
+            parent="tax_report.books"
+            action="action_report_islr_xml"
+            sequence="3"/>
+
+        <record model="ir.ui.view" id="report_islr_xml_wizard_form">
+            <field name="name">ccrr.nodes.relation.wizard.form</field>
+            <field name="model">islr.xml</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="month" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="year" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="file"  filename="file_name" readonly="1"/>
+                            <field name="file_name" invisible="1" />
+                        </group>
+                    </group>
+
+    <!--                <group string="Red de riego">-->
+    <!--                    <group>-->
+    <!--&lt;!&ndash;                        <field name="pozo_id"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <field name="cabezal_id"/>&ndash;&gt;-->
+    <!--                    </group>-->
+    <!--                    <group>-->
+    <!--&lt;!&ndash;                        <field name="balsa_id"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <field name="hidrantes_ids" widget="many2many_tags"/>&ndash;&gt;-->
+    <!--                    </group>-->
+    <!--                </group>-->
+
+                    <footer>
+                        <button class="btn-primary" name="generar_xml" type="object" string="Generar"/>
+                        <button class="btn-secondary" name="cancel" type="object" string="cancel"/>
+                      </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

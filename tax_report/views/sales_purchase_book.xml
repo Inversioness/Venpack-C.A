@@ -1,0 +1,121 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="sales_purchase_book_form">
+      <field name="name">sales.purchase.book.form</field>
+      <field name="model">sales.purchase.book</field>
+      <field eval="10" name="priority"/>
+      <field name="arch" type="xml">
+        <form string="Libro de Ventas/Compras">
+          <sheet>
+            <group>
+              <group>
+                <div>
+                    <separator string="Periodo Fiscal"/>
+                    <label for="month" string="Fecha"
+                           style="font-weight: bold !important;margin-right:50px;margin-left: 0px;"/>
+<!--                    <field name="month" style="width:110px" attrs="{'readonly': [('id', '!=', False)]}"/>-->
+                    <field name="month" style="width:110px" attrs="{'readonly': [('id', '!=', False)], 'invisible': 1}"/>
+<!--                    <field name="year" style="width:110px;margin-left: 24px;" attrs="{'readonly': [('id', '!=', False)]}"/>-->
+                    <field name="year" style="width:110px;margin-left: 24px;" attrs="{'readonly': [('id', '!=', False)], 'invisible': 1}"/>
+                    <field name="start_date" style="width:110px" attrs="{'readonly': [('id', '!=', False)]}"/>
+                    <field name="final_date" style="width:110px; margin-left: 24px;" attrs="{'readonly': [('id', '!=', False)]}"/>
+                </div>
+              </group>
+              <group>
+                <separator string="Montos"/>
+                <field name="last_excess_tax_credits"/>
+                <field name="accumulated_withholdings_deducted"/>
+              </group>
+            </group>
+
+            <notebook>
+              <page string="Libro de Ventas">
+                <!-- Displayed fields -->
+                <group>
+                  <group>
+                    <field name="sale_sum_amount_total" readonly="1"/>
+                    <field name="sale_sum_exempt_amount" readonly="1"/>
+                    <field name="sale_sum_tax_base_amount" readonly="1"/>
+                  </group>
+                  <group>
+                    <field name="sale_sum_tax_iva_amount" readonly="1"/>
+                    <field name="sale_sum_iva_withheld" readonly="1"/>
+                  </group>
+                </group>
+                <field name="sales_book_invoice_ids" readonly="1">
+                  <tree>
+                    <!-- Displayed fields -->
+                    <field name="name"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="ref"/>
+                  </tree>
+                </field>
+
+              </page>
+
+              <page string="Libro de Compras">
+                <!-- Displayed fields -->
+                <group>
+                  <group>
+                    <field name="purchase_sum_amount_total" readonly="1"/>
+                    <field name="purchase_sum_exempt_amount" readonly="1"/>
+                    <field name="purchase_sum_tax_base_amount" readonly="1"/>
+                  </group>
+                  <group>
+                    <field name="purchase_sum_tax_iva_amount" readonly="1"/>
+                    <field name="purchase_sum_iva_withheld" readonly="1"/>
+                  </group>
+                </group>
+                <field name="purchase_book_invoice_ids" readonly="1">
+                  <tree>
+                    <!-- Displayed fields -->
+                    <field name="name"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="ref"/>
+                  </tree>
+                </field>
+
+              </page>
+
+            </notebook>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sales_purchase_book_tree">
+      <field name="name">sales.purchase.book.tree</field>
+      <field name="model">sales.purchase.book</field>
+      <field eval="10" name="priority"/>
+      <field name="arch" type="xml">
+        <tree string="campaign">
+          <field name="start_date"/>
+          <field name="final_date"/>
+          <field name="company_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_windows_sales_purchase_book" model="ir.actions.act_window">
+      <field name="name">Libro de Ventas/Compras</field>
+      <field name="res_model">sales.purchase.book</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+      name="Libros"
+      id="books"
+      parent="account.menu_finance_reports"
+      sequence="5"/>
+
+    <menuitem
+      name="Libro de Ventas/Compras"
+      id="menu_sales_purchase_book"
+      parent="tax_report.books"
+      action="action_windows_sales_purchase_book"
+      sequence="1"/>
+
+  </data>
+</odoo>
