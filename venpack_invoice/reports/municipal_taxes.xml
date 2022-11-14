@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <template id="municipal_taxes">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+
+                        <div class="page" style="font-size: 10pt; font-family: Arial, Helvetica, sans-serif; line-height: 130%;">
+                            <div class="oe_structure"/>
+
+                            <div class="text-center" style="font-size: 12pt;">
+                                <span><strong>COMPROBANTE DE RETENCION DE IMPUESTOS MUNICIPALES SOBRE ACTIVIDADES ECONOMICAS DEL MUNICIPIO AMBROSIO PLAZA DEL ESTADO MIRANDA</strong></span>
+                            </div>
+
+                            <div class="border border-secondary">
+                                <p>
+                                    ORDENANZA DE ACTIVIDADES ECONOMICAS DEL 29/12/2014, TITULO V, ARTICULO. 79. Los agentes de retencion definidos en este Titulo, estan
+                                    obligados a practicar la retencion del impuesto sobre la Actividad Economica en el momento del pago o del abono en cuenta a personas
+                                    naturales o jurídicas nacionales o extrajeras, por el ejercicio de Actividades Economicas previstas en esta ordenanza en jurisdiccion
+                                    del Municipio Ambrosio Plaza del Estado Bolivariano de Miranda y que tenga o no la Licencia de Actividades Economicas otorgadas por
+                                    la administracion tributaria Municipal de este Municipio y a enterar las cantidades de dinero retenidas por ante las oficinas o taquillas
+                                    receptoras de Fondos Municipales competentes y/o autorizadas por la Alcaldia dentro de los lapsos y la forma que se establezcan en la
+                                    presente Ordenanza
+                                </p>
+                            </div>
+<!--                            <div style="border:1px solid #000">-->
+                            <div class="border border-secondary">
+                                <p>
+                                    ARTICULO 83. Una vez realizada la retencion, el Agente es el unico responsable ante el Contribuyente por las retenciones efectuadas,
+                                    y es el unico responsable ante el Fisco Municipal por el importe retenido. De no realizar la retención, el Agente será responsablemente
+                                    solidario por el monto de impuesto dejado de retener. Si el Agente enterí al Fisco Municipal lo retenido indebidamente, el Contribuyente
+                                    podrá solicitar el correspondiente reintegro, mismo que esta sujeto a una verificación
+                                </p>
+                            </div>
+                            <br/>
+                            <div class="row" style="font-size: 12pt;">
+                                <div class="col-6">
+                                    <span><strong>FECHA DE EMISION: </strong></span>
+                                    <span t-field="o.date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>
+                                </div>
+                                <div class="col-6">
+                                    <span><strong>COMPROBANTE No: </strong></span>
+                                    <span t-field="o.x_IM_vaucher_number"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div id="retention_agent">
+                                <table class="table table-sm table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th class="table-secondary" colspan="3">
+                                                <span>DATOS DEL AGENTE DE RETENCION</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>NOMBRE O RAZON SOCIAL</strong></span>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>RIF No</strong></span>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>PATENTE No</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span t-field="o.company_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.company_id.vat"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.company_id.x_patent_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <span style="font-size: 9pt;"><strong>DIRECCION FISCAL: </strong></span>
+                                                <span t-field="o.company_id.street"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>PERIODO FISCAL:</strong></span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.date" t-options='{"widget": "date", "format": "MM/YYYY"}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="retained_agent">
+                                <table class="table table-sm table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th class="table-secondary" colspan="3">
+                                                <span>DATOS DEL AGENTE DE RETENIDO</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>NOMBRE O RAZON SOCIAL</strong></span>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>RIF No</strong></span>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>PATENTE No</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span t-field="o.partner_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.partner_id.vat"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.partner_id.x_patent_number"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <span style="font-size: 9pt;"><strong>DIRECCION FISCAL: </strong></span>
+                                                <span t-field="o.partner_id.street"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 9pt;"><strong>PERIODO FISCAL:</strong></span>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.date" t-options='{"widget": "date", "format": "MM/YYYY"}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="invoice_and_withholding_data" style="height:50mm;">
+                                <table class="table table-sm table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th class="table-secondary text-center" colspan="4">
+                                                <span>DATOS DE LA FACTURA</span>
+                                            </th>
+                                            <th class="table-secondary text-center" colspan="5">
+                                                <span>DATOS DE LA RETENCION</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>FECHA FACTURA</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>NUMERO FACTURA</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                               <span style="font-size: 9pt;"><strong>NUMERO DE CONTROL</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>TOTAL MONTO FACTURA</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>CODIGO DE LA ACTIVIDAD ECONIMICA SUJETA A RETENCION</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>BASE IMPONIBLE</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>ALICUOTA DE LA ACTIVIDAD ECONOMICA</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>MONTO PAGADO</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>IMPUESTO SOBRE ACTIVIDADES ECONOMICAS RETENIDO</strong></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center">
+                                                <span t-field="o.invoice_date"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="o.ref"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="o.x_ncontrol"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="amount_total"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="code_tax_impm"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="tax_base_impm"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="percentage_impm"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="amount_impm_paid"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="tax_impm_withheld"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="4"/>
+                                            <td class="text-center">
+                                                <span style="font-size: 9pt;"><strong>TOTALES</strong></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="tax_base_impm"/>
+                                            </td>
+                                            <td colspan="2"/>
+                                            <td class="text-center">
+                                                <span t-esc="tax_impm_withheld"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <di>
+                                <div class="row text-center">
+                                    <div class="col-3">
+                                        <div class="row text-center">
+                                            <div class="col-2"/>
+                                            <div class="col-8">
+                                                <img t-if="o.company_id.sello" t-att-src="image_data_uri(o.company_id.sello)" class="img-fluid img-thumbnail" alt="Responsive image"/>
+                                            </div>
+                                            <div class="col-2"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-9"/>
+                                </div>
+
+                                <div class="row text-center">
+                                    <div class="col-3">
+                                        <hr style="width:100%; text-align:center;" color="black"/>
+                                        <span>FIRMA DEL AGENTE DE RETENCION</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <hr style="width:100%; text-align:center;" color="black"/>
+                                        <span>SELLO DE LA EMPRESA</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <hr style="width:100%; text-align:center;" color="black"/>
+                                        <span>FIRMA DEL AGENTE RETENIDO</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <hr style="width:100%; text-align:center;" color="black"/>
+                                        <span>FECHA DE RETENCION</span>
+                                    </div>
+                                </div>
+                            </di>
+
+
+
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

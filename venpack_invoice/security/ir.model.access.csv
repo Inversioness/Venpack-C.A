@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+venpack_invoice.access_municipal_withholding,access_municipal_withholding,venpack_invoice.model_municipal_withholding,base.group_user,1,1,1,1

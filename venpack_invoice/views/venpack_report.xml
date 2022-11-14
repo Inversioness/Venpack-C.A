@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+    <record id="invoice_report" model="ir.actions.report">
+        <field name="name">Factura venpack</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.custom_invoice</field>
+        <field name="report_file">venpack_invoice.custom_invoice</field>
+        <field name="print_report_name">'Factura - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat"/>
+    </record>
+
+    <record id="second_invoice_report" model="ir.actions.report">
+        <field name="name">Factura venpack V2</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.second_custom_invoice</field>
+        <field name="report_file">venpack_invoice.second_custom_invoice</field>
+        <field name="print_report_name">'Factura - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat"/>
+    </record>
+
+    <record id="third_invoice_report" model="ir.actions.report">
+        <field name="name">Factura venpack V3</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.third_custom_invoice</field>
+        <field name="report_file">venpack_invoice.third_custom_invoice</field>
+        <field name="print_report_name">'Factura - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat_v2"/>
+    </record>
+
+    <record id="tracking_guide_report" model="ir.actions.report">
+        <field name="name">Guia de Despacho Venpack</field>
+        <field name="model">stock.picking</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.tracking_guide</field>
+        <field name="report_file">venpack_invoice.tracking_guide</field>
+        <field name="print_report_name">'Guia de Despacho - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat"/>
+    </record>
+
+    <record id="municipal_taxes_report" model="ir.actions.report">
+        <field name="name">Impuesto Municipal</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.municipal_taxes</field>
+        <field name="report_file">venpack_invoice.municipal_taxes</field>
+        <field name="print_report_name">'Impuesto municipal - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="municipal_taxes_paperformat"/>
+    </record>
+
+    <record id="financial_budget_report" model="ir.actions.report">
+        <field name="name">Presupuesto Financiero</field>
+        <field name="model">sale.order</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.financial_budget</field>
+        <field name="report_file">venpack_invoice.financial_budget</field>
+        <field name="print_report_name">'Presupuesto - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="financial_budget_paperformat"/>
+    </record>
+
+     <record id="municipal_withholding_list_report" model="ir.actions.report">
+        <field name="name">Listado Retenciones Municipales</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.municipal_withholding_list</field>
+        <field name="report_file">venpack_invoice.municipal_withholding_list</field>
+        <field name="print_report_name">'Lista Retenciones Municipales - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="tax_report.voucher_iva_paperformat"/>
+    </record>
+
+    <record id="municipal_withholding_list_excel_report" model="ir.actions.report">
+        <field name="name">Listado Retenciones Municipales XLSX</field>
+        <field name="model">account.move</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">venpack_invoice.municipal_withholding_list_xlsx</field>
+        <field name="report_file">venpack_invoice.municipal_withholding_list_xlsx</field>
+        <field name="print_report_name">'Lista Retenciones Municipales XLSX- %s' % (object.name)</field>
+    </record>
+
+    <record id="municipal_withholding_report" model="ir.actions.report">
+        <field name="name">Retenciones Municipales</field>
+        <field name="model">account.move</field>
+<!--        <field name="binding_model_id" ref="account.model_account_move"/>-->
+<!--        <field name="binding_type">report</field>-->
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">venpack_invoice.municipal_withholding</field>
+        <field name="report_file">venpack_invoice.municipal_withholding</field>
+        <field name="print_report_name">'Retenciones_Municipales_%s' % (object.name)</field>
+        <field name="paperformat_id" ref="municipal_withholding_paperformat"/>
+    </record>
+
+  </data>
+</odoo>

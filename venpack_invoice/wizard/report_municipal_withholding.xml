@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="action_report_municipal_withholding">
+            <field name="name">Retenciones Municipales</field>
+            <field name="res_model">municipal.withholding</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            name="Retenciones Municipales"
+            id="menu_municipal_withholding"
+            parent="tax_report.books"
+            action="action_report_municipal_withholding"
+            sequence="4"/>
+
+        <record model="ir.ui.view" id="report_municipal_withholding_wizard_form">
+            <field name="name">municipal.withholding.wizard.form</field>
+            <field name="model">municipal.withholding</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="month" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="year" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="file"  filename="file_name" readonly="1"/>-->
+<!--                            <field name="file_name" invisible="1" />-->
+<!--                        </group>-->
+                    </group>
+
+                    <footer>
+                        <button class="btn-primary" name="print_report" type="object" string="Generar"/>
+                        <button class="btn-secondary" name="cancel" type="object" string="cancel"/>
+                      </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

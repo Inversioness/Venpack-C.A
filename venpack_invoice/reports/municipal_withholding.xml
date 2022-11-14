@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <template id="municipal_withholding">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="head">
+                            <!-- code -->
+                        </div>
+
+                        <div class="page" style="font-size: 10pt;">
+                        <div class="oe_structure"/>
+                            <div>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="text-center">
+                                            <p>
+                                                RELACION DE RETENCIONES DE IMPUESTOS MUNICPALES SOBRE ACTIVIDADES
+                                                ECONOMICAS DEL MUNICIPIO AMBROSIO PLAZA DEL ESTADO MIRANDA
+                                            </p>
+<!--                                            <span t-field="o.company_id.name"/>-->
+<!--                                            <br/>-->
+<!--                                            <span>R.I.F. </span>-->
+<!--                                            <span t-field="o.company_id.vat"/>-->
+<!--                                            <br/>-->
+<!--                                            <span>N.I.T. </span>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <span>FECHA DECLARACION (1):</span>
+                                                <br/>
+                                                <br/>
+                                                <span>PERIODO DECLARADA (2):</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <table class="table table-sm table-borderless" name="datetime_table">
+                                                    <tbody class="invoice_tbody">
+                                                        <tr>
+                                                            <td class="text-center" style="border:1px solid black;">
+                                                                <span t-esc="day_now"/>
+                                                            </td>
+                                                            <td class="text-center" style="border:1px solid black;">
+                                                                <span t-esc="month_now"/>
+                                                            </td>
+                                                            <td class="text-center" style="border:1px solid black;">
+                                                                <span t-esc="year_now"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center" colspan="2" style="border:1px solid black;">
+                                                                <span t-esc="month_period"/>
+                                                            </td>
+                                                            <td class="text-center" style="border:1px solid black;">
+                                                                <span t-esc="year_period"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+<!--                                        <div class="text-center" style="font-size: 10pt;">-->
+<!--                                            <strong>Libro de Ventas</strong>-->
+<!--                                        </div>-->
+<!--                                        <div class="text-center" style="font-size: 10pt;">-->
+<!--                                            <span>DESDE: </span>-->
+<!--                                            <span t-field="o.start_date"/>-->
+<!--                                            <span>HASTA:</span>-->
+<!--                                            <span t-field="o.final_date"/>-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <table class="table table-sm table-borderless" name="company_data_table">
+                                    <thead>
+                                        <tr style="border:1px solid black">
+                                            <th name="th_01" colspan="5" class="text-center" style="border:1px solid black;"><span>DATOS DE AGENTE DE RETENCION</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border:1px solid black;">
+                                                <span>NOMBRE DE AGENTE DE RETENCION (3)</span>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span>NUMERO DE LICENCIA (4)</span>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span>RIF (5)</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.name"/>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.x_patent_number"/>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.vat"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span>DIRECCION (6):</span>
+                                            </td>
+                                            <td colspan="4" class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.street"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center" style="border:1px solid black;">
+                                                <span>TELEFONOS (7)</span>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span>FAX (8)</span>
+                                            </td>
+                                            <td colspan="2" class="text-center" style="border:1px solid black;">
+                                                <span>CORREO ELECTRONICO (9)</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.phone"/>
+                                            </td>
+                                            <td class="text-center" style="border:1px solid black;">
+                                                <span>   </span>
+                                            </td>
+                                            <td colspan="2" class="text-center" style="border:1px solid black;">
+                                                <span t-field="o.company_id.email"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div>
+                                <table class="table table-sm table-borderless" name="invoice_line_table">
+                                    <thead>
+                                        <tr style="border:1px solid black">
+                                            <th name="th_1" rowspan="2" class="text-center" style="border:1px solid black;"><span>No. OPERACION</span></th>
+                                            <th name="th_2" rowspan="2" class="text-center" style="border:1px solid black;"><span>REGISTRO DE INFORMACION FISCAL (RIF) (10)</span></th>
+                                            <th name="th_3" rowspan="2" class="text-center" style="border:1px solid black;"><span>NUMERO DE LICENCIA DE ACTIVIDADES ECONOMICAS (11)</span></th>
+                                            <th name="th_4" colspan="2" class="text-center" style="border:1px solid black;"><span>CONTRIBUYENTE DEL MUNICIPIO (12)</span></th>
+                                            <th name="th_5" rowspan="2" class="text-center" style="border:1px solid black;"><span>FECHA FACTURA (13)</span></th>
+                                            <th name="th_6" rowspan="2" class="text-center" style="border:1px solid black;"><span>FECHA DEL COMPROBANTE DE RETENCION (14)</span></th>
+                                            <th name="th_7" rowspan="2" class="text-center" style="border:1px solid black;"><span>NUMERO DE FACTURA (15)</span></th>
+                                            <th name="th_8" rowspan="2" class="text-center" style="border:1px solid black;"><span>NUMERO DE CONTROL (16)</span></th>
+                                            <th name="th_9" rowspan="2" class="text-center" style="border:1px solid black;"><span>BASE IMPONIBLE (17)</span></th>
+                                            <th name="th_10" rowspan="2" class="text-center" style="border:1px solid black;"><span>CODIGO  DE LA ACTIVIDAD ECONOMICA SUJETA A LA RETENCION (18)</span></th>
+                                            <th name="th_11" rowspan="2" class="text-center" style="border:1px solid black;"><span>ALICUOTA DE LA ACTIVIDAD ECONOMICA SUJETA A LA RETENCION (19)</span></th>
+                                            <th name="th_12" rowspan="2" class="text-center" style="border:1px solid black;"><span>IMPUESTO SOBRE LA ACTIVIDAS ECONOMICA RETENIDO (20)</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th name="th_41" class="text-center" style="border:1px solid black;"><span>SI</span></th>
+                                            <th name="th_42" class="text-center" style="border:1px solid black;"><span>NO</span></th>
+                                        </tr>
+                                    </thead>
+                                    <t t-set="number_item" t-value="0"/>
+                                    <tbody class="invoice_tbody">
+                                        <t t-foreach="data_municipal_listing" t-as="dsb">
+                                            <t t-set="number_item" t-value="number_item +1 "/>
+                                            <tr>
+                                                <td class="text-center" style="border:1px solid black;">
+                                                    <span t-esc="number_item"/>
+                                                </td>
+                                                <td class="text-left" style="border:1px solid black;">
+                                                    <span t-esc="dsb['provider']"/>
+                                                </td>
+                                                <td class="text-center" style="border:1px solid black;">
+                                                </td>
+                                                <td class="text-center" style="border:1px solid black;">
+                                                </td>
+                                                <td class="text-center" style="border:1px solid black;">
+                                                </td>
+                                                <td class="text-left" style="border:1px solid black;">
+                                                    <span t-esc="dsb['date']"/>
+                                                </td>
+                                                <td class="text-left" style="border:1px solid black;">
+                                                    <span t-esc="dsb['date']"/>
+                                                </td>
+                                                <td class="text-left" style="border:1px solid black;">
+                                                    <span t-esc="dsb['affected_invoice']"/>
+                                                </td>
+                                                <td class="text-left" style="border:1px solid black;">
+                                                    <span t-esc="dsb['control_number']"/>
+                                                </td>
+                                                <td class="text-right" style="border:1px solid black;">
+                                                    <span t-esc="dsb['tax_base']"/>
+                                                </td>
+                                                <td class="text-right" style="border:1px solid black;">
+                                                    <span t-esc="dsb['retention_code']"/>
+                                                </td>
+                                                <td class="text-right" style="border:1px solid black;">
+                                                    <span t-esc="dsb['retention_percentage']"/>
+                                                </td>
+                                                <td class="text-right" style="border:1px solid black;">
+                                                    <span t-esc="dsb['tax_withheld']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <tr>
+                                            <td name="td_1" colspan="7" style="border-top:1px solid black;"/>
+                                            <td name="td_8" colspan="2" class="text-center" style="border:1px solid black;">
+                                                <span>TOTALES (21)</span>
+                                            </td>
+                                            <td name="td_10" class="text-right" style="border:1px solid black;">
+                                                <span t-esc="tax_base_total"/>
+                                            </td>
+                                            <td name="td_11" colspan="2" style="border:1px solid black;"/>
+                                            <td name="td_13" class="text-right" style="border:1px solid black;">
+                                                <span t-esc="tax_withheld_total"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div style="font-size: 10pt;">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <hr color="black" style="width: 100%"/>
+                                            <strong class="text-center">FIRMA DEL AGENTE DE RETENCION (22)</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <hr color="black" style="width: 100%"/>
+                                            <strong class="text-center">SELLO DE LA EMPRESA (23)</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <hr color="black" style="width: 100%"/>
+                                            <strong class="text-center">FECHA DE RECEPCION (24)</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="text-center">
+                                            <hr color="black" style="width: 100%"/>
+                                            <strong class="text-center">FUNCIONARIO RECEPTOR (25)</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="text-center" style="border:1px solid black;">
+                                    <span>
+                                        REQUISITO INDISPNESABLE: ANEXE A ESTA RELACION EL DEPOSITO O TRANSFERENCIA BANCARIA CON QUE SE PAGO LAS RETENCIONES SOBRE ACTIVIDADES ECONOMICAS EFECTUADAS EN EL PERIODO
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
