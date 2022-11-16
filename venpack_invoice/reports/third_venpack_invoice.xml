@@ -62,6 +62,8 @@
                                         </stron>
                                     </t>
                                     <t t-else="">
+                                        <br/>
+                                        <br/>
                                         <stron>
                                             <span>FACTURA</span>
                                             <br/>
@@ -104,7 +106,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:45mm; line-height: 110%;">
+                            <div style="height:35mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
@@ -207,6 +209,7 @@
                                 </div>
                                 <div class="col-3"/>
                                 <div class="col-2">
+                                    <br/>
                                     <div class="clearfix">
                                         <div id="total" class="row">
                                             <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
