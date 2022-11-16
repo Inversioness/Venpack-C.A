@@ -37,6 +37,7 @@
                                     </div>
                                 </div>
                                 <div class="col-3 text-right" style="font-size: 12pt; line-height: 130%">
+                                    <br/>
                                     <t t-if="o.x_tipodoc == 'Recibo'">
                                         <stron>
                                             <span>Recibo</span>
@@ -62,8 +63,6 @@
                                         </stron>
                                     </t>
                                     <t t-else="">
-                                        <br/>
-                                        <br/>
                                         <stron>
                                             <span>FACTURA</span>
                                             <br/>
@@ -77,7 +76,6 @@
                                     </t>
                                 </div>
                             </div>
-                            <br/>
                             <br/>
                             <div style="line-height: 100%;">
                                 <table class="table table-sm table-borderless">
