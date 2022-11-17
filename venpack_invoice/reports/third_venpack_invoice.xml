@@ -67,10 +67,7 @@
                                         <stron>
                                             <span>FACTURA</span>
                                             <br/>
-                                            <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
-                                            <br/>
-                                            <span style="font-size: 8pt;">
+                                            <span style="font-size: 10pt;">
                                                 FECHA: <span t-field="o.invoice_date"/>
                                             </span>
                                         </stron>
@@ -97,14 +94,14 @@
 <!--                                            <td name="td_102" class="text-center" style="width: 40%;"><span t-field="o.invoice_date_due"/></td>-->
                                             <td name="td_102" class="text-center" style="width: 16%;"><span t-field="o.invoice_date_due"/></td>
 <!--                                            <td name="td_103" class="text-center" style="width: 9%;"><span t-field="o.reversed_entry_id.ref"/></td>-->
-                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_purchase_order"/></td>
+                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.invoice_payment_term_id.name"/></td>
 <!--                                            <td name="td_104" class="text-center" style="width: 13%;"><span t-field="o.x_purchase_order"/></td>-->
-                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.invoice_payment_term_id.name"/></td>
+                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_purchase_order"/></td>
 <!--                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>-->
                                             <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.x_npedido"/></td>
 <!--                                                <td name="td_106" class="text-center"><span t-field="o.invoice_user_id.name"/></td>-->
                                             <td name="td_106" class="text-center" style="width: 14%;"/>
-                                            <td name="td_107" class="text-center" style="width: 8%;"><span t-field="o.invoice_user_id.name"/></td>
+                                            <td name="td_107" class="text-center" style="width: 8%;"/>
                                         </tr>
                                     </tbody>
 <!--                                    </t>-->
