@@ -13,7 +13,7 @@
                             <div class="oe_structure"/>
                             <br/>
                             <br/>
-                            <div class="row" style="height:30mm;">
+                            <div class="row" style="height:28mm;">
 <!--                            <div class="row" style="height:35mm;">-->
                                 <div class="col-3">
 <!--                                    <strong>FECHA DE FACTURA:</strong>-->
@@ -94,11 +94,11 @@
 <!--                                            <td name="td_102" class="text-center" style="width: 40%;"><span t-field="o.invoice_date_due"/></td>-->
                                             <td name="td_102" class="text-center" style="width: 16%;"><span t-field="o.invoice_date_due"/></td>
 <!--                                            <td name="td_103" class="text-center" style="width: 9%;"><span t-field="o.reversed_entry_id.ref"/></td>-->
-                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.invoice_payment_term_id.name"/></td>
+                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_npedido"/></td>
 <!--                                            <td name="td_104" class="text-center" style="width: 13%;"><span t-field="o.x_purchase_order"/></td>-->
                                             <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_purchase_order"/></td>
 <!--                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>-->
-                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.x_npedido"/></td>
+                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>
 <!--                                                <td name="td_106" class="text-center"><span t-field="o.invoice_user_id.name"/></td>-->
                                             <td name="td_106" class="text-center" style="width: 14%;"/>
                                             <td name="td_107" class="text-center" style="width: 8%;"/>
@@ -108,7 +108,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:35mm; line-height: 110%;">
+                            <div style="height:33mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
