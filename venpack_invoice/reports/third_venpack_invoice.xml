@@ -108,7 +108,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:28mm; line-height: 110%;">
+                            <div style="height:25mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
