@@ -285,6 +285,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <br/>
                             <div class="text-right" style="font-size: 9pt;">
                                 <span t-field="o.x_ncontrol"/>
                             </div>
