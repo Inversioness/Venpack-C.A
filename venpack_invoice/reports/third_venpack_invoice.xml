@@ -108,7 +108,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:25mm; line-height: 110%;">
+                            <div style="height:22mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
@@ -204,12 +204,12 @@
                                         <span t-field="o.reversed_entry_id.invoice_date"/>
                                     </t>
                                 </div>
-                                <div class="col-3" style="font-size: 8pt;">
+                                <div class="col-6" style="font-size: 8pt;">
                                     <t t-if="o.x_tipodoc == 'Factura'">
                                         <p>Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.</p>
                                     </t>
                                 </div>
-                                <div class="col-3"/>
+<!--                                <div class="col-3"/>-->
                                 <div class="col-2">
                                     <br/>
                                     <br/>
