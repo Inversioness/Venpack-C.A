@@ -34,6 +34,7 @@
         'reports/venpack_invoice.xml',
         'reports/second_venpack_invoice.xml',
         'reports/third_venpack_invoice.xml',
+        'reports/fourth_venpack_invoice.xml',
         'reports/tracking_guide.xml',
         'reports/municipal_taxes.xml',
         'reports/financial_budget.xml',
