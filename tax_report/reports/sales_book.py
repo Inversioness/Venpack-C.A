@@ -1,4 +1,5 @@
 from odoo import api, models, _
+from datetime import datetime
 import locale
 import json
 from odoo.exceptions import ValidationError
@@ -73,14 +74,24 @@ class SalesBook(models.AbstractModel):
                     memo = apr['ref']
                     type_journal = memo[0:3]
                     if type_journal == 'IVA':
-                        ref_journal = memo[memo.find('(') + 1:-1]
-                        account_payment = self.env['account.payment'].search([
-                            ('move_id', '=', apr['move_id']),
-                            ('ref', '=', ref_journal),
-                        ])
-                        iva_withheld = apr['amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else apr['amount']
-                        iva_receipt_number = account_payment.ref
-                        break
+                        date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
+                        if docs.start_date <= date <= docs.final_date:
+                            # print('verdadero', date)
+                            ref_journal = memo[memo.find('(') + 1:-1]
+                            account_payment = self.env['account.payment'].search([
+                                ('move_id', '=', apr['move_id']),
+                                ('ref', '=', ref_journal),
+                            ])
+                            iva_withheld = apr[
+                                               'amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
+                            apr['amount']
+                            iva_receipt_number = account_payment.ref
+                            break
+                        else:
+                            iva_withheld = 0.0
+                            iva_receipt_number = ""
+                            # print('falso', date)
+                            break
                     else:
                         iva_withheld = 0.0
                         iva_receipt_number = ""
