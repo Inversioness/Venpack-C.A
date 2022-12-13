@@ -74,9 +74,9 @@ class SalesBook(models.AbstractModel):
                     memo = apr['ref']
                     type_journal = memo[0:3]
                     if type_journal == 'IVA':
-                        date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
-                        if docs.start_date <= date <= docs.final_date:
-                            # print('verdadero', date)
+                        payment_date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
+                        if docs.start_date <= payment_date <= docs.final_date:
+                            # print('verdadero', payment_date)
                             ref_journal = memo[memo.find('(') + 1:-1]
                             account_payment = self.env['account.payment'].search([
                                 ('move_id', '=', apr['move_id']),
@@ -90,7 +90,7 @@ class SalesBook(models.AbstractModel):
                         else:
                             iva_withheld = 0.0
                             iva_receipt_number = ""
-                            # print('falso', date)
+                            # print('falso', payment_date)
                             break
                     else:
                         iva_withheld = 0.0
