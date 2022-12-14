@@ -1,7 +1,7 @@
 <odoo>
   <data>
-     <record id="custom_view_account_move_form" model="ir.ui.view">
-            <field name="name">custom.view.account.move.form</field>
+     <record id="custom_view_account_move_form_tr" model="ir.ui.view">
+            <field name="name">custom.view.account.move.form.tr</field>
             <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">

@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web_domain_field', 'bi_manual_currency_exchange_rate', "report_xlsx"],
+    'depends': ['base', 'account', 'web_domain_field', 'bi_manual_currency_exchange_rate', "report_xlsx"],
 
     # always loaded
     'data': [
@@ -41,7 +41,7 @@
         'reports/iva_txt.xml',
         'reports/sales_book.xml',
         'reports/purchase_book.xml',
-        # 'reports/financial_summary.xml',
+        'reports/financial_summary.xml',
         'reports/islr_listing.xml',
         'reports/iva_listing.xml',
     ],
