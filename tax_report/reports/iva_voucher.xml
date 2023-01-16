@@ -280,7 +280,7 @@
                                                 <span t-esc="transaction_type"/>
                                             </td>
                                             <td class="text-center">
-                                                <t t-if="o.x_tipodoc=='Nota de Crédito'">
+                                                <t t-if="o.x_tipodoc=='Nota de Crédito' or o.x_tipodoc=='Nota de Débito'">
 <!--                                                    <span t-field="o.reversed_entry_id"/>-->
                                                     <span t-if="o.reversed_entry_id" t-esc="str(o.reversed_entry_id.ref)"/>
                                                 </t>
