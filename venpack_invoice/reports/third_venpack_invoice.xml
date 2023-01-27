@@ -205,7 +205,7 @@
                                     </t>
                                 </div>
                                 <div class="col-6" style="font-size: 8pt;">
-                                    <div style="height:28mm;">
+                                    <div style="height:25mm;">
                                         <t t-if="o.x_tipodoc == 'Factura'">
                                             <p>Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.</p>
                                         </t>
