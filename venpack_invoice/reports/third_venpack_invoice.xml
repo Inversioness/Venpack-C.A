@@ -108,7 +108,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:23mm; line-height: 110%;">
+                            <div style="height:20mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
@@ -220,12 +220,13 @@
                                 </div>
 <!--                                <div class="col-3"/>-->
                                 <div class="col-2">
-                                    <br/>
-                                    <br/>
-                                    <br/>
+                                    <div style="height:18mm;"/>
+<!--                                    <br/>-->
+<!--                                    <br/>-->
+<!--                                    <br/>-->
                                     <div class="clearfix">
                                         <div id="total" class="row">
-                                            <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
+                                            <table class="table table-sm" style="page-break-inside: avoid; line-height: 80%">
 
                                                 <!--Tax totals-->
                                                 <tr class="border-black o_subtotal">
