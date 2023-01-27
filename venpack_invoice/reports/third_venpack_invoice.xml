@@ -8,23 +8,17 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
 
-<!--                        <div class="page" style="font-size: 10pt; font-family: Arial, Helvetica, sans-serif;">-->
                         <div class="page" style="font-size: 11pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
                             <br/>
                             <br/>
-                            <div class="row" style="height:28mm;">
-<!--                            <div class="row" style="height:35mm;">-->
-                                <div class="col-3">
-<!--                                    <strong>FECHA DE FACTURA:</strong>-->
-<!--                                    <span t-field="o.invoice_date"/>-->
-                                </div>
+                            <div class="row" style="height:30mm;">
+
+                                <div class="col-3"/>
                                 <div class="col-6" style="line-height: 120%;">
 
-<!--                                            <strong>Cliente:</strong>-->
                                     <span t-field="o.partner_id"/>
                                     <br/>
-<!--                                    <strong>Dirección:</strong>-->
                                     <span t-esc="address"/>
                                     <br/>
                                     <div class="row">
@@ -44,7 +38,6 @@
                                             <span>Recibo</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Crédito'">
@@ -52,7 +45,6 @@
                                             <span>NOTA DE CREDITO</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Débito'">
@@ -60,7 +52,6 @@
                                             <span>NOTA DE DEBITO</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-else="">
