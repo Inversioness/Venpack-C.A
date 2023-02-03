@@ -12,7 +12,7 @@
                             <div class="oe_structure"/>
                             <br/>
                             <br/>
-                            <div class="row" style="height:30mm;">
+                            <div class="row" style="height:31mm;">
 
                                 <div class="col-3"/>
                                 <div class="col-6" style="line-height: 120%;">
@@ -59,14 +59,14 @@
                                             <span>FACTURA</span>
                                             <br/>
                                             <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                                <span t-field="o.invoice_date"/>
                                             </span>
                                         </stron>
                                     </t>
                                 </div>
                             </div>
 
-                            <div style="line-height: 100%;">
+                            <div style="line-height: 100%; height:11mm;">
                                 <table class="table table-sm table-borderless">
 <!--                                        <thead>-->
 <!--                                            <tr>-->
@@ -211,7 +211,7 @@
                                 </div>
 <!--                                <div class="col-3"/>-->
                                 <div class="col-2">
-                                    <div style="height:18mm;"/>
+                                    <div style="height:19mm;"/>
 <!--                                    <br/>-->
 <!--                                    <br/>-->
 <!--                                    <br/>-->
