@@ -8,23 +8,17 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
 
-<!--                        <div class="page" style="font-size: 10pt; font-family: Arial, Helvetica, sans-serif;">-->
                         <div class="page" style="font-size: 11pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
                             <br/>
                             <br/>
-                            <div class="row" style="height:28mm;">
-<!--                            <div class="row" style="height:35mm;">-->
-                                <div class="col-3">
-<!--                                    <strong>FECHA DE FACTURA:</strong>-->
-<!--                                    <span t-field="o.invoice_date"/>-->
-                                </div>
+                            <div class="row" style="height:31mm;">
+
+                                <div class="col-3"/>
                                 <div class="col-6" style="line-height: 120%;">
 
-<!--                                            <strong>Cliente:</strong>-->
                                     <span t-field="o.partner_id"/>
                                     <br/>
-<!--                                    <strong>Dirección:</strong>-->
                                     <span t-esc="address"/>
                                     <br/>
                                     <div class="row">
@@ -44,7 +38,6 @@
                                             <span>Recibo</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Crédito'">
@@ -52,7 +45,6 @@
                                             <span>NOTA DE CREDITO</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Débito'">
@@ -60,7 +52,6 @@
                                             <span>NOTA DE DEBITO</span>
                                             <br/>
                                             <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
                                         </stron>
                                     </t>
                                     <t t-else="">
@@ -68,14 +59,14 @@
                                             <span>FACTURA</span>
                                             <br/>
                                             <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                                <span t-field="o.invoice_date"/>
                                             </span>
                                         </stron>
                                     </t>
                                 </div>
                             </div>
-                            <br/>
-                            <div style="line-height: 100%;">
+
+                            <div style="line-height: 100%; height:11mm;">
                                 <table class="table table-sm table-borderless">
 <!--                                        <thead>-->
 <!--                                            <tr>-->
@@ -94,9 +85,9 @@
 <!--                                            <td name="td_102" class="text-center" style="width: 40%;"><span t-field="o.invoice_date_due"/></td>-->
                                             <td name="td_102" class="text-center" style="width: 16%;"><span t-field="o.invoice_date_due"/></td>
 <!--                                            <td name="td_103" class="text-center" style="width: 9%;"><span t-field="o.reversed_entry_id.ref"/></td>-->
-                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_npedido"/></td>
+                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_purchase_order"/></td>
 <!--                                            <td name="td_104" class="text-center" style="width: 13%;"><span t-field="o.x_purchase_order"/></td>-->
-                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_purchase_order"/></td>
+                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_npedido"/></td>
 <!--                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>-->
                                             <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>
 <!--                                                <td name="td_106" class="text-center"><span t-field="o.invoice_user_id.name"/></td>-->
@@ -108,7 +99,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:23mm; line-height: 110%;">
+                            <div style="height:20mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
 <!--                                    <thead>-->
 <!--                                        <tr>-->
@@ -205,7 +196,7 @@
                                     </t>
                                 </div>
                                 <div class="col-6" style="font-size: 8pt;">
-                                    <div style="height:28mm;">
+                                    <div style="height:25mm;">
                                         <t t-if="o.x_tipodoc == 'Factura'">
                                             <p>Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.</p>
                                         </t>
@@ -220,12 +211,13 @@
                                 </div>
 <!--                                <div class="col-3"/>-->
                                 <div class="col-2">
-                                    <br/>
-                                    <br/>
-                                    <br/>
+                                    <div style="height:19mm;"/>
+<!--                                    <br/>-->
+<!--                                    <br/>-->
+<!--                                    <br/>-->
                                     <div class="clearfix">
                                         <div id="total" class="row">
-                                            <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
+                                            <table class="table table-sm" style="page-break-inside: avoid; line-height: 80%">
 
                                                 <!--Tax totals-->
                                                 <tr class="border-black o_subtotal">
