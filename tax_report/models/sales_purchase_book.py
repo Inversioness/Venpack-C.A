@@ -4,7 +4,7 @@ from odoo import api, fields, models, exceptions, _
 import locale
 import json
 import logging
-import datetime
+from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -88,76 +88,167 @@ class SalesPurchaseBook(models.Model):
         sum_tax_base_amount = 0.0
         sum_tax_iva_amount = 0.0
         sum_iva_withheld = 0.0
+        total_tax_base_column = 0.0
         invoices = []
 
-        invoices_ids_by_invoice_date = invoice_ids.sorted(key=lambda r: (r.invoice_date, r.ref))
 
-        for invoice in invoices_ids_by_invoice_date:
-            tax_base = 0.0
-            tax_iva = 0.0
-            exempt_sum = 0.0
-            iva_withheld = 0.0
-
-            for ili in invoice.invoice_line_ids:
-                for ti in ili.tax_ids:
-                    if ti.x_tipoimpuesto == 'IVA':
-                        tax_base += ili.price_subtotal
-                        if tax_iva == 0:
-                            line_iva_id = invoice.line_ids.search([('name', '=', ti.name), ('move_id', '=', invoice.id)])
-                            tax_iva = line_iva_id[0].amount_currency
-                            percentage = line_iva_id[0].name
-                    if ti.x_tipoimpuesto == 'EXENTO':
-                        exempt_sum += ili.price_subtotal
-
-
-            if invoice.invoice_payments_widget != 'false':
-                res = json.loads(invoice.invoice_payments_widget)
-                for apr in res['content']:
-                    memo = apr['ref']
-                    type_journal = memo[0:3]
-
-                    if type_journal == 'IVA':
-                        ref_journal = memo[memo.find('(') + 1:-1]
-                        account_payment = self.env['account.payment'].search([
-                            ('move_id', '=', apr['move_id']),
-                            ('ref', '=', ref_journal),
-                        ])
-                        iva_withheld = apr['amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else apr['amount']
-                        break
-                    else:
-                        iva_withheld = 0.0
-            else:
+        if invoice_ids:
+            invoices_ids_by_date = invoice_ids.sorted(key=lambda r: (r.date, r.ref))
+            for invoice in invoices_ids_by_date:
+                tax_base = 0.0
+                tax_iva = 0.0
                 iva_withheld = 0.0
+                exempt_sum = 0.0
 
-            if invoice.currency_id.name != 'VES':
-                tax_base = tax_base * invoice.x_tasa  # lineas de factura
-                exempt_sum = exempt_sum * invoice.x_tasa  # lineas de factura
-                tax_iva = tax_iva * invoice.x_tasa  # apunte contable
-                iva_withheld = iva_withheld * invoice.x_tasa  # lineas de factura
+                for ili in invoice.invoice_line_ids:
+                    for ti in ili.tax_ids:
+                        if ti.x_tipoimpuesto == 'IVA':
+                            tax_base += ili.price_subtotal
+                            if tax_iva == 0:
+                                line_iva_id = invoice.line_ids.search(
+                                    [('name', '=', ti.name), ('move_id', '=', invoice.id)])
+                                tax_iva = line_iva_id[0].amount_currency
+                        if ti.x_tipoimpuesto == 'EXENTO':
+                            exempt_sum += ili.price_subtotal
 
-            if invoice.x_tipodoc == 'Nota de Crédito':
-                amount_total = -1 * (abs(tax_iva) + tax_base + exempt_sum)
-                tax_base_amount = -1 * tax_base if tax_base != 0.0 else tax_base
-                tax_iva_amount = -1 * abs(tax_iva) if tax_iva != 0.0 else tax_iva
-                exempt_amount = -1 * exempt_sum if exempt_sum != 0.0 else exempt_sum
-                iva_withheld_amount = -1 * iva_withheld if iva_withheld != 0.0 else iva_withheld
-            else:
-                amount_total = abs(tax_iva) + tax_base + exempt_sum
-                tax_base_amount = tax_base
-                tax_iva_amount = abs(tax_iva)
-                exempt_amount = exempt_sum
-                iva_withheld_amount = iva_withheld
+                # para calculo de retencion
+                payment_date = ''
+                if invoice.invoice_payments_widget != 'false':
+                    res = json.loads(invoice.invoice_payments_widget)
+                    for apr in res['content']:
+                        memo = apr['ref']
+                        type_journal = memo[0:3]
+                        if type_journal == 'IVA':
+                            payment_date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
+                            if start_date <= payment_date <= end_date:
+                                ref_journal = memo[memo.find('(') + 1:-1]
+                                account_payment = self.env['account.payment'].search([
+                                    ('move_id', '=', apr['move_id']),
+                                    ('ref', '=', ref_journal),
+                                ])
+                                iva_withheld = apr[
+                                                   'amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
+                                    apr['amount']
+                                iva_receipt_number = account_payment.ref
+                                break
+                            else:
+                                iva_withheld = 0.0
+                                break
+                        else:
+                            iva_withheld = 0.0
+                else:
+                    iva_withheld = 0.0
 
-            invoices.append(invoice.id)
+                if invoice.currency_id.name != 'VES':
+                    tax_base = tax_base * invoice.x_tasa  # lineas de factura
+                    exempt_sum = exempt_sum * invoice.x_tasa  # lineas de factura
+                    tax_iva = tax_iva * invoice.x_tasa  # apunte contable
+                    # iva_withheld = iva_withheld * invoice.x_tasa  # lineas de factura
 
-            if start_date <= invoice.invoice_date <= end_date:
-                sum_amount_total += amount_total
-                sum_exempt_amount += exempt_amount
-                sum_tax_base_amount += tax_base_amount
-                sum_tax_iva_amount += tax_iva_amount
-                sum_iva_withheld += iva_withheld
-            else:
-                sum_iva_withheld += iva_withheld
+                if invoice.x_tipodoc == 'Nota de Crédito':
+                    amount_total = -1 * (abs(tax_iva) + tax_base + exempt_sum)
+                    tax_base_amount = -1 * tax_base if tax_base != 0.0 else tax_base
+                    tax_iva_amount = -1 * abs(tax_iva) if tax_iva != 0.0 else tax_iva
+                    exempt_amount = -1 * exempt_sum if exempt_sum != 0.0 else exempt_sum
+                    iva_withheld_amount = -1 * iva_withheld if iva_withheld != 0.0 else iva_withheld
+                else:
+                    amount_total = abs(tax_iva) + tax_base + exempt_sum
+                    tax_base_amount = tax_base
+                    tax_iva_amount = abs(tax_iva)
+                    exempt_amount = exempt_sum
+                    iva_withheld_amount = iva_withheld
+
+                invoices.append(invoice.id)
+
+                if start_date <= invoice.date <= end_date:
+                    sum_amount_total += amount_total
+                    sum_exempt_amount += exempt_amount
+                    sum_tax_base_amount += tax_base_amount
+                    sum_tax_iva_amount += tax_iva_amount
+                    sum_iva_withheld += iva_withheld_amount
+                    total_tax_base_column = sum_tax_base_amount + sum_exempt_amount
+
+                else:
+                    sum_iva_withheld += iva_withheld_amount
+
+
+
+        # sum_amount_total = 0.0
+        # sum_exempt_amount = 0.0
+        # sum_tax_base_amount = 0.0
+        # sum_tax_iva_amount = 0.0
+        # sum_iva_withheld = 0.0
+        # invoices = []
+        #
+        # invoices_ids_by_date = invoice_ids.sorted(key=lambda r: (r.date, r.ref))
+        #
+        # for invoice in invoices_ids_by_date:
+        #     tax_base = 0.0
+        #     tax_iva = 0.0
+        #     exempt_sum = 0.0
+        #     iva_withheld = 0.0
+        #
+        #     for ili in invoice.invoice_line_ids:
+        #         for ti in ili.tax_ids:
+        #             if ti.x_tipoimpuesto == 'IVA':
+        #                 tax_base += ili.price_subtotal
+        #                 if tax_iva == 0:
+        #                     line_iva_id = invoice.line_ids.search([('name', '=', ti.name), ('move_id', '=', invoice.id)])
+        #                     tax_iva = line_iva_id[0].amount_currency
+        #                     percentage = line_iva_id[0].name
+        #             if ti.x_tipoimpuesto == 'EXENTO':
+        #                 exempt_sum += ili.price_subtotal
+        #
+        #
+        #     if invoice.invoice_payments_widget != 'false':
+        #         res = json.loads(invoice.invoice_payments_widget)
+        #         for apr in res['content']:
+        #             memo = apr['ref']
+        #             type_journal = memo[0:3]
+        #
+        #             if type_journal == 'IVA':
+        #                 ref_journal = memo[memo.find('(') + 1:-1]
+        #                 account_payment = self.env['account.payment'].search([
+        #                     ('move_id', '=', apr['move_id']),
+        #                     ('ref', '=', ref_journal),
+        #                 ])
+        #                 iva_withheld = apr['amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else apr['amount']
+        #                 break
+        #             else:
+        #                 iva_withheld = 0.0
+        #     else:
+        #         iva_withheld = 0.0
+        #
+        #     if invoice.currency_id.name != 'VES':
+        #         tax_base = tax_base * invoice.x_tasa  # lineas de factura
+        #         exempt_sum = exempt_sum * invoice.x_tasa  # lineas de factura
+        #         tax_iva = tax_iva * invoice.x_tasa  # apunte contable
+        #         iva_withheld = iva_withheld * invoice.x_tasa  # lineas de factura
+        #
+        #     if invoice.x_tipodoc == 'Nota de Crédito':
+        #         amount_total = -1 * (abs(tax_iva) + tax_base + exempt_sum)
+        #         tax_base_amount = -1 * tax_base if tax_base != 0.0 else tax_base
+        #         tax_iva_amount = -1 * abs(tax_iva) if tax_iva != 0.0 else tax_iva
+        #         exempt_amount = -1 * exempt_sum if exempt_sum != 0.0 else exempt_sum
+        #         iva_withheld_amount = -1 * iva_withheld if iva_withheld != 0.0 else iva_withheld
+        #     else:
+        #         amount_total = abs(tax_iva) + tax_base + exempt_sum
+        #         tax_base_amount = tax_base
+        #         tax_iva_amount = abs(tax_iva)
+        #         exempt_amount = exempt_sum
+        #         iva_withheld_amount = iva_withheld
+        #
+        #     invoices.append(invoice.id)
+        #
+        #     # verificar si el docuemnto se encuentra dentro de la fecha seleccionada.
+        #     if start_date <= invoice.date <= end_date:
+        #         sum_amount_total += amount_total
+        #         sum_exempt_amount += exempt_amount
+        #         sum_tax_base_amount += tax_base_amount
+        #         sum_tax_iva_amount += tax_iva_amount
+        #         sum_iva_withheld += iva_withheld
+        #     else:
+        #         sum_iva_withheld += iva_withheld
 
         vals = {
             'sale_sum_amount_total': round(sum_amount_total, 2),

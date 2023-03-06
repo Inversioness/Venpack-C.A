@@ -51,7 +51,7 @@
                                             </tr>
                                             <tr style="border:1px solid black">
                                                 <th name="th_number_line" class="text-center" style="border:1px solid black;"><span>No.</span></th>
-                                                <th name="th_invoice_date" class="text-center" style="border:1px solid black;"><span>Fecha Factura</span></th>
+                                                <th name="th_invoice_date" class="text-center" style="border:1px solid black;"><span>Fecha Documento</span></th>
                                                 <th name="th_rif_company" class="text-center" style="border:1px solid black;"><span>R.I.F.</span></th>
                                                 <th name="th_customer_name" class="text-center" style="border:1px solid black;"><span>Nombre del Cliente o Razón Social</span></th>
                                                 <th name="th_invoice_number" class="text-center" style="border:1px solid black;"><span>Nº de Factura</span></th>
@@ -71,10 +71,12 @@
                                             </tr>
                                         </thead>
                                         <tbody class="invoice_tbody">
+                                            <t t-set="counter" t-value="0"/>
                                             <t t-foreach="data_sales_book" t-as="dsb">
+                                                <t t-set="counter" t-value="counter + 1"/>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <span t-esc="dsb['number']"/>
+                                                        <span t-esc="counter"/>
                                                     </td>
                                                     <td class="text-left">
                                                         <span t-esc="dsb['date']"/>

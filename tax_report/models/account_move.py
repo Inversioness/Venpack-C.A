@@ -18,7 +18,6 @@ class CustomAccountMove(models.Model):
 
     @api.depends('invoice_payments_widget', 'invoice_outstanding_credits_debits_widget')
     def _compute_invoice_payments(self):
-        print('pase por aqui')
         for rec in self:
             dates = []
             payment_ids = []
@@ -33,7 +32,6 @@ class CustomAccountMove(models.Model):
                 # date = datetime.strptime(sorted(dates, reverse=True)[0], '%Y-%m-%d').date()
                 # rec.x_invoice_payment = date
                 rec.x_payment_ids = [(6, 0, payment_ids)]
-
 
 
     @api.depends('currency_id', 'manual_currency_rate', 'invoice_date', 'date', 'manual_currency_rate_active')
@@ -105,6 +103,19 @@ class CustomAccountMove(models.Model):
 
         return data_transform
 
+    # @staticmethod
+    # def transform_and_group_by_item(data: list, item_group: str) -> dict:
+    #     data_transform = {}
+    #     if len(data) > 1:
+    #         for elem in data:
+    #             if elem[item_group] in data_transform:
+    #                 data_transform[elem[item_group]].append(elem)
+    #             else:
+    #                 data_transform[elem[item_group]] = [elem]
+    #     elif len(data) == 1:
+    #         data_transform[data[0][item_group]] = [data[0]]
+    #     return data_transform
+
     @api.model
     def create(self, vals_list):
         res = super(CustomAccountMove, self).create(vals_list)
@@ -112,26 +123,54 @@ class CustomAccountMove(models.Model):
         tax_nd = []
 
         if res.fiscal_provider.x_tipopersona and res.fiscal_provider.x_tipopersona == 'Natural Domiciliado':
-            for invoice_line in res.invoice_line_ids:
-                if invoice_line.tax_ids:
-                    for tax in invoice_line.tax_ids:
-                        if tax.x_beneficiario and tax.x_beneficiario == 'Natural Domiciliado':
-                            if tax not in tax_nd:
-                                tax_nd.append(tax)
-            if tax_nd:
-                for tnd in tax_nd:
-                    to_write = []
-                    for line in res.line_ids:
-                        if line.name == tnd.name:
-                            to_write.append((1, line.id, {
-                                'credit': round(line.credit - tnd.x_rebaja, 2)
-                            }))
-                        if line.account_id.id == res.fiscal_provider.property_account_payable_id.id:
-                            to_write.append((1, line.id, {
-                                'credit': round(line.credit + tnd.x_rebaja, 2)
-                            }))
-                    res.write({'line_ids': to_write})
-        print(res)
+            invoice_group_by_tax = self.transform_and_group_by_item(res.invoice_line_ids, 'tax_ids', 'x_tipoimpuesto')
+
+            for key, value in invoice_group_by_tax.items():
+                account_tax_id = self.env['account.tax'].search([('name', '=', key)])
+                if account_tax_id.x_beneficiario == 'Natural Domiciliado':
+                    amount_tax = 0
+                    for invoice_line_id in value:
+                        amount_tax += invoice_line_id.price_subtotal
+
+                    if amount_tax >= account_tax_id.x_exencion:
+                        to_write = []
+                        for line in res.line_ids:
+                            if line.name == account_tax_id.name:
+                                to_write.append((1, line.id, {
+                                    'credit': round(line.credit - account_tax_id.x_rebaja, 2)
+                                }))
+                            if line.account_id.id == res.fiscal_provider.property_account_payable_id.id:
+                                to_write.append((1, line.id, {
+                                    'credit': round(line.credit + account_tax_id.x_rebaja, 2)
+                                }))
+
+                        res.write({'line_ids': to_write})
+                    else:
+                        raise exceptions.ValidationError(_("Esta factura no esta sujeta a la retencion ISLR"))
+
+            # for invoice_line in res.invoice_line_ids:
+            #     if invoice_line.tax_ids:
+            #         for tax in invoice_line.tax_ids:
+            #             if tax.x_beneficiario and tax.x_beneficiario == 'Natural Domiciliado':
+            #                 if tax not in tax_nd:
+            #                     tax_nd.append(tax)
+            #
+            # if tax_nd:
+            #     for tnd in tax_nd:
+            #         to_write = []
+            #         for line in res.line_ids:
+            #             if line.price_subtotal >= tnd.x_exencion:
+            #                 if line.name == tnd.name:
+            #                     to_write.append((1, line.id, {
+            #                         'credit': round(line.credit - tnd.x_rebaja, 2)
+            #                     }))
+            #                 if line.account_id.id == res.fiscal_provider.property_account_payable_id.id:
+            #                     to_write.append((1, line.id, {
+            #                         'credit': round(line.credit + tnd.x_rebaja, 2)
+            #                     }))
+            #             else:
+            #                 raise exceptions.ValidationError(_("Esta factura no esta sujeta a la retencion ISLR"))
+            #         res.write({'line_ids': to_write})
         return res
 
     def write(self, values):
@@ -140,28 +179,55 @@ class CustomAccountMove(models.Model):
         tax_nd = []
 
         if self.fiscal_provider.x_tipopersona and self.fiscal_provider.x_tipopersona == 'Natural Domiciliado' and 'line_ids' in values:
-        # if self.fiscal_provider.x_tipopersona and self.fiscal_provider.x_tipopersona == 'Natural Domiciliado':
-            for invoice_line in self.invoice_line_ids:
-                if invoice_line.tax_ids:
-                    for tax in invoice_line.tax_ids:
-                        if tax.x_beneficiario and tax.x_beneficiario == 'Natural Domiciliado':
-                            for val in values['line_ids']:
-                                if isinstance(val[1], str) and 'virtual' in val[1] and val[2]['name'] == tax.name:
-                                    if tax not in tax_nd:
-                                        tax_nd.append(tax)
-            if tax_nd:
-                for tnd in tax_nd:
-                    to_write = []
-                    for line in self.line_ids:
-                        if line.name == tnd.name:
-                            to_write.append((1, line.id, {
-                                'credit': round(line.credit - tnd.x_rebaja, 2)
-                            }))
-                        if line.account_id.id == self.fiscal_provider.property_account_payable_id.id:
-                            to_write.append((1, line.id, {
-                                'credit': round(line.credit + tnd.x_rebaja, 2)
-                            }))
-                    self.write({'line_ids': to_write})
+            invoice_group_by_tax = self.transform_and_group_by_item(self.invoice_line_ids, 'tax_ids', 'x_tipoimpuesto')
+
+            for key, value in invoice_group_by_tax.items():
+                account_tax_id = self.env['account.tax'].search([('name', '=', key)])
+                if account_tax_id.x_beneficiario == 'Natural Domiciliado':
+                    amount_tax = 0
+                    for invoice_line_id in value:
+                        amount_tax += invoice_line_id.price_subtotal
+
+                    if amount_tax >= account_tax_id.x_exencion:
+                        for val in values['line_ids']:
+                            if isinstance(val[1], str) and 'virtual' in val[1] and val[2]['name'] == key:
+                                to_write = []
+                                for line in self.line_ids:
+                                    if line.name == account_tax_id.name:
+                                        to_write.append((1, line.id, {
+                                            'credit': round(line.credit - account_tax_id.x_rebaja, 2)
+                                        }))
+                                    if line.account_id.id == self.fiscal_provider.property_account_payable_id.id:
+                                        to_write.append((1, line.id, {
+                                            'credit': round(line.credit + account_tax_id.x_rebaja, 2)
+                                        }))
+                                self.write({'line_ids': to_write})
+                    else:
+                        raise exceptions.ValidationError(_("Esta factura no esta sujeta a la retencion ISLR"))
+
+
+        # if self.fiscal_provider.x_tipopersona and self.fiscal_provider.x_tipopersona == 'Natural Domiciliado' and 'line_ids' in values:
+        #     for invoice_line in self.invoice_line_ids:
+        #         if invoice_line.tax_ids:
+        #             for tax in invoice_line.tax_ids:
+        #                 if tax.x_beneficiario and tax.x_beneficiario == 'Natural Domiciliado':
+        #                     for val in values['line_ids']:
+        #                         if isinstance(val[1], str) and 'virtual' in val[1] and val[2]['name'] == tax.name:
+        #                             if tax not in tax_nd:
+        #                                 tax_nd.append(tax)
+        #     if tax_nd:
+        #         for tnd in tax_nd:
+        #             to_write = []
+        #             for line in self.line_ids:
+        #                 if line.name == tnd.name:
+        #                     to_write.append((1, line.id, {
+        #                         'credit': round(line.credit - tnd.x_rebaja, 2)
+        #                     }))
+        #                 if line.account_id.id == self.fiscal_provider.property_account_payable_id.id:
+        #                     to_write.append((1, line.id, {
+        #                         'credit': round(line.credit + tnd.x_rebaja, 2)
+        #                     }))
+        #             self.write({'line_ids': to_write})
         return res
 
     def _compute_payments_widget_to_reconcile_info(self):
