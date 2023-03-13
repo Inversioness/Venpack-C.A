@@ -79,18 +79,23 @@ class SalesBook(models.AbstractModel):
                         memo = apr['ref']
                         type_journal = memo[0:3]
                         if type_journal == 'IVA':
-                            payment_date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
-                            if docs.start_date <= payment_date <= docs.final_date:
+                            account_payment = self.env['account.payment'].search([('id', '=', apr['account_payment_id'])])
+                            payment_date = account_payment.document_date if account_payment.document_date else account_payment.date
+                            # payment_date = datetime.strptime(apr['date'], '%Y-%m-%d').date()
+                            # if docs.start_date <= payment_date <= docs.final_date:
+                            if docs.start_date <= account_payment.date <= docs.final_date:
                                 # print('verdadero', payment_date)
                                 flag = True
-                                ref_journal = memo[memo.find('(') + 1:-1]
-                                account_payment = self.env['account.payment'].search([
-                                    ('move_id', '=', apr['move_id']),
-                                    ('ref', '=', ref_journal),
-                                ])
-                                iva_withheld = apr[
-                                                   'amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
-                                apr['amount']
+                                # ref_journal = memo[memo.find('(') + 1:-1]
+                                # account_payment = self.env['account.payment'].search([
+                                #     ('move_id', '=', apr['move_id']),
+                                #     ('ref', '=', ref_journal),
+                                # ])
+                                # iva_withheld = apr[
+                                #                    'amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
+                                # apr['amount']
+                                iva_withheld = account_payment.amount * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
+                                    account_payment.amount
                                 iva_receipt_number = account_payment.ref
                                 break
                             else:

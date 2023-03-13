@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+     <record id="custom_view_account_payment_form_tr" model="ir.ui.view">
+         <field name="name">custom.view.account.payment.form.tr</field>
+         <field name="model">account.payment</field>
+         <field name="inherit_id" ref="account.view_account_payment_form"/>
+         <field name="arch" type="xml">
+
+            <field name="date" position="after">
+                <field name="document_date"/>
+            </field>
+
+         </field>
+     </record>
+  </data>
+</odoo>

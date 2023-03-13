@@ -28,6 +28,7 @@
         'views/actions_report.xml',
         'views/res_partner.xml',
         'views/account_move.xml',
+        'views/account_payment.xml',
         'views/sales_purchase_book.xml',
         'views/iva_txt.xml',
         'views/res_company_views.xml',

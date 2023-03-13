@@ -12,6 +12,10 @@
                     <field name="tax_id_domain" invisible="1"/>
                     <field name="tax_id" domain="tax_id_domain" attrs="{'invisible': [('tax_code', '=', False)]}"/>
                 </field>
+                <field name="payment_date" position="after">
+<!--                    <field name="document_date"/>-->
+                    <field name="document_date" attrs="{'invisible': [('tax_code', '!=', 'RIVA')]}"/>
+                </field>
                 <field name="communication" position="after">
                     <field name="x_tasa"/>
                 </field>

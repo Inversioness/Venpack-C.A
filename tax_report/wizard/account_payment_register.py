@@ -12,6 +12,7 @@ class CustomAccountPaymentRegister(models.TransientModel):
     tax_id_domain = fields.Char(compute="_compute_tax_id_domain", readonly=True, store=False,)
     tax_code = fields.Char(related='journal_id.tax_code', readonly=True)
     x_tasa = fields.Float(compute='_get_currency_rate', store=True, string='Tasa')
+    document_date = fields.Date(string='Fecha Documento')
 
     # @api.depends('currency_id', 'manual_currency_rate', 'invoice_date', 'date', 'manual_currency_rate_active')
     @api.depends('payment_date', 'currency_id')
@@ -107,3 +108,27 @@ class CustomAccountPaymentRegister(models.TransientModel):
                                                                                          wizard.company_id,
                                                                                          wizard.payment_date)
                     wizard.amount = amount_payment_currency
+
+    def _create_payment_vals_from_wizard(self):
+        payment_vals = {
+            'date': self.payment_date,
+            'amount': self.amount,
+            'payment_type': self.payment_type,
+            'partner_type': self.partner_type,
+            'ref': self.communication,
+            'journal_id': self.journal_id.id,
+            'currency_id': self.currency_id.id,
+            'partner_id': self.partner_id.id,
+            'partner_bank_id': self.partner_bank_id.id,
+            'payment_method_line_id': self.payment_method_line_id.id,
+            'destination_account_id': self.line_ids[0].account_id.id,
+            'document_date': self.document_date
+        }
+
+        if not self.currency_id.is_zero(self.payment_difference) and self.payment_difference_handling == 'reconcile':
+            payment_vals['write_off_line_vals'] = {
+                'name': self.writeoff_label,
+                'amount': self.payment_difference,
+                'account_id': self.writeoff_account_id.id,
+            }
+        return payment_vals
