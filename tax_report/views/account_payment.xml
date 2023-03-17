@@ -12,5 +12,18 @@
 
          </field>
      </record>
+
+     <record id="custom_view_account_payment_tree_tr" model="ir.ui.view">
+         <field name="name">custom.view.account.payment.tree.tr</field>
+         <field name="model">account.payment</field>
+         <field name="inherit_id" ref="account.view_account_payment_tree"/>
+         <field name="arch" type="xml">
+
+            <field name="journal_id" position="after">
+                <field name="affected_invoice_ids" widget="many2many_tags" string="Facturas afectadas"/>
+            </field>
+
+         </field>
+     </record>
   </data>
 </odoo>
