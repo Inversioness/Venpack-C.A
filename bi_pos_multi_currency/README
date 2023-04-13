@@ -1,0 +1,45 @@
+date 18th dec 2020
+version 14.0.0.1
+issue solve:-
+	- sometime currency show in receipt and sometime its not show when we checked exchange details show in receipt
+
+
+
+date 25/03/2021
+version:- 14.0.0.2
+Customisation:-
+	- add all currency in product screen , show all currency in product screen , order line and order widget.
+
+
+date 08/04/2021
+version 14.0.0.3
+improvement :-
+	load list_price and x_studio_precio_ventas_usd price in pos and show only two price in pos product ,cart and total
+
+
+date 28/04/21
+version 14.0.0.4
+issue solve:-
+	- visa versa amount show , Issue solve
+
+date 3rd may 2021
+version 14.0.0.5
+improvment added:-
+	- show only two currency in pos usd and vef , also usd amount calculatino wrok accordingly.
+
+
+date 10th may 2021
+version 14.0.0.6
+issue solve:-
+	- its generate wrong amount while amount is more then 6 digit ,update it.
+
+date 14th may 2021
+version 14.0.0.7
+issue solve:-
+	1. in pos display the usd price in 2 decimal places
+	2. do not show the amount of taxes in dollars $. I just want to see it in Bs.S
+
+date 22nd july 2021
+version 14.0.0.8
+improvement added:-
+	- payment screen and payment method show both currency 

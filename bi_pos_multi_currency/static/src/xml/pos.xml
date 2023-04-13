@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="add_currency_conversation">
+	
+	<t t-name="OrderSummary" t-inherit="point_of_sale.OrderSummary" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('line')]" position="replace">
+            <div class="line">
+                <div class="entry total">
+                    <span class="badge">Total: </span>
+		                <t t-foreach="props.total" t-as="p">
+		                    <span class="value" t-esc = "p"/><br/>
+		                </t>
+                    <div t-if="props.tax" class="subentry">
+                        Taxes:
+						<span class="value">
+                            <t t-esc="props.tax" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+		</xpath>
+	</t>
+
+
+	<t t-name="PaymentScreenStatus" t-inherit="point_of_sale.PaymentScreenStatus" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('total')]" position="replace">
+        	<div class="total">
+        		<t t-foreach="totalDueText" t-as="p">
+		            <t t-esc="p" /><br/>
+		        </t>
+        	</div>
+		</xpath>
+
+<!-- 		<xpath expr="//div[hasclass('payment-status-remaining')]" position="replace">
+        	<div class="total">
+        		<t t-foreach="totalDueText" t-as="p">
+		            <t t-esc="p" /><br/>
+		        </t>
+        	</div>
+		</xpath> -->
+
+		<xpath expr="//div[hasclass('payment-status-container')]/div" position="replace">
+            <div>
+                <div class="payment-status-remaining">
+                    <span class="label">Remaining</span>
+                    <span class="amount"
+                          t-att-class="{ highlight: currentOrder.get_due() > 0 }">
+			        	<t t-foreach="remainingText" t-as="p">
+				            <t t-esc="p" /><br/>
+				        </t>
+                    </span>
+                </div>
+                <div class="payment-status-total-due">
+                    <span class="label">Total Due</span>
+                    <span>
+			        	<t t-foreach="totalDueText" t-as="p">
+				            <t t-esc="p" /><br/>
+				        </t>
+                    </span>
+                </div>
+            </div>
+		</xpath>
+
+		<xpath expr="//div[hasclass('payment-status-change')]" position="replace">
+            <div class="payment-status-change">
+                <span class="label">Change</span>
+                <span class="amount"
+                      t-att-class="{ highlight: currentOrder.get_change() > 0 }">
+		        	<t t-foreach="changeText" t-as="p">
+			            <t t-esc="p" /><br/>
+			        </t>
+                </span>
+            </div>
+		</xpath>
+	</t>
+
+	<t t-name="PaymentScreenPaymentLines" t-inherit="point_of_sale.PaymentScreenPaymentLines" t-inherit-mode="extension" owl="1">
+
+		<xpath expr="//t[@t-if='line.selected']/div[hasclass('paymentline')]" position="replace">
+            <div class="paymentline selected"
+                 t-att-class="selectedLineClass(line)"
+                 t-on-click="trigger('select-payment-line', { cid: line.cid })">
+                 <div class="payment-name">
+                     <t t-esc="line.payment_method.name" />
+                 </div>
+                <div class="payment-amount">
+                    <t t-if="line and line.payment_status and ['done', 'waitingCard', 'waiting', 'reversing', 'reversed'].includes(line.payment_status)">
+                            <t t-esc="env.pos.format_currency_no_symbol(line.get_amount())" />
+                    </t>
+                    <t t-else="">
+                       	<t t-foreach="formatLineAmount(line)" t-as="p">
+				            <t t-esc="p" /><br/>
+				        </t>
+                    </t>
+                </div>
+                <t t-if="!line.payment_status or !['done', 'reversed'].includes(line.payment_status)">
+                    <div class="delete-button"
+                        t-on-click="trigger('delete-payment-line', { cid: line.cid })"
+                        aria-label="Delete" title="Delete">
+                        <i class="fa fa-times-circle" />
+                    </div>
+                </t>
+            </div>
+		</xpath>
+
+		<xpath expr="//t[@t-else='']/div[hasclass('paymentline')]" position="replace">
+            <div class="paymentline"
+                 t-att-class="unselectedLineClass(line)"
+                 t-on-click="trigger('select-payment-line', { cid: line.cid })">
+                 <div class="payment-name">
+                     <t t-esc="line.payment_method.name" />
+                 </div>
+                <div class="payment-amount">
+                    <t t-if="line and line.payment_status and ['done', 'waitingCard', 'waiting', 'reversing', 'reversed'].includes(line.payment_status)">
+                        <t t-esc="env.pos.format_currency_no_symbol(line.get_amount())" />
+                    </t>
+                    <t t-else="">
+                       	<t t-foreach="formatLineAmount(line)" t-as="p">
+				            <t t-esc="p" /><br/>
+				        </t>
+                    </t>
+                </div>
+                <t t-if="!line.payment_status or !['done', 'reversed'].includes(line.payment_status)">
+                    <div class="delete-button"
+                        t-on-click="trigger('delete-payment-line', { cid: line.cid })"
+                        aria-label="Delete" title="Delete">
+                        <i class="fa fa-times-circle" />
+                    </div>
+                </t>
+            </div>
+		</xpath>
+	</t>
+
+	<t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+		<xpath expr="//span[hasclass('price')]" position="replace">
+            <table class="price">
+                <t t-foreach="props.line.get_other_currency()" t-as="p">
+                    <tr>
+                        <td>
+                            <t t-esc = "p"/>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+		</xpath>
+		<xpath expr="//ul[hasclass('info-list')]" position="replace">
+            <ul class="info-list">
+                <t t-if="props.line.get_quantity_str() !== '1' || props.line.selected ">
+                	<t t-foreach="props.line.get_other_unit_price()" t-as="p">
+	                    <li class="info">
+	                        <em>
+	                            <t t-esc="props.line.get_quantity_str()" />
+	                        </em>
+	                        <span> </span><t t-esc="props.line.get_unit().name" />
+	                        at
+	                        <t t-if="props.line.display_discount_policy() == 'without_discount' and
+	                            props.line.get_unit_display_price() != props.line.get_lst_price()">
+	                            <s>
+	                                <t t-esc="env.pos.format_currency(props.line.get_fixed_lst_price(),'Product Price')" />
+	                            </s>
+	                            <t t-esc="env.pos.format_currency(props.line.get_unit_display_price(),'Product Price')" />
+	                        </t>
+	                        <t t-else="">
+	                            <t t-esc="p"/>
+	                        </t>
+	                        /
+	                        <t t-esc="props.line.get_unit().name" />
+	                    </li>
+	                </t>
+                </t>
+                <t t-if="props.line.get_discount_str() !== '0'">
+                    <li class="info">
+                        With a
+                        <em>
+                            <t t-esc="props.line.get_discount_str()" />%
+                        </em>
+                        discount
+                    </li>
+                </t>
+            </ul>
+		</xpath>
+	</t>
+
+	<t t-name="ProductItem" t-inherit="point_of_sale.ProductItem" t-inherit-mode="extension" owl="1">
+		<xpath expr="//span[hasclass('price-tag')]" position="replace">
+			<table class="price-tag">
+                <t t-foreach="price" t-as="p">
+                    <tr style="padding: 2px;">
+                        <td>
+                            <t t-esc="p" />
+                        </td>
+                    </tr>
+                </t>
+            </table>
+		</xpath>
+	</t>
+	
+	<t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+		<xpath expr="//h1" position="after">
+			<t t-if = "env.pos.config.multi_currency">
+				<label class="switch">
+					<input type="checkbox" id="cur-switch" class="cur-switch" name="cur-switch" tabindex="0" checked=""/>
+					<span class="slider round" t-on-click="trigger('click-cur-switch')"></span>
+				</label>
+			</t>
+		</xpath>
+		<xpath expr="//div[hasclass('right-content')]//section[hasclass('paymentlines-container')]" position="before">
+			<div id = "details" class="container" style="padding-top: 0; border-bottom: dashed 1px gainsboro; min-height: 154px;font-size: 15px;">
+				<div style=" display: inline-block; width: 50%; box-sizing: border-box; padding: 16px; text-align: left; float: left;">
+					<span class='label'><b><u>Select Currency</u></b></span><br/>
+					<div class="client-detail">
+						<br/>
+						<select class='drop-currency' name='id'  style="font-size : 15px; border-radius:5px;" t-on-change="_ChangeCurrency">
+							<option>select currency</option>
+							<t t-foreach='env.pos.poscurrency' t-as='cur' t-key="cur.id">
+								<option t-att-value='cur.id'>
+									<t t-esc='cur.name'/>
+								</option>
+							</t>
+						</select>
+					</div>
+					<label class="container"> 
+						Receipt in <span class="currency_name"/>
+						<input type="checkbox" id="Receipt" class="reciptclass" style="zoom:1.5;" t-on-change="_ChangeConfig"/>
+					</label>
+					
+					<br/>
+					<label class="container">
+						Payment amount in <span class="currency_name" /> 
+						<input type="text" class="edit-amount" name="pos_amount" id="pos_amount"/>
+					</label>
+				</div>
+				<div style="display: inline-block; width: 50%; box-sizing: border-box; padding: 16px; padding-left: 0; float: right;font-size: 15px;">
+					<t t-if='env.pos.config.curr_conv'>
+						<span class="label"><b><u>Currency Conversion</u></b></span>
+						<div style="border: 3px solid black; padding: 5px; padding: 5px;border-radius: 5px;margin-top: 14px;margin-bottom: 11px;">
+							<div>
+								<span class="label">1 <t t-esc='env.pos.currency.name'/> =  </span><span class="currency_rate"/><span class="currency_name"/>
+							</div>
+							<div>
+								<span class= "label">Total Amount = </span><b><span class="currency_cal"/><span class="currency_symbol"/></b>
+								<input type="hidden" class="curr_cal" id="curr_cal"/>
+							</div>
+						</div>
+					</t>
+					<div>
+						<button class='button-getamount' data-action="" style="border-radius:5px; font-size:15px; background-color: #43996E;color: white;" t-on-click="trigger('click-update_amount')">
+							Update Amount
+						</button>
+					</div>
+				</div>
+			</div>
+		</xpath>
+	</t>
+
+	<t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('receipt-change')]" position="after">
+			<t t-if="receipt.recipet">
+				<table style="min-width: 100%;margin-bottom: 10px;">
+					<tr>
+						<td>Exchanged Rate</td>
+						<td class="pos-right-align">
+							<t t-esc= "receipt.currency_amount"/>
+							<t t-esc= "receipt.currency_symbol"/>
+						</td>
+					</tr>
+				</table>
+			</t>
+		</xpath>
+	</t>
+
+</templates>
