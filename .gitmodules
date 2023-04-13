@@ -1,0 +1,4 @@
+[submodule "fiscal_print"]
+	path = fiscal_print
+	url = git@gitlab.com:addons_arkisoft/fiscal_print.git
+	branch = Dev15
