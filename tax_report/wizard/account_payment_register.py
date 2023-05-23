@@ -14,6 +14,11 @@ class CustomAccountPaymentRegister(models.TransientModel):
     x_tasa = fields.Float(compute='_get_currency_rate', store=True, string='Tasa')
     document_date = fields.Date(string='Fecha Documento')
 
+    @api.depends('journal_id')
+    def _compute_currency_id(self):
+        for wizard in self:
+            wizard.currency_id = wizard.journal_id.currency_id or wizard.company_id.currency_id
+
     # @api.depends('currency_id', 'manual_currency_rate', 'invoice_date', 'date', 'manual_currency_rate_active')
     @api.depends('payment_date', 'currency_id')
     def _get_currency_rate(self):
@@ -52,7 +57,7 @@ class CustomAccountPaymentRegister(models.TransientModel):
                 rec.tax_id_domain = json.dumps([('id', '=', False)])
 
     @api.depends('source_amount', 'source_amount_currency', 'source_currency_id', 'company_id', 'currency_id',
-                 'payment_date', 'tax_id', 'line_ids')
+                 'payment_date', 'tax_id', 'line_ids', 'manual_currency_rate')
     def _compute_amount(self):
         # res = super(CustomAccountPaymentRegister, self)._compute_amount()
         for wizard in self:
@@ -61,13 +66,14 @@ class CustomAccountPaymentRegister(models.TransientModel):
                 if wizard.tax_id:
                     if wizard.tax_id.x_tipoimpuesto == 'ISLR':
                         if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) - wizard.tax_id.x_rebaja
+                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
+                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
                         else:
                             wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
                                     abs(float(wizard.tax_id.description[:-1])) / 100)
                     elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = wizard.line_ids[0].move_id.amount_tax * (abs(float(wizard.tax_id.description[:-1])) / 100)
+                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                 else:
                     wizard.amount = wizard.source_amount_currency
             elif wizard.currency_id == wizard.company_id.currency_id:
@@ -75,14 +81,15 @@ class CustomAccountPaymentRegister(models.TransientModel):
                 if wizard.tax_id:
                     if wizard.tax_id.x_tipoimpuesto == 'ISLR':
                         if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) - wizard.tax_id.x_rebaja
+                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
+                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
                         else:
-                            wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                     elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = wizard.line_ids[0].move_id.amount_tax * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)
+                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                 else:
                     wizard.amount = wizard.source_amount
             else:
@@ -90,14 +97,15 @@ class CustomAccountPaymentRegister(models.TransientModel):
                 if wizard.tax_id:
                     if wizard.tax_id.x_tipoimpuesto == 'ISLR':
                         if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) - wizard.tax_id.x_rebaja
+                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
+                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
                         else:
-                            wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
-                                        abs(float(wizard.tax_id.description[:-1])) / 100)
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                     elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = wizard.line_ids[0].move_id.amount_tax * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)
+                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                 else:
                     if wizard.manual_currency_rate_active and wizard.manual_currency_rate > 0:
                         currency_rate = wizard.manual_currency_rate
