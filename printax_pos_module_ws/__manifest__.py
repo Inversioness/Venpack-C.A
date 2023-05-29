@@ -21,9 +21,7 @@
         Desarrollos PNP, C.A. para impresores Epson.
         TheFactory HKA para impresores Bixolon.
     """,
-    """,
-
-  "author": "Odoasys",
+    "author": "Odoasys",
     "website": "https://odoasys-sales.odoo.com",
     "license": "LGPL-3",
     "version": "15.1.0.0",
@@ -49,5 +47,5 @@
         "web.assets_qweb": [ 
             "printax_pos_module_ws/static/src/xml/pos_fact_fiscal_view.xml",
         ],
-     },
+    },
 }
