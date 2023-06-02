@@ -128,9 +128,15 @@ class CustomAccountMove(models.Model):
             for key, value in invoice_group_by_tax.items():
                 account_tax_id = self.env['account.tax'].search([('name', '=', key)])
                 if account_tax_id.x_beneficiario == 'Natural Domiciliado':
-                    amount_tax = 0
+                    sum_price_subtotal = 0
                     for invoice_line_id in value:
-                        amount_tax += invoice_line_id.price_subtotal
+                        sum_price_subtotal += invoice_line_id.price_subtotal
+
+                    if res.currency_id.name != 'VES':
+                        amount_tax = sum_price_subtotal * res.x_tasa
+                    else:
+                        amount_tax = sum_price_subtotal
+
 
                     if amount_tax >= account_tax_id.x_exencion:
                         to_write = []
@@ -182,11 +188,16 @@ class CustomAccountMove(models.Model):
             invoice_group_by_tax = self.transform_and_group_by_item(self.invoice_line_ids, 'tax_ids', 'x_tipoimpuesto')
 
             for key, value in invoice_group_by_tax.items():
-                account_tax_id = self.env['account.tax'].search([('name', '=', key)])
+                account_tax_id = self.env['account.tax'].search([('name', '=', key), ('company_id', '=', self.company_id.id)])
                 if account_tax_id.x_beneficiario == 'Natural Domiciliado':
-                    amount_tax = 0
+                    sum_price_subtotal = 0
                     for invoice_line_id in value:
-                        amount_tax += invoice_line_id.price_subtotal
+                        sum_price_subtotal += invoice_line_id.price_subtotal
+
+                    if self.currency_id.name != 'VES':
+                        amount_tax = sum_price_subtotal * self.x_tasa
+                    else:
+                        amount_tax = sum_price_subtotal
 
                     if amount_tax >= account_tax_id.x_exencion:
                         for val in values['line_ids']:

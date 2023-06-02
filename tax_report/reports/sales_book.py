@@ -94,7 +94,7 @@ class SalesBook(models.AbstractModel):
                                 # iva_withheld = apr[
                                 #                    'amount'] * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
                                 # apr['amount']
-                                iva_withheld = account_payment.amount * account_payment.x_tasa if invoice.currency_id.name != 'VES' else \
+                                iva_withheld = account_payment.amount * account_payment.x_tasa if account_payment.currency_id.name != 'VES' else \
                                     account_payment.amount
                                 iva_receipt_number = account_payment.ref
                                 break
