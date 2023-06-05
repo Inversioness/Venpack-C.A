@@ -99,13 +99,16 @@
                                                 <span>DESCRIPCION DEL PRODUCTO</span>
                                             </th>
                                             <th class="table-secondary">
-                                                <span>DESCRIPCION DE CLISES</span>
+                                                <span>MATERIAL</span>
                                             </th>
                                             <th class="table-secondary">
-                                                <span>CANTIDAD POR JUEGO DE CLISES</span>
+                                                <span>MEDIDAS (Ancho x Largo)</span>
                                             </th>
                                             <th class="table-secondary">
-                                                <span>PRECIO $ USD</span>
+                                                <span>CANTIDAD</span>
+                                            </th>
+                                            <th class="table-secondary">
+                                                <span>PRECIO REFERENCIAL x MILLAR $ USD</span>
                                             </th>
                                         </tr>
                                     </thead>
@@ -122,13 +125,24 @@
                                                     <span t-field="line.name"/>
                                                 </td>
                                                 <td>
-                                                    <span>xxxxxxxx</span>
+                                                    <span t-field="line.x_studio_material"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="line.x_medidas"/>
                                                 </td>
                                                 <td>
                                                     <span t-field="line.product_uom_qty"/>
                                                 </td>
                                                 <td>
-                                                    <span t-field="line.price_subtotal"/>
+<!--                                                    <t t-if="o.x_tasav != 0">-->
+<!--                                                        <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <t t-set="sub_total_rate" t-value="0.0"/>-->
+<!--                                                    </t>-->
+                                                    <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>
+                                                    <span t-esc="sub_total_rate" t-options='{"widget": "float", "precision": 2}'/>
+<!--                                                    <span t-esc="sub_total_rate"/>-->
                                                 </td>
                                             </tr>
                                         </t>
@@ -165,23 +179,23 @@
                                     </div>
                                     <div class="col-2"/>
                                 </div>
+<!--                                <div class="row">-->
+<!--                                    <div class="col-1"/>-->
+<!--                                    <div class="col-1 text-center">-->
+<!--                                        <span>c)</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-3 text-left">-->
+<!--                                        <span>Validez de la Oferta:</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-5 text-left border-bottom border-secondary">-->
+<!--                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-2"/>-->
+<!--                                </div>-->
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-1 text-center">
                                         <span>c)</span>
-                                    </div>
-                                    <div class="col-3 text-left">
-                                        <span>Validez de la Oferta:</span>
-                                    </div>
-                                    <div class="col-5 text-left border-bottom border-secondary">
-                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>
-                                    </div>
-                                    <div class="col-2"/>
-                                </div>
-                                <div class="row">
-                                    <div class="col-1"/>
-                                    <div class="col-1 text-center">
-                                        <span>d)</span>
                                     </div>
                                     <div class="col-3 text-left">
                                         <span>Lugar de Entrega:</span>
@@ -198,73 +212,11 @@
                                 <span style="font-size: 12pt">NOTAS:</span>
                                 <div class="row">
                                     <div class="col-1"/>
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>I</span>-->
-<!--                                    </div>-->
                                     <div class="col-11 text-left">
                                         <span t-field="o.note"/>
                                     </div>
                                 </div>
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>II</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>Estos precios están sujetos a cambios de acuerdo indice Inflacion e incidencia-->
-<!--                                            en su estructura de Costo.</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>III</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>Estos precios no incluyen el impuesto al valor agregado IVA</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>IV</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>Los precios no incluyen el Impuesto de las transacciones financieras-->
-<!--                                            (IGTF/3%), en caso de pago en divisas.</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>V</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>Responsabilidad de la empresa se limita a reposicion de material y/o-->
-<!--                                            reembolso inicial recibida. </p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>VI</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>La Empresa no se responsabiliza por acuerdos de negocios efectuados de forma-->
-<!--                                            verbal que no esten contemplados en la base de las condiciones de ventas de-->
-<!--                                            esta cotización. Cualquier modificación debe ser previamente autorizado por-->
-<!--                                            la Coordinación de Ventas y/o Directivos.</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>VII</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-10 text-left">-->
-<!--                                        <p>Los clises seran facturados 100% al momento de recibir Orden de Compra.</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+
                             </div>
                         </div>
                         <br/>
