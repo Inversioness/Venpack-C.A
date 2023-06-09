@@ -64,48 +64,98 @@ class CustomAccountPaymentRegister(models.TransientModel):
             if wizard.source_currency_id == wizard.currency_id:
                 # Same currency.
                 if wizard.tax_id:
-                    if wizard.tax_id.x_tipoimpuesto == 'ISLR':
-                        if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
-                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
-                        else:
-                            wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)
-                    elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
+                    if wizard.currency_id.name == 'VES':
+                        if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                            if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)) - wizard.tax_id.x_rebaja
+                            else:
+                                wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)
+                        elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100))
+                    else:
+                        if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                            if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                if wizard.line_ids[0].move_id.x_tasa != 0:
+                                    wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                                abs(float(wizard.tax_id.description[:-1])) / 100)) - (
+                                                                wizard.tax_id.x_rebaja / wizard.line_ids[0].move_id.x_tasa)
+                                else:
+                                    wizard.amount = 0
+                            else:
+                                wizard.amount = wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)
+                        elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100))
                 else:
                     wizard.amount = wizard.source_amount_currency
             elif wizard.currency_id == wizard.company_id.currency_id:
                 # Payment expressed on the company's currency.
                 if wizard.tax_id:
-                    if wizard.tax_id.x_tipoimpuesto == 'ISLR':
-                        if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
-                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
-                        else:
-                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
-                    elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
+                    if wizard.company_id.currency_id.name == 'VES':
+                        if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                            if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
+                                                     0].move_id.x_tasa) - wizard.tax_id.x_rebaja
+                            else:
+                                wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[
+                                                    0].move_id.x_tasa
+                        elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[
+                                                0].move_id.x_tasa
+                    else:
+                        if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                            if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100))) / wizard.line_ids[
+                                                     0].move_id.x_tasa) - wizard.tax_id.x_rebaja
+                            else:
+                                wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100)) / wizard.line_ids[
+                                                    0].move_id.x_tasa
+                        elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                    abs(float(wizard.tax_id.description[:-1])) / 100)) / wizard.line_ids[
+                                                0].move_id.x_tasa
                 else:
                     wizard.amount = wizard.source_amount
             else:
                 # Foreign currency on payment different than the one set on the journal entries.
                 if wizard.tax_id:
-                    if wizard.tax_id.x_tipoimpuesto == 'ISLR':
-                        if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
-                            wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
-                                                 0].move_id.x_tasa) - wizard.tax_id.x_rebaja
+                    if wizard.company_id.currency_id.name == 'VES':
+                        if wizard.line_ids[0].move_id.x_tasa != 0:
+                            if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                                if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                    wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                            abs(float(wizard.tax_id.description[:-1])) / 100))) / wizard.line_ids[
+                                                         0].move_id.x_tasa) - wizard.tax_id.x_rebaja
+                                else:
+                                    wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                                abs(float(wizard.tax_id.description[:-1])) / 100)) / wizard.line_ids[0].move_id.x_tasa
+                            elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                                wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
+                                            abs(float(wizard.tax_id.description[:-1])) / 100)) / wizard.line_ids[0].move_id.x_tasa
                         else:
-                            wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                            wizard.amount = 0
+
+                    else:
+                        if wizard.tax_id.x_tipoimpuesto == 'ISLR':
+                            if wizard.tax_id.x_beneficiario == 'Natural Domiciliado':
+                                wizard.amount = (((wizard.line_ids[0].move_id.amount_untaxed * (
+                                        abs(float(wizard.tax_id.description[:-1])) / 100))) * wizard.line_ids[
+                                                     0].move_id.x_tasa) - wizard.tax_id.x_rebaja
+                            else:
+                                wizard.amount = (wizard.line_ids[0].move_id.amount_untaxed * (
+                                            abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
+                        elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
+                            wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
                                         abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
-                    elif wizard.tax_id.x_tipoimpuesto == 'RIVA':
-                        wizard.amount = (wizard.line_ids[0].move_id.amount_tax * (
-                                    abs(float(wizard.tax_id.description[:-1])) / 100)) * wizard.line_ids[0].move_id.x_tasa
                 else:
                     if wizard.manual_currency_rate_active and wizard.manual_currency_rate > 0:
                         currency_rate = wizard.manual_currency_rate
