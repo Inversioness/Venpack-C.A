@@ -1,7 +1,7 @@
 [submodule "fiscal_print"]
 	path = fiscal_print
 	url = git@gitlab.com:addons_arkisoft/fiscal_print.git
-	branch = Dev15
+	branch = 15.0
 [submodule "custom_account_report"]
 	path = custom_account_report
 	url = git@gitlab.com:addons_arkisoft/custom_account_report.git
