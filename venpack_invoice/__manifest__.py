@@ -38,6 +38,7 @@
         'reports/tracking_guide.xml',
         'reports/municipal_taxes.xml',
         'reports/financial_budget.xml',
+        'reports/financial_budget_v2.xml',
         'reports/municipal_withholding_list.xml',
         'reports/municipal_withholding.xml',
         'wizard/report_municipal_withholding.xml',
