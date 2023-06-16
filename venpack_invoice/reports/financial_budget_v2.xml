@@ -116,9 +116,6 @@
                                                     <span t-field="line.name"/>
                                                 </td>
                                                 <td>
-                                                    <span t-field="line.product_uom_qty"/>
-                                                </td>
-                                                <td>
 <!--                                                    <t t-if="o.x_tasav != 0">-->
 <!--                                                        <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>-->
 <!--                                                    </t>-->
