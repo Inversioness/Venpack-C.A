@@ -192,7 +192,7 @@
                                         <span>Validez de la Oferta:</span>
                                     </div>
                                     <div class="col-5 text-left border-bottom border-secondary">
-                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>
+<!--                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>-->
                                     </div>
                                     <div class="col-2"/>
                                 </div>
