@@ -152,6 +152,10 @@
                             <br/>
 
                             <div>
+
+                                <span style="font-size: 12pt">OBSERVACIONES: </span>
+                                <span t-field="o.commitment_date" style="font-size: 12pt"/>
+                                <br/>
                                 <span style="font-size: 12pt">CONDICIONES GENERALES DE LA VENTA</span>
                                 <div class="row">
                                     <div class="col-1"/>
@@ -179,23 +183,23 @@
                                     </div>
                                     <div class="col-2"/>
                                 </div>
-<!--                                <div class="row">-->
-<!--                                    <div class="col-1"/>-->
-<!--                                    <div class="col-1 text-center">-->
-<!--                                        <span>c)</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-3 text-left">-->
-<!--                                        <span>Validez de la Oferta:</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-5 text-left border-bottom border-secondary">-->
-<!--                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-2"/>-->
-<!--                                </div>-->
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-1 text-center">
                                         <span>c)</span>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <span>Validez de la Oferta:</span>
+                                    </div>
+                                    <div class="col-5 text-left border-bottom border-secondary">
+                                        <span t-field="o.validity_date" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>
+                                    </div>
+                                    <div class="col-2"/>
+                                </div>
+                                <div class="row">
+                                    <div class="col-1"/>
+                                    <div class="col-1 text-center">
+                                        <span>d)</span>
                                     </div>
                                     <div class="col-3 text-left">
                                         <span>Lugar de Entrega:</span>
