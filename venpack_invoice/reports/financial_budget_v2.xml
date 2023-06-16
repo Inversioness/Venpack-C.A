@@ -3,7 +3,7 @@
 <odoo>
     <data>
 
-        <template id="financial_budget">
+        <template id="financial_budget_v2">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
@@ -99,16 +99,7 @@
                                                 <span>DESCRIPCION DEL PRODUCTO</span>
                                             </th>
                                             <th class="table-secondary">
-                                                <span>MATERIAL</span>
-                                            </th>
-                                            <th class="table-secondary">
-                                                <span>MEDIDAS (Ancho x Largo)</span>
-                                            </th>
-                                            <th class="table-secondary">
-                                                <span>CANTIDAD</span>
-                                            </th>
-                                            <th class="table-secondary">
-                                                <span>PRECIO REFERENCIAL x MILLAR $ USD</span>
+                                                <span>Precio $ USD</span>
                                             </th>
                                         </tr>
                                     </thead>
@@ -123,15 +114,6 @@
                                                 </td>
                                                 <td>
                                                     <span t-field="line.name"/>
-                                                </td>
-                                                <td>
-                                                    <span t-field="line.x_studio_material"/>
-                                                </td>
-                                                <td>
-                                                    <span t-field="line.x_medidas"/>
-                                                </td>
-                                                <td>
-                                                    <span t-field="line.product_uom_qty"/>
                                                 </td>
                                                 <td>
 <!--                                                    <t t-if="o.x_tasav != 0">-->
