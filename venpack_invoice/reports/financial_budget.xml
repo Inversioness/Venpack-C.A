@@ -108,7 +108,7 @@
                                                 <span>CANTIDAD</span>
                                             </th>
                                             <th class="table-secondary">
-                                                <span>PRECIO REFERENCIAL x MILLAR $ USD</span>
+                                                <span>PRECIO REFERENCIAL $ USD</span>
                                             </th>
                                         </tr>
                                     </thead>
@@ -132,6 +132,7 @@
                                                 </td>
                                                 <td>
                                                     <span t-field="line.product_uom_qty"/>
+                                                    <span t-field="line.product_uom.name"/>
                                                 </td>
                                                 <td>
 <!--                                                    <t t-if="o.x_tasav != 0">-->
@@ -140,8 +141,8 @@
 <!--                                                    <t t-else="">-->
 <!--                                                        <t t-set="sub_total_rate" t-value="0.0"/>-->
 <!--                                                    </t>-->
-                                                    <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>
-                                                    <span t-esc="sub_total_rate" t-options='{"widget": "float", "precision": 2}'/>
+                                                    <t t-set="price_unit_rate" t-value="line.price_unit / o.x_tasav"/>
+                                                    <span t-esc="price_unit_rate" t-options='{"widget": "float", "precision": 2}'/>
 <!--                                                    <span t-esc="sub_total_rate"/>-->
                                                 </td>
                                             </tr>
