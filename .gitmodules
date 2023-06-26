@@ -10,3 +10,7 @@
 	path = exchange_rate_quotes
 	url = git@gitlab.com:addons_arkisoft/exchange_rate_quotes.git
 	branch = 15.0
+[submodule "tax_report"]
+	path = tax_report
+	url = git@gitlab.com:addons_arkisoft/tax_report.git
+	branch = 15.0

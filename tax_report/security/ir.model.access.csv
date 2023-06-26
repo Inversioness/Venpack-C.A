@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-tax_report.access_sales_purchase_book,access_sales_purchase_book,tax_report.model_sales_purchase_book,base.group_user,1,1,1,1
-tax_report.access_islr_xml,access_islr_xml,tax_report.model_islr_xml,base.group_user,1,1,1,1
