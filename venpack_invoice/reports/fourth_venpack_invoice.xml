@@ -41,26 +41,29 @@
                                     <br/>
                                     <t t-if="o.x_tipodoc == 'Recibo'">
                                         <stron>
-                                            <span>Recibo</span>
+                                            <span>RECIBO</span>
                                             <br/>
-                                            <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
+                                            <span style="font-size: 10pt;">
+                                                FECHA: <span t-field="o.invoice_date"/>
+                                            </span>
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Crédito'">
                                         <stron>
                                             <span>NOTA DE CREDITO</span>
                                             <br/>
-                                            <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
+                                            <span style="font-size: 10pt;">
+                                                FECHA: <span t-field="o.invoice_date"/>
+                                            </span>
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Débito'">
                                         <stron>
                                             <span>NOTA DE DEBITO</span>
                                             <br/>
-                                            <span t-field="o.ref"/>
-        <!--                                    <strog><span t-field="o.ref"/></strog>-->
+                                            <span style="font-size: 10pt;">
+                                                FECHA: <span t-field="o.invoice_date"/>
+                                            </span>
                                         </stron>
                                     </t>
                                     <t t-else="">
