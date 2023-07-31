@@ -148,7 +148,7 @@
                                         <span>Tiempo de entrega:</span>
                                     </div>
                                     <div class="col-5 text-left border-bottom border-secondary">
-                                        <span t-field="o.x_tiempo" t-options='{"widget": "date", "format": "dd/MM/YYYY"}'/>
+                                        <span t-field="o.x_tiempo"/>
                                     </div>
                                     <div class="col-2"/>
                                 </div>
