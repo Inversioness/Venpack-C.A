@@ -23,24 +23,17 @@
                                 </t>
                             </t>
 
-<!--                            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">-->
-                                <div class="row">
-                                    <div class="col-3 mb4">
-                                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 100px;" alt="Logo"/>
-                                    </div>
-                                    <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                            <div class="row">
+                                <div class="col-3 mb4">
+                                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 100px;" alt="Logo"/>
                                 </div>
-                                <div t-if="company.logo or company.report_header" class="row zero_min_height">
-                                    <div class="col-12">
-                                        <div style="border-bottom: 1px solid black;"/>
-                                    </div>
+                                <div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                            </div>
+                            <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                                <div class="col-12">
+                                    <div style="border-bottom: 1px solid black;"/>
                                 </div>
-<!--                                <div class="row">-->
-<!--                                    <div class="col-6" name="company_address">-->
-<!--                                        <span t-if="company.company_details" t-field="company.company_details"></span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            </div>
                         </div>
 
                         <div class="page" style="font-size: 10pt; font-family: Arial, Helvetica, sans-serif;">
@@ -54,10 +47,15 @@
                             <div class="text-left">
                                 <span>Señores:</span>
                                 <br/>
-                                <stron><span t-field="o.partner_id.name"/></stron>
-                                <br/>
-                                <t t-if="o.partner_id.child_ids">
-                                    <span>Atn. </span><span t-field="o.partner_id.child_ids[0].name"/>
+                                <t t-if="o.partner_id.parent_id">
+                                    <stron><span t-field="o.partner_id.parent_id.name"/></stron>
+                                    <br/>
+                                    <span>Atención: </span>
+                                    <br/>
+                                    <span t-field="o.partner_id.name"/>
+                                </t>
+                                <t t-else="">
+                                    <stron><span t-field="o.partner_id.name"/></stron>
                                 </t>
                             </div>
 
@@ -78,7 +76,6 @@
                             <br/>
 
                             <div>
-
                                 <stron>
                                     <span>&#160;&#160;&#160;&#160;&#160;</span>
                                     <span>
@@ -116,15 +113,8 @@
                                                     <span t-field="line.name"/>
                                                 </td>
                                                 <td>
-<!--                                                    <t t-if="o.x_tasav != 0">-->
-<!--                                                        <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-else="">-->
-<!--                                                        <t t-set="sub_total_rate" t-value="0.0"/>-->
-<!--                                                    </t>-->
                                                     <t t-set="sub_total_rate" t-value="line.price_subtotal / o.x_tasav"/>
                                                     <span t-esc="sub_total_rate" t-options='{"widget": "float", "precision": 2}'/>
-<!--                                                    <span t-esc="sub_total_rate"/>-->
                                                 </td>
                                             </tr>
                                         </t>
@@ -134,11 +124,10 @@
                             <br/>
 
                             <div>
-
-                                <span style="font-size: 12pt">OBSERVACIONES: </span>
+                                <span style="font-size: 11pt">OBSERVACIONES: </span>
                                 <span t-field="o.commitment_date" style="font-size: 12pt"/>
                                 <br/>
-                                <span style="font-size: 12pt">CONDICIONES GENERALES DE LA VENTA</span>
+                                <span style="font-size: 11pt">CONDICIONES GENERALES DE LA VENTA</span>
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-1 text-center">
@@ -147,10 +136,10 @@
                                     <div class="col-3 text-left">
                                         <span>Tiempo de entrega:</span>
                                     </div>
-                                    <div class="col-5 text-left border-bottom border-secondary">
+                                    <div class="col-6 text-left border-bottom border-secondary">
                                         <span t-field="o.x_tiempo"/>
                                     </div>
-                                    <div class="col-2"/>
+                                    <div class="col-1"/>
                                 </div>
                                 <div class="row">
                                     <div class="col-1"/>
@@ -160,10 +149,10 @@
                                     <div class="col-3 text-left">
                                         <span>Forma de pago:</span>
                                     </div>
-                                    <div class="col-5 text-left border-bottom border-secondary">
+                                    <div class="col-6 text-left border-bottom border-secondary">
                                         <span t-field="o.x_payment_method"/>
                                     </div>
-                                    <div class="col-2"/>
+                                    <div class="col-1"/>
                                 </div>
                                 <div class="row">
                                     <div class="col-1"/>
@@ -173,10 +162,10 @@
                                     <div class="col-3 text-left">
                                         <span>Validez de la Oferta:</span>
                                     </div>
-                                    <div class="col-5 text-left border-bottom border-secondary">
+                                    <div class="col-6 text-left border-bottom border-secondary">
                                         <span t-field="o.x_validez"/>
                                     </div>
-                                    <div class="col-2"/>
+                                    <div class="col-1"/>
                                 </div>
                                 <div class="row">
                                     <div class="col-1"/>
@@ -186,26 +175,23 @@
                                     <div class="col-3 text-left">
                                         <span>Lugar de Entrega:</span>
                                     </div>
-                                    <div class="col-5 text-left border-bottom border-secondary">
-                                        <span t-field="o.partner_shipping_id.street"/>
+                                    <div class="col-6 text-left border-bottom border-secondary">
+                                        <span t-field="o.x_Entrega"/>
                                     </div>
-                                    <div class="col-2"/>
+                                    <div class="col-1"/>
                                 </div>
                             </div>
 
-
                             <div>
-                                <span style="font-size: 12pt">NOTAS:</span>
+                                <span style="font-size: 11pt">NOTAS:</span>
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-11 text-left">
                                         <span t-field="o.note"/>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <br/>
 
                         <div class="text-center" style="font-size: 10pt">
                             <span>Atentamente,</span>
