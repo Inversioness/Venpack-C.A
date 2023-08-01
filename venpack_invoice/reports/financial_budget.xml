@@ -69,7 +69,7 @@
                                             <stron><span>Cotización No</span></stron>
                                         </div>
                                         <div class="col-5 border border-secondary">
-                                            <stron><span t-field="o.name"/></stron>
+                                            <stron><span t-field="o.x_NroCotizacion"/></stron>
                                         </div>
                                         <div class="col-2"/>
                                     </div>
