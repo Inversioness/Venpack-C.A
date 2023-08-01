@@ -141,10 +141,10 @@
                             <br/>
 
                             <div>
-                                <span style="font-size: 12pt">OBSERVACIONES: </span>
+                                <span style="font-size: 11pt">OBSERVACIONES: </span>
                                 <span t-field="o.commitment_date" style="font-size: 12pt"/>
                                 <br/>
-                                <span style="font-size: 12pt">CONDICIONES GENERALES DE LA VENTA</span>
+                                <span style="font-size: 11pt">CONDICIONES GENERALES DE LA VENTA</span>
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-1 text-center">
@@ -200,7 +200,7 @@
                             </div>
 
                             <div>
-                                <span style="font-size: 12pt">NOTAS:</span>
+                                <span style="font-size: 11pt">NOTAS:</span>
                                 <div class="row">
                                     <div class="col-1"/>
                                     <div class="col-11 text-left">
