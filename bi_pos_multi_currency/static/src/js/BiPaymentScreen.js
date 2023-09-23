@@ -19,7 +19,6 @@ odoo.define('l10n_fr_pos_cert.BiPaymentScreen', function(require) {
 			$('#details').hide()
 		}
 
-
 		_UpdateDetails() {
 			if($("#cur-switch").prop('checked') == true){
 				$('#details').hide()
@@ -38,11 +37,35 @@ odoo.define('l10n_fr_pos_cert.BiPaymentScreen', function(require) {
 			let currency = this.env.pos.poscurrency;
 			let user_amt = $('.edit-amount').val();
 			let cur = $('.drop-currency').val();
+			let payment_methods = this.env.pos.payment_methods;
+			let pos_currency = this.env.pos.currency;
+			let payment_method_ves;
+            let payment_method_usd;
+
 			for(var j=0;j<paymentlines.length;j++){
 				order.remove_paymentline(paymentlines[j])
 			}
 
-			order.add_paymentline(this.env.pos.payment_methods[0]);
+            let current_currency = currency.find(function(elem) {
+                return elem.id === parseInt($('.drop-currency').val());
+            })
+
+			for (var i=0; i<payment_methods.length; i++){
+			    if(payment_methods[i].name == "EFECTIVO BS"){
+			        payment_method_ves = payment_methods[i]
+			    }
+			    if(payment_methods[i].name == "EFECTIVO USD"){
+			        payment_method_usd = payment_methods[i]
+			    }
+			}
+
+            if(cur != pos_currency.id && current_currency.name == 'USD'){
+                order.add_paymentline(payment_method_usd);
+            } else {
+                order.add_paymentline(payment_method_ves);
+            }
+
+
 			for(var i=0;i<currency.length;i++)
 			{
 				if(cur==currency[i].id)

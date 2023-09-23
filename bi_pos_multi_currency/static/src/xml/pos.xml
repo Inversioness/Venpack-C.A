@@ -212,9 +212,13 @@
 						<select class='drop-currency' name='id'  style="font-size : 15px; border-radius:5px;" t-on-change="_ChangeCurrency">
 							<option>select currency</option>
 							<t t-foreach='env.pos.poscurrency' t-as='cur' t-key="cur.id">
-								<option t-att-value='cur.id'>
-									<t t-esc='cur.name'/>
-								</option>
+								<t t-foreach='env.pos.config.selected_currency' t-as='select'>
+									<t t-if="cur.id == select">
+										<option t-att-value='cur.id'>
+											<t t-esc='cur.name'/>
+										</option>
+									</t>
+								</t>
 							</t>
 						</select>
 					</div>
