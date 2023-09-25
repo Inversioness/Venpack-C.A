@@ -127,7 +127,7 @@ var _t = core._t;
             {
                 if(currency[i].id != pos_currency.id)
                 {
-                    if(currency[i].name == 'USD' || currency[i].name == 'VEF'){
+                    if(currency[i].name == 'USD' || currency[i].name == 'VES'){
                         let currency_in_pos = (currency[i].rate/this.pos.currency.rate);
                         var curr_sym = currency[i].symbol;
                         let curr_tot =unit_price*currency_in_pos;
@@ -159,7 +159,7 @@ var _t = core._t;
             {
                 if(currency[i].id != pos_currency.id)
                 {
-                    if(currency[i].name == 'USD' || currency[i].name == 'VEF'){
+                    if(currency[i].name == 'USD' || currency[i].name == 'VES'){
                         let currency_in_pos = (currency[i].rate/this.pos.currency.rate);
                         var curr_sym = currency[i].symbol;
                         let curr_tot =base_price*currency_in_pos;

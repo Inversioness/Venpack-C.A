@@ -23,7 +23,7 @@ odoo.define('bi_pos_multi_currency.BiPaymentItems', function(require) {
             {
                 if(currency[i].id != pos_currency.id)
                 {
-                    if(currency[i].name == 'USD' || currency[i].name == 'VEF'){
+                    if(currency[i].name == 'USD' || currency[i].name == 'VES'){
                         let currency_in_pos = (currency[i].rate / this.env.pos.currency.rate);
                         var curr_sym = currency[i].symbol;
                         let curr_tot =this.props.product.get_price(this.pricelist, 1)*currency_in_pos;
