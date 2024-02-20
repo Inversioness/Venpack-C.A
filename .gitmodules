@@ -14,4 +14,3 @@
 	path = tax_report
 	url = git@gitlab.com:addons_arkisoft/tax_report.git
 	branch = 16.0
-
