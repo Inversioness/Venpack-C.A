@@ -2,9 +2,9 @@
 ##############################################################################
 
 {
-    'name': 'Advance Payment Allocation',
+    'name': 'Advance Payment Allocation / Reconciliation',
     'summary': 'Payment Allocation, Partial Payment Allocation, Payment Distribution, Payment Reconciliation, Partial Payment Distribution, Sales Allocation, Purchase Allocation',
-    'version': '15.0.1.2.6',
+    'version': '16.0.1.2.8',
     'author': 'Openinside',
     'website': "https://www.open-inside.com",
     'category': 'Accounting',
@@ -19,6 +19,7 @@
         'views/account_full_reconcile.xml',
         'views/account_payment.xml',
         'views/action.xml',
+        'views/menu.xml',
         'security/ir.model.access.csv'
     ],
     'demo': [],
