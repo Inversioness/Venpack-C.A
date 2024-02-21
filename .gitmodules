@@ -17,4 +17,4 @@
 [submodule "personalized_ledger"]
 	path = personalized_ledger
 	url = git@gitlab.com:addons_arkisoft/personalized_ledger.git
-	branch = 15.0
+	branch = 16.0
