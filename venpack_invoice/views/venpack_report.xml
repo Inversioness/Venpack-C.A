@@ -23,7 +23,7 @@
         <field name="report_name">venpack_invoice.second_custom_invoice</field>
         <field name="report_file">venpack_invoice.second_custom_invoice</field>
         <field name="print_report_name">'Factura v2- %s' % (object.name)</field>
-        <field name="paperformat_id" ref="venpack_invoice_paperformat"/>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat_v2"/>
     </record>
 
     <record id="third_invoice_report" model="ir.actions.report">
