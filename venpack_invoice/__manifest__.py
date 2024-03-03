@@ -43,9 +43,4 @@
         'wizard/report_municipal_withholding.xml',
     ],
 
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'venpack_invoice/static/src/css/custom_css_reports.css'
-    #     ],
-    # }
 }
