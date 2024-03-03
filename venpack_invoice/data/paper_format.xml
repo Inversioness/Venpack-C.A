@@ -44,6 +44,20 @@
             <field name="dpi">90</field>
         </record>
 
+        <record id="venpack_invoice_paperformat_v4" model="report.paperformat">
+            <field name="name">Venpack Invoice Letter V4</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">19</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
         <record id="municipal_taxes_paperformat" model="report.paperformat">
             <field name="name">municipal taxes Letter</field>
             <field name="default" eval="True" />

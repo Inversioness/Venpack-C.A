@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+# Part of Softhealer Technologies
+
+from odoo import fields, models
+
+
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    remarks_for_sale = fields.Text(
+        string="Remarks for Sale", related="picking_id.remarks_for_sale")
+    is_remarks_for_sale = fields.Boolean(
+        related="company_id.remark_for_sale_order", string="Is Remarks for Sale")
+
+    def write(self, vals):
+        for rec in self:
+            if rec.company_id.backdate_for_stock_move_so:
+                if rec.picking_id:
+                    vals['date'] = rec.picking_id.scheduled_date
+
+            return super(StockMove, self).write(vals)
+
+    def _prepare_move_line_vals(self, quantity=None, reserved_quant=None):
+        res = super(StockMove, self)._prepare_move_line_vals(
+            quantity, reserved_quant)
+        res['date'] = self.picking_id.scheduled_date or self.date
+        return res
+
+    def _prepare_account_move_vals(self, credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost):
+        self.ensure_one()
+
+        move_lines = self._prepare_account_move_line(
+            qty, cost, credit_account_id, debit_account_id,svl_id, description)
+        date = self._context.get(
+            'force_period_date', fields.Date.context_today(self))
+        return {
+            'journal_id': journal_id,
+            'line_ids': move_lines,
+            'date': self.date,
+            'ref': description,
+            'stock_move_id': self.id,
+            'stock_valuation_layer_ids': [(6, None, [svl_id])],
+            'move_type': 'entry',
+
+        }
