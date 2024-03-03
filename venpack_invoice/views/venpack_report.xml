@@ -47,7 +47,7 @@
         <field name="report_name">venpack_invoice.fourth_custom_invoice</field>
         <field name="report_file">venpack_invoice.fourth_custom_invoice</field>
         <field name="print_report_name">'Factura v4- %s' % (object.name)</field>
-        <field name="paperformat_id" ref="venpack_invoice_paperformat_v3"/>
+        <field name="paperformat_id" ref="venpack_invoice_paperformat_v4"/>
     </record>
 
     <record id="tracking_guide_report" model="ir.actions.report">
