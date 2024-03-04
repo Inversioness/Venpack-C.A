@@ -226,52 +226,52 @@
 
                                                 <!--Tax totals-->
                                                 <tr class="border-black o_subtotal">
-                                                    <td><strong>Base Imponible</strong></td>
+                                                    <td><strong style="line-height: 100%">Base Imponible</strong></td>
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_untaxed"
+                                                            t-esc="amount_untaxed" style="line-height: 100%"
                                                         />
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td><strong>Descuento</strong></td>
+                                                    <td><strong style="line-height: 100%">Descuento</strong></td>
                                                     <td class="text-end">
                                                         <t t-if="discount_sum">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="discount_sum"
+                                                                t-esc="discount_sum" style="line-height: 100%"
                                                             />
                                                         </t>
                                                         <t t-if="not discount_sum">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td><strong>Total a IVA 16%</strong></td>
+                                                    <td><strong style="line-height: 100%">Total a IVA 16%</strong></td>
                                                     <td class="text-end">
                                                         <t t-if="tax_iva">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="tax_iva"
+                                                                t-esc="tax_iva" style="line-height: 100%"
                                                             />
                                                         </t>
                                                         <t t-if="not tax_iva">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
 
                                                 <tr class="border-black o_total">
-                                                    <td><strong>Total a Pagar</strong></td>
+                                                    <td><strong style="line-height: 100%">Total a Pagar</strong></td>
 
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_total"
+                                                            t-esc="amount_total" style="line-height: 100%"
                                                         />
                                                     </td>
                                                 </tr>
