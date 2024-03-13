@@ -7,26 +7,28 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
+                        <link rel='stylesheet' href="/venpack_invoice/static/src/css/custom_css_reports.css"/>
+
                         <div class="page" style="font-size: 11pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
                             <br/>
                             <br/>
-                            <div class="row" style="height:28mm;">
-                                <div class="col-3">
-                                </div>
+                            <div class="row" style="height:30mm;">
+
+                                <div class="col-3"/>
                                 <div class="col-6" style="line-height: 120%;">
 
-                                    <span t-field="o.partner_id"/>
+                                    <span t-field="o.partner_id" style="line-height: 120%;"/>
                                     <br/>
-                                    <span t-esc="address"/>
+                                    <span t-esc="address" style="line-height: 120%;"/>
                                     <br/>
                                     <div class="row">
                                         <div class="col-7">
-                                            <span t-field="o.partner_id.phone"/>
+                                            <span t-field="o.partner_id.phone" style="line-height: 120%;"/>
                                         </div>
                                         <div class="col-5">
-                                            <strong>RIF:</strong>
-                                            <span t-field="o.partner_id.vat"/>
+                                            <strong style="line-height: 120%;"> RIF:</strong>
+                                            <span t-field="o.partner_id.vat" style="line-height: 120%;"/>
                                         </div>
                                     </div>
                                 </div>
@@ -34,37 +36,37 @@
                                     <br/>
                                     <t t-if="o.x_tipodoc == 'Recibo'">
                                         <stron>
-                                            <span>RECIBO</span>
+                                            <span style="line-height: 130%;">RECIBO</span>
                                             <br/>
-                                            <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                            <span style="font-size: 10pt; line-height: 130%;">
+                                                FECHA: <span t-field="o.invoice_date" style="line-height: 130%;"/>
                                             </span>
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Crédito'">
                                         <stron>
-                                            <span>NOTA DE CREDITO</span>
+                                            <span style="line-height: 130%;">NOTA DE CREDITO</span>
                                             <br/>
-                                            <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                            <span style="font-size: 10pt; line-height: 130%;">
+                                                FECHA: <span t-field="o.invoice_date" style="line-height: 130%;"/>
                                             </span>
                                         </stron>
                                     </t>
                                     <t t-elif="o.x_tipodoc == 'Nota de Débito'">
                                         <stron>
-                                            <span>NOTA DE DEBITO</span>
+                                            <span style="line-height: 130%;">NOTA DE DEBITO</span>
                                             <br/>
-                                            <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                            <span style="font-size: 10pt; line-height: 130%;">
+                                                FECHA: <span t-field="o.invoice_date" style="line-height: 130%;"/>
                                             </span>
                                         </stron>
                                     </t>
                                     <t t-else="">
                                         <stron>
-                                            <span>FACTURA</span>
+                                            <span style="line-height: 130%;">FACTURA</span>
                                             <br/>
-                                            <span style="font-size: 10pt;">
-                                                FECHA: <span t-field="o.invoice_date"/>
+                                            <span style="font-size: 10pt; line-height: 130%;">
+                                                FECHA: <span t-field="o.invoice_date" style="line-height: 130%;"/>
                                             </span>
                                         </stron>
                                     </t>
@@ -75,11 +77,11 @@
                                 <table class="table table-sm table-borderless">
                                     <tbody>
                                         <tr>
-                                            <td name="td_101" class="text-center" style="width: 17%;"><span t-field="o.ref"/></td>
-                                            <td name="td_102" class="text-center" style="width: 16%;"><span t-field="o.invoice_date_due"/></td>
-                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_purchase_order"/></td>
-                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_npedido"/></td>
-                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name"/></td>
+                                            <td name="td_101" class="text-center" style="width: 17%;"><span t-field="o.ref" style="line-height: 100%;"/></td>
+                                            <td name="td_102" class="text-center" style="width: 16%;"><span t-field="o.invoice_date_due" style="line-height: 100%;"/></td>
+                                            <td name="td_103" class="text-center" style="width: 15%;"><span t-field="o.x_purchase_order" style="line-height: 100%;"/></td>
+                                            <td name="td_104" class="text-center" style="width: 16%;"><span t-field="o.x_npedido" style="line-height: 100%;"/></td>
+                                            <td name="td_105" class="text-center" style="width: 14%;"><span t-field="o.invoice_payment_term_id.name" style="line-height: 100%;"/></td>
                                             <td name="td_106" class="text-center" style="width: 14%;"/>
                                             <td name="td_107" class="text-center" style="width: 8%;"/>
                                         </tr>
@@ -87,7 +89,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div style="height:23mm; line-height: 110%;">
+                            <div style="height:25mm; line-height: 110%;">
                                 <table class="table table-sm table-borderless" name="invoice_line_table">
                                     <tbody class="invoice_tbody">
                                         <t t-set="current_subtotal" t-value="0"/>
@@ -101,39 +103,39 @@
 
                                                     <td class="text-start" style="width: 16%;">
                                                         <t t-if="o.x_tipodoc == 'Factura'">
-                                                            <span t-esc="line['default_code']"/>
+                                                            <span t-esc="line['default_code']" style="line-height: 110%;"/>
                                                         </t>
                                                     </td>
 
-                                                    <td name="account_invoice_line_name" style="width: 40%;"><span t-esc="line['name']" t-options="{'widget': 'text'}"/></td>
+                                                    <td name="account_invoice_line_name" style="width: 40%;"><span t-esc="line['name']" t-options="{'widget': 'text'}" style="line-height: 110%;"/></td>
 
                                                     <td class="text-start" style="width: 9%;">
-                                                        <span t-esc="line['quantity']"/>
-                                                        <span t-esc="line['product_uom_id']" />
+                                                        <span t-esc="line['quantity']" style="line-height: 110%;"/>
+                                                        <span t-esc="line['product_uom_id']" style="line-height: 110%;"/>
                                                     </td>
 
                                                     <td class="text-end" style="width: 13%;">
-                                                        <span class="text-nowrap" t-esc="line['price_unit_2']"/>
+                                                        <span class="text-nowrap" t-esc="line['price_unit_2']" style="line-height: 110%;"/>
                                                     </td>
 
                                                     <td class="text-end o_price_total" style="width: 14%;">
-                                                        <span class="text-nowrap" t-esc="line['price_subtotal_2']" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                                        <span class="text-nowrap" t-esc="line['price_total_2']" groups="account.group_show_line_subtotals_tax_included"/>
+                                                        <span class="text-nowrap" t-esc="line['price_subtotal_2']" groups="account.group_show_line_subtotals_tax_excluded" style="line-height: 110%;"/>
+                                                        <span class="text-nowrap" t-esc="line['price_total_2']" groups="account.group_show_line_subtotals_tax_included" style="line-height: 110%;"/>
 
                                                     </td>
 
-                                                    <td name="tax" class="text-end" style="width: 8%;"><span t-options="{'widget': 'text'}">16,00</span></td>
+                                                    <td name="tax" class="text-end" style="width: 8%;"><span t-options="{'widget': 'text'}" style="line-height: 110%;">16,00</span></td>
                                                 </t>
                                                 <t t-if="line['display_type'] == 'line_section'">
                                                     <td colspan="99">
-                                                        <span t-esc="line['name']" t-options="{'widget': 'text'}"/>
+                                                        <span t-esc="line['name']" t-options="{'widget': 'text'}" style="line-height: 110%;"/>
                                                     </td>
                                                     <t t-set="current_section" t-value="line"/>
                                                     <t t-set="current_subtotal" t-value="0"/>
                                                 </t>
                                                 <t t-if="line['display_type'] == 'line_note'">
                                                     <td colspan="99">
-                                                        <span t-esc="line['name']" t-options="{'widget': 'text'}"/>
+                                                        <span t-esc="line['name']" t-options="{'widget': 'text'}" style="line-height: 110%;"/>
                                                     </td>
                                                 </t>
                                             </tr>
@@ -148,7 +150,7 @@
                                     <div class="row">
                                         <div class="col-6"/>
                                         <div class="col-6 text-center" style="font-size: 10pt;">
-                                            <span>16</span>
+                                            <span style="line-height: 120%;">16</span>
                                         </div>
                                     </div>
 
@@ -166,7 +168,7 @@
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_untaxed"
+                                                            t-esc="amount_untaxed" style="line-height: 100%;"
                                                         />
                                                     </td>
                                                 </tr>
@@ -176,11 +178,11 @@
                                                         <t t-if="discount_sum">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="discount_sum"
+                                                                t-esc="discount_sum" style="line-height: 100%;"
                                                             />
                                                         </t>
                                                         <t t-if="not discount_sum">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%;">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
@@ -190,11 +192,11 @@
                                                         <t t-if="tax_iva">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="tax_iva"
+                                                                t-esc="tax_iva" style="line-height: 100%;"
                                                             />
                                                         </t>
                                                         <t t-if="not tax_iva">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%;">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
@@ -203,7 +205,7 @@
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_total"
+                                                            t-esc="amount_total" style="line-height: 100%;"
                                                         />
                                                     </td>
                                                 </tr>

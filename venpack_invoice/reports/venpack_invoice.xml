@@ -7,11 +7,10 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.basic_layout">
+                        <link rel='stylesheet' href="/venpack_invoice/static/src/css/custom_css_reports.css"/>
 
                         <div class="page" style="font-size: 10pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
-                            <br/>
-                            <br/>
                             <div class="row">
                                 <div class="col-1"/>
                                 <br/>
@@ -191,9 +190,10 @@
                                 </table>
                             </div>
                             <div class="row" style="line-height: 120%">
-                                <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-5'}">
+                                <!-- <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-5'}"> -->
+                                <div class="col-4 custom_div_padding_right">
                                     <t t-if="o.x_tipodoc == 'Factura'">
-                                        <div name="payment_currency" style="font-size: 9pt;">
+                                        <div style="font-size: 9pt;">
                                             <t t-set="total_currency_amount" t-value="o.amount_untaxed / o.x_tasa"/>
                                             <p> ESTA FACTURA REPRESENTA U$D <span t-esc="total_currency_amount" t-options='{"widget": "float", "precision": 2}'/> A TASA BCV BsD. <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 2}'/> FECHA <span t-field="o.invoice_date"/> CONFORME A LO ESTABLECIDO EN EL ART. 25 DE LA LEY DE IVA Y ART. 13 No 14 PROVIDENCIA 0071</p>
                                         </div>
@@ -213,64 +213,65 @@
                                         <span t-field="o.reversed_entry_id.invoice_date"/>
                                     </t>
                                 </div>
-                                <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-3'}" style="font-size: 8pt;">
+                                <!-- <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-3'}" style="font-size: 8pt;"> -->
+                                <div class="col-4" style="font-size: 8pt;">
                                     <t t-if="o.x_tipodoc == 'Factura'">
                                         <p>Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.</p>
                                     </t>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 custom_div_padding_left">
                                     <div class="clearfix">
                                         <div id="total" class="row">
                                             <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
 
                                                 <!--Tax totals-->
                                                 <tr class="border-black o_subtotal">
-                                                    <td><strong>Base Imponible</strong></td>
+                                                    <td><strong style="line-height: 100%">Base Imponible</strong></td>
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_untaxed"
+                                                            t-esc="amount_untaxed" style="line-height: 100%"
                                                         />
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td><strong>Descuento</strong></td>
+                                                    <td><strong style="line-height: 100%">Descuento</strong></td>
                                                     <td class="text-end">
                                                         <t t-if="discount_sum">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="discount_sum"
+                                                                t-esc="discount_sum" style="line-height: 100%"
                                                             />
                                                         </t>
                                                         <t t-if="not discount_sum">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td><strong>Total a IVA 16%</strong></td>
+                                                    <td><strong style="line-height: 100%">Total a IVA 16%</strong></td>
                                                     <td class="text-end">
                                                         <t t-if="tax_iva">
                                                             <span
                                                                 t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="tax_iva"
+                                                                t-esc="tax_iva" style="line-height: 100%"
                                                             />
                                                         </t>
                                                         <t t-if="not tax_iva">
-                                                            <span t-att-class="oe_subtotal_footer_separator">0.0</span>
+                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
                                                         </t>
                                                     </td>
                                                 </tr>
 
                                                 <tr class="border-black o_total">
-                                                    <td><strong>Total a Pagar</strong></td>
+                                                    <td><strong style="line-height: 100%">Total a Pagar</strong></td>
 
                                                     <td class="text-end">
                                                         <span
                                                             t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_total"
+                                                            t-esc="amount_total" style="line-height: 100%"
                                                         />
                                                     </td>
                                                 </tr>
