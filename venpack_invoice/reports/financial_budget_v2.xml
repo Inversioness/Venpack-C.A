@@ -113,7 +113,7 @@
                                                     <span t-field="line.name"/>
                                                 </td>
                                                 <td>
-                                                    <t t-if="o.currency_id.name == 'VES">
+                                                    <t t-if="o.currency_id.name == 'VES'">
                                                         <t t-set="sub_total_rate" t-value="line.price_unit"/>
                                                     </t>
                                                     <t t-else="">

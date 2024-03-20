@@ -130,7 +130,7 @@
                                                     <span t-field="line.product_uom.name"/>
                                                 </td>
                                                 <td>
-                                                    <t t-if="o.currency_id.name == 'VES">
+                                                    <t t-if="o.currency_id.name == 'VES'">
                                                         <t t-set="price_unit_rate" t-value="line.price_unit"/>
                                                     </t>
                                                     <t t-else="">
