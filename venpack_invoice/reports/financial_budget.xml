@@ -130,7 +130,12 @@
                                                     <span t-field="line.product_uom.name"/>
                                                 </td>
                                                 <td>
-                                                    <t t-set="price_unit_rate" t-value="line.price_unit / o.x_tasav"/>
+                                                    <t t-if="o.currency_id.name == 'USD'">
+                                                        <t t-set="price_unit_rate" t-value="line.price_unit"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-set="price_unit_rate" t-value="line.price_unit / o.x_tasav"/>
+                                                    </t>
                                                     <span t-esc="price_unit_rate" t-options='{"widget": "float", "precision": 2}'/>
                                                 </td>
                                             </tr>
