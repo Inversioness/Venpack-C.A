@@ -40,6 +40,7 @@
         'reports/financial_budget_v2.xml',
         'reports/municipal_withholding_list.xml',
         'reports/municipal_withholding.xml',
+        'reports/report_sale_order.xml',
         'wizard/report_municipal_withholding.xml',
     ],
 
