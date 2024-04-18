@@ -1,7 +1,7 @@
 [submodule "fiscal_print"]
 	path = fiscal_print
 	url = git@gitlab.com:addons_arkisoft/fiscal_print.git
-	branch = 16.0-des
+	branch = 16.0-qa
 [submodule "custom_account_report"]
 	path = custom_account_report
 	url = git@gitlab.com:addons_arkisoft/custom_account_report.git
@@ -21,4 +21,4 @@
 [submodule "pos_sales_book"]
 	path = pos_sales_book
 	url = git@gitlab.com:jorgerojasve1/pos_sales_book.git
-	branch = 16.0-des
+	branch = 16.0-qa
