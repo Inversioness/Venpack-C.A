@@ -18,3 +18,8 @@
 	path = pos_sales_book
 	url = git@gitlab.com:jorgerojasve1/pos_sales_book.git
 	branch = 16.0-des
+[submodule "custom_account_report"]
+	path = custom_account_report
+	url = git@gitlab.com:addons_arkisoft/custom_account_report.git
+	branch = 16.0
+
