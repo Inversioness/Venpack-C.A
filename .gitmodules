@@ -17,4 +17,4 @@
 [submodule "pos_sales_book"]
 	path = pos_sales_book
 	url = git@gitlab.com:jorgerojasve1/pos_sales_book.git
-	branch = 16.0-qa
+	branch = 16.0-des
