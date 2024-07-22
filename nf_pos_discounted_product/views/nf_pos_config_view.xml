@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id='nf_pos_dicounted_price_config_view_inherit' model='ir.ui.view'>
+        <field name='name'>nf.pos.discounted.price.config.view.inherit</field>
+        <field name='model'>pos.config</field>
+        <field name='inherit_id' ref='point_of_sale.pos_config_view_form' />
+        <field name='arch' type='xml'>
+            <xpath expr="//div[4]" position='after'>
+                <div class='row mt15 o_settings_container'>
+                    <div class='col-12 col-lg-6 col-md-6 col-xl-6 o_setting_box'>
+                        <h2>Discounted Price Configuration</h2>
+                        <div class='o_setting_left_pane'>
+                            <field name='nf_pos_enable_discounted_price_on_product' />
+                        </div>
+                        <div class='o_setting_right_pane'>
+                            <label for='nf_pos_enable_discounted_price_on_product' />
+                        </div>
+                    </div>
+                    <div class='col-12 mt-5 col-lg-6 col-md-6 col-xl-6 o_setting_box'>
+                        <div class='o_setting_left_pane'>
+                            <field name='nf_pos_enable_dicsounted_price_on_cart' />
+                        </div>
+                        <div class='o_setting_right_pane'>
+                            <label for='nf_pos_enable_dicsounted_price_on_cart' />
+                        </div>
+                    </div>
+                    <div class='col-12 col-lg-6 col-md-6 col-xl-6 o_setting_box'>
+                        <div class='o_setting_left_pane'>
+                            <field name='nf_pos_enable_discounted_price_in_receipt' />
+                        </div>
+                        <div class='o_setting_right_pane'>
+                            <label for='nf_pos_enable_discounted_price_in_receipt' />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

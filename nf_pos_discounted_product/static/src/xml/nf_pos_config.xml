@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id='template' xml:space='preserve'>
+    <t t-name="ProductItem" t-inherit="point_of_sale.ProductItem" t-inherit-mode="extension" owl="1">
+        <xpath expr="//span[hasclass('price-tag')]" position="replace">
+            <t t-if="env.pos.config.nf_pos_enable_discounted_price_on_product and props.product.lst_price &gt; props.product.get_price(pricelist, 1)">
+                <span class="price-tag nf_pos_base_price">
+                    <t t-esc="env.pos.format_currency(props.product.lst_price)" />
+                </span>
+                <span class="price-tag" style='top: 18px;'>
+                    <t t-esc="price" />
+                </span>
+            </t>
+            <t t-else=''>
+                <span class="price-tag">
+                    <t t-esc='price' />
+                </span>
+            </t>
+        </xpath>
+    </t>
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//span[hasclass('price')]" position="replace">
+            <t t-if="env.pos.config.nf_pos_enable_dicsounted_price_on_cart and props.line.get_display_price() != false and props.line.price &lt; props.line.product.lst_price">
+                <span class='nf_price'>
+                    <t t-esc="env.pos.format_currency(props.line.product.lst_price * props.line.get_quantity())" />
+                </span>
+                <span class="price">
+                    <t t-esc="env.pos.format_currency(props.line.get_display_price())" />
+                </span>
+            </t>
+            <t t-elif="props.line and env.pos.config.nf_pos_enable_dicsounted_price_on_cart and props.line.get_display_price() != false and props.line.price_extra > 0 and (props.line.price &lt; props.line.product.lst_price + props.line.price_extra)">
+                <span class='nf_price'>
+                    <t t-esc="env.pos.format_currency((props.line.product.lst_price * props.line.get_quantity()) + (props.line.price_extra *  props.line.get_quantity()))" />
+                </span>
+                <span class="price">
+                    <t t-esc="env.pos.format_currency(props.line.get_display_price())" />
+                </span>
+            </t>
+            <t t-else=''>
+                <span class="price">
+                    <t t-esc="env.pos.format_currency(props.line.get_display_price())" />
+                </span>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="OrderLinesReceipt" t-inherit="point_of_sale.OrderLinesReceipt" t-inherit-mode="extension" owl="1">
+
+        <xpath expr='//t[@t-esc="env.pos.format_currency(line.price_display_one)"]' position='after'>
+            <div t-if='line.custom_discount' style="font-size: 12px;font-style: italic;color: #808080;padding: 5px 0px;">
+                Discount:
+                <t t-esc="line.custom_discount" />
+                %
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-if=&quot;isSimple(line)&quot;]//WrappedProductNameLines" position='after'>
+            <t t-if="env.pos.config.nf_pos_enable_discounted_price_in_receipt">
+                <t t-if="line.price_display != false and line.price &lt; line.product.lst_price">
+                    <div t-if='line.custom_discount' t-attf-class="nf_pos_discont {{ line.custom_discount ? 'nf_pos_discont_single_qty' : '' }}" class='pos-receipt-left-padding' style="font-size: 12px;font-style: italic;color: #808080;padding: 5px 2em; margin-top: -4px;">
+                        Discount:
+                        <t t-esc="line.custom_discount" />
+                        %
+                    </div>
+                </t>
+                <t t-elif="line.price_display != false and line.price &lt; (line.product.lst_price + line.price_extra)">
+                    <div t-if='line.custom_discount' t-attf-class="nf_pos_discont {{ line.custom_discount ? 'nf_pos_discont_single_qty' : '' }}" class='pos-receipt-left-padding' style="font-size: 12px;font-style: italic;color: #808080;padding: 5px 2em; margin-top: -4px;">
+                        Discount:
+                        <t t-esc="line.custom_discount" />
+                        %
+                    </div>
+                </t>
+            </t>
+        </xpath>
+
+        <xpath expr="//t[@t-if=&quot;isSimple(line)&quot;]//span[hasclass('price_display')]" position='replace'>
+            <div class="price_display pos-receipt-right-align" style="display: grid">
+                <t t-if="env.pos.config.nf_pos_enable_discounted_price_in_receipt">
+                    <t t-if="line.price_display != false and line.price &lt; line.product.lst_price">
+                        <span class="nf_pos_order_receipt_price">
+                            <t t-esc="env.pos.format_currency(line.product.lst_price * line.quantity)" />
+                        </span>
+                    </t>
+                    <t t-elif="line.price_display != false and line.price &lt; (line.product.lst_price + line.price_extra)">
+                        <span class="nf_pos_order_receipt_price">
+                            <t t-esc="env.pos.format_currency((line.product.lst_price * line.quantity) + (line.price_extra * line.quantity))" />
+                        </span>
+                    </t>
+                </t>
+                <span t-esc="env.pos.format_currency_no_symbol(line.price_display)" class="price_display pos-receipt-right-align"/>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-else=&quot;&quot;]//span[hasclass('price_display')]" position='replace'>
+            <t t-if=" env.pos.config.nf_pos_enable_discounted_price_in_receipt and line.price_display != false and line.price &lt; line.product.lst_price">
+                <div class="price_display pos-receipt-right-align" style="display: grid;margin-bottom: 10px;">
+                    <div t-attf-class="nf_pos_order_receipt_price {{ line.custom_discount ? 'nf_pos_has_discount' : '' }}">
+                        <t t-esc="env.pos.format_currency(line.product.lst_price * line.quantity)" />
+                    </div>
+                    <div t-attf-class="price_display pos-receipt-right-align {{ line.custom_discount ? 'nf_pos_has_disconted_price' : '' }}" >
+                        <t t-esc="env.pos.format_currency(line.price_display)" />
+                    </div>
+                </div>
+            </t>
+            <t t-elif="line and env.pos.config.nf_pos_enable_dicsounted_price_on_cart and line.price_display != false and line.price_extra > 0 and (line.price &lt; (line.product.lst_price + line.price_extra))">
+                <div t-attf-class="nf_pos_order_receipt_price {{ line.custom_discount ? 'nf_pos_has_discount' : '' }}">
+                    <t t-esc="env.pos.format_currency((line.product.lst_price * line.quantity) + (line.price_extra * line.quantity))" />
+                </div>
+                <span t-esc="env.pos.format_currency(line.price_display)" t-attf-class="price_display pos-receipt-right-align {{ line.custom_discount ? 'nf_pos_has_disconted_price' : '' }}" />
+            </t>
+            <t t-else=''>
+                <span t-esc="env.pos.format_currency_no_symbol(line.price_display)" class="price_display pos-receipt-right-align"/>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

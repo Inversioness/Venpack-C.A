@@ -1,0 +1,35 @@
+.product-list  .nf_pos_base_price {
+    top: 0px;
+    color: red !important;
+    text-decoration: line-through;
+    color: #fff;
+}
+
+.order-container .orderline .nf_price {
+    text-decoration: line-through;
+    float: right;
+    font-size: 13px;
+}
+
+.order-container .orderline .price {
+    min-width: 52px !important;
+}
+
+.orderlines .nf_pos_order_receipt_price {
+    text-decoration: line-through;
+    float: right;
+    font-size: 14px;
+    text-align: right;
+}
+
+.nf_pos_has_discount {
+    margin-top: -45px !important;
+}
+
+.nf_pos_has_disconted_price {
+    margin-top: -25px !important;
+}
+
+/* .nf_pos_discont_single_qty {
+    margin-top: -20px !important;
+} */
