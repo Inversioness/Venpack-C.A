@@ -240,7 +240,7 @@
                                 </table>
                             </div>
 
-                            <di>
+                            <div>
                                 <div class="row text-center">
                                     <div class="col-3">
                                         <div class="row text-center">
@@ -272,7 +272,10 @@
                                         <span>FECHA DE RETENCION</span>
                                     </div>
                                 </div>
-                            </di>
+                            </div>
+                            <div class="text">
+                                <strong>Enviado por correo electrónico al proveedor</strong>
+                            </div>
 
 
 
