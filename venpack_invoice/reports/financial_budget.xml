@@ -123,7 +123,7 @@
                                                     <span t-field="line.x_studio_material"/>
                                                 </td>
                                                 <td>
-                                                    <span t-field="line.x_medidas"/>
+                                                    <span t-field="line.product_id.x_studio_medidas"/>
                                                 </td>
                                                 <td>
                                                     <span t-field="line.product_uom_qty"/>
