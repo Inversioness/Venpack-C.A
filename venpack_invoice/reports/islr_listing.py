@@ -14,6 +14,24 @@ class IslrListing(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         print('funcion para obtener datos del cliente para el reporte')
         locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
+        if not docids:
+            docs = self.env['account.move'].search([('company_id', '=', self.env.company.id)], limit=1)
+            start_date = datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            final_date = datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            docargs = {
+                'doc_ids': docids,
+                'doc_model': 'account.move',
+                'data': data,
+                'docs': docs,
+                'fecha': datetime.today().strftime('%d/%m/%Y'),
+                'username': self.env.user.name,
+                'start_date': start_date,
+                'final_date': final_date,
+                'tax_base_total': '0,00',
+                'tax_withheld_total': '0,00',
+                'data_islr_listing': []
+            }
+            return docargs
         docs = self.env['account.move'].browse(docids[0])
         invoice_ids = self.env['account.move'].search([('id', 'in', docids), ('x_comp_isl', '!=', False)]).sorted(key=lambda r: (r.x_comp_isl, r.date))
         start_date = invoice_ids[0].date.strftime('%d/%m/%Y')
