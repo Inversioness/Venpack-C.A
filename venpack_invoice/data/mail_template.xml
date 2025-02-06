@@ -1,0 +1,44 @@
+<odoo>
+   <data>
+        <record id="email_template_municipal_tax_list_to_suppliers" model="mail.template">
+            <field name="name">Comprobantes de retención de Impuestos</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">Recordatorio Importante: Retenciones de Impuestos de Ley</field>
+            <!-- <field name="email_from">{{ (object.user_id.email) }}</field> -->
+            <field name="email_from">{{ (object.company_id.email) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="description">Comprobantes de retención de Impuestos</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 12px;">
+                        Estimado Proveedor&amp;nbsp;
+                        <t t-out="object.partner_id.name or ''"/>
+                        ,
+                        <br/>
+                        <br/>
+                        En conformidad con la gaceta No.5030, bajo la Providencia Administrativa No. 001-2024, 
+                        mediante la cual se establece la normativa aplicable a la calificación y regulación de 
+                        los sujetos pasivos especiales y de los responsables en calidad de agentes de retención 
+                        del impuesto sobre actividades económicas de industria, comercio, servicios o de índole 
+                        similar (ISAE), por esta vía le hacemos entrega de los comprobantes de retención emitidos 
+                        por medios electrónicos y de la misma forma entregados al proveedor del siguiente numero 
+                        de factura&amp;nbsp;
+                        <t t-out="object.ref or ''"/>
+                        <br/>
+                        <br/>
+                        Sobre la validez de este medio electrónico, dentro de la Legislación Venezolana encontramos 
+                        que está contemplada dentro de la Ley sobre Mensajes de Datos y Firmas Electrónicas 
+                        (Gaceta Oficial Nº 37.148 de fecha 28 de Febrero del 2001).
+                        <br/>
+                        <br/>
+                        Sirva la recepción de este correo como acuse de recibo de los mismos,
+                    </p>
+                    <br/>
+                    Atentamente,
+                    <br/>
+                    <t t-out="object.company_id.name or ''"/>
+                </div>
+            </field>
+        </record>
+   </data>
+</odoo>

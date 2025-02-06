@@ -10,6 +10,10 @@
                     <field name="x_patent_number" />
                 </field>
 
+                <field name="property_supplier_payment_term_id" position="after">
+                    <field name="automatic_municipal_retention_sending" />
+                </field>
+
             </field>
         </record>
   </data>

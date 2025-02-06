@@ -25,6 +25,8 @@
     'data': [
         'security/ir.model.access.csv',
         'data/paper_format.xml',
+        'data/mail_template.xml',
+        'data/ir_cron.xml',
         'views/account_move.xml',
         # 'views/sale_order.xml',
         'views/res_partner.xml',

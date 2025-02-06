@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="ir_cron_send_municipal_tax_list_to_suppliers" model="ir.cron">
+            <field name="name">Send municipal tax list to suppliers</field>
+            <field name="model_id" ref="model_municipal_tax_payment_reminder"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="state">code</field>
+            <field eval="False" name="doall"/>
+            <field eval="'model._send_municipal_tax_list_to_suppliers()'" name="code"/>
+        </record>
+    </data>
+</odoo>
