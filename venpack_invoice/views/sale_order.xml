@@ -9,6 +9,8 @@
                 <field name="partner_id" position="after">
                     <field name="x_purchase_order"/>
                     <field name="x_payment_method"/>
+                    <field name="x_totalkd"/>
+                    <field name="x_totalusd_despachadas"/>
                 </field>
 
             </field>
