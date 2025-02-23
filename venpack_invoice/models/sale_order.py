@@ -20,7 +20,7 @@ class CustomSaleOrder(models.Model):
             else:
                 order.x_totalkd = 0
 
-    @api.depends('x_Totalusd', 'x_usddespachadasestimado')
+    @api.depends('x_Totaluds', 'x_udsdespachadasestimado')
     def _compute_totalusd_despachadas(self):
         for order in self:
             if order.x_Totaluds > 0:
