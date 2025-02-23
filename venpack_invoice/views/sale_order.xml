@@ -10,7 +10,7 @@
                     <field name="x_purchase_order"/>
                     <field name="x_payment_method"/>
                     <field name="x_totalkd"/>
-                    <field name="x_totalusd_despachadas"/>
+                    <field name="x_totaluds_despachadas"/>
                 </field>
 
             </field>
