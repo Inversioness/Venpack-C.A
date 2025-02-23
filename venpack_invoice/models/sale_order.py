@@ -24,6 +24,6 @@ class CustomSaleOrder(models.Model):
     def _compute_totalusd_despachadas(self):
         for order in self:
             if order.x_Totalusd > 0:
-                order.x_totalusd_despachadas = order.x_Totaluds - order.x_usddespachadasestimado
+                order.x_totalusd_despachadas = order.x_Totaluds - order.x_udsdespachadasestimado
             else:
                 order.x_totalusd_despachadas = 0
