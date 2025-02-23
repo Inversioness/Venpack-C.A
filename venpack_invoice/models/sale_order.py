@@ -10,7 +10,7 @@ class CustomSaleOrder(models.Model):
     x_purchase_order = fields.Char(string="Orden de Compra")
     x_payment_method = fields.Char(string="Forma de Pago")
     x_totalkd = fields.Float(string="Total Kilos Despachados", compute="_compute_totalkd", store=True, default=0)
-    x_totalusd_despachadas = fields.Float(string="Total Unidades Despachadas", compute="_compute_totalusd_despachadas", store=True, default=0)
+    x_totaluds_despachadas = fields.Float(string="Total Unidades Despachadas", compute="_compute_totalusd_despachadas", store=True, default=0)
 
     @api.depends('x_peso', 'x_totaldespachado')
     def _compute_totalkd(self):
@@ -23,7 +23,7 @@ class CustomSaleOrder(models.Model):
     @api.depends('x_Totalusd', 'x_usddespachadasestimado')
     def _compute_totalusd_despachadas(self):
         for order in self:
-            if order.x_Totalusd > 0:
-                order.x_totalusd_despachadas = order.x_Totaluds - order.x_udsdespachadasestimado
+            if order.x_Totaluds > 0:
+                order.x_totaluds_despachadas = order.x_Totaluds - order.x_udsdespachadasestimado
             else:
-                order.x_totalusd_despachadas = 0
+                order.x_totaluds_despachadas = 0
