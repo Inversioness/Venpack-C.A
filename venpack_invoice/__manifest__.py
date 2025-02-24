@@ -28,7 +28,7 @@
         'data/mail_template.xml',
         'data/ir_cron.xml',
         'views/account_move.xml',
-        # 'views/sale_order.xml',
+        'views/sale_order.xml',
         'views/res_partner.xml',
         'views/res_company.xml',
         'views/venpack_report.xml',
