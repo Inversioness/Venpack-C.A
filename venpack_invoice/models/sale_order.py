@@ -38,12 +38,12 @@ class CustomSaleOrder(models.Model):
     def _compute_first_line_fields(self):
         for order in self:
             first_line = order.order_line[:1]
-            if first_line:
+            if first_line and first_line.product_id:
                 order.product_id = first_line.product_id
-                order.x_presentacion = dict(first_line._fields['x_presentacion'].selection).get(first_line.x_presentacion, '') if first_line.x_presentacion else ''
-                order.uom_id = first_line.product_uom
-                order.x_tipop = dict(first_line._fields['x_tipop'].selection).get(first_line.x_tipop, '') if first_line.x_tipop else ''
-                order.x_tipox = dict(first_line._fields['x_tipox'].selection).get(first_line.x_tipox, '') if first_line.x_tipox else ''
+                order.x_presentacion = first_line.product_id.x_presentacion or ''
+                order.uom_id = first_line.product_id.uom_id or False
+                order.x_tipop = first_line.product_id.x_tipop or ''
+                order.x_tipox = first_line.product_id.x_tipox or ''
             else:
                 order.product_id = False
                 order.x_presentacion = ''
