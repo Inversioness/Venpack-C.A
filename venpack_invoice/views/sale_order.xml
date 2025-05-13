@@ -16,6 +16,16 @@
                     <field name="x_totaluds_despachadas"/>
                 </field>
 
+                <xpath expr="//page[@name='other_information']" position="inside">
+                  <group string="Datos del Producto" name="product_data">
+                    <field name="product_id" readonly="1"/>
+                    <field name="x_presentacion" readonly="1"/>
+                    <field name="uom_id" readonly="1"/>
+                    <field name="x_tipop" readonly="1"/>
+                    <field name="x_tipox" readonly="1"/>
+                  </group>
+                </xpath>
+
             </field>
         </record>
   </data>
