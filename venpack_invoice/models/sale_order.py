@@ -68,28 +68,32 @@ class CustomSaleOrder(models.Model):
             first_line = order.order_line[:1]
             if first_line and first_line.product_id:
                 order.product_id = first_line.product_id
-                order.x_presentacion = (
-                    dict(first_line.product_id._fields["x_presentacion"].selection).get(
+
+                # Manejar x_presentacion
+                if hasattr(first_line.product_id._fields.get("x_presentacion"), "selection"):
+                    order.x_presentacion = dict(first_line.product_id._fields["x_presentacion"].selection).get(
                         first_line.product_id.x_presentacion, ""
-                    )
-                    if first_line.product_id.x_presentacion
-                    else ""
-                )
+                    ) if first_line.product_id.x_presentacion else ""
+                else:
+                    order.x_presentacion = ""
+
                 order.uom_id = first_line.product_id.uom_id or False
-                order.x_tipop = (
-                    dict(first_line.product_id._fields["x_tipop"].selection).get(
+
+                # Manejar x_tipop
+                if hasattr(first_line.product_id._fields.get("x_tipop"), "selection"):
+                    order.x_tipop = dict(first_line.product_id._fields["x_tipop"].selection).get(
                         first_line.product_id.x_tipop, ""
-                    )
-                    if first_line.product_id.x_tipop
-                    else ""
-                )
-                order.x_tipox = (
-                    dict(first_line.product_id._fields["x_tipox"].selection).get(
+                    ) if first_line.product_id.x_tipop else ""
+                else:
+                    order.x_tipop = ""
+
+                # Manejar x_tipox
+                if hasattr(first_line.product_id._fields.get("x_tipox"), "selection"):
+                    order.x_tipox = dict(first_line.product_id._fields["x_tipox"].selection).get(
                         first_line.product_id.x_tipox, ""
-                    )
-                    if first_line.product_id.x_tipox
-                    else ""
-                )
+                    ) if first_line.product_id.x_tipox else ""
+                else:
+                    order.x_tipox = ""
             else:
                 order.product_id = False
                 order.x_presentacion = ""
