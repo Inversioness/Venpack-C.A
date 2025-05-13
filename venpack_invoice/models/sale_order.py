@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, exceptions, _
+from odoo import api, fields, models, _
 
 
 class CustomSaleOrder(models.Model):
@@ -28,8 +28,18 @@ class CustomSaleOrder(models.Model):
         compute="_compute_first_line_fields",
         store=True,
     )
-    x_presentacion = fields.Char(
-        string="Presentación", compute="_compute_first_line_fields", store=True
+    x_presentacion = fields.Selection(
+        selection=[
+            ("01", "Bobinas"),
+            ("02", "Bolsas"),
+            ("03", "Banderines"),
+            ("04", "Sacos"),
+            ("05", "Clisé"),
+            ("06", "Maquila"),
+        ],
+        string="Presentación",
+        compute="_compute_first_line_fields",
+        store=True,
     )
     uom_id = fields.Many2one(
         "uom.uom",
@@ -37,11 +47,41 @@ class CustomSaleOrder(models.Model):
         compute="_compute_first_line_fields",
         store=True,
     )
-    x_tipop = fields.Char(
-        string="Tipo de Producto", compute="_compute_first_line_fields", store=True
+    x_tipop = fields.Selection(
+        selection=[
+            ("01", "Banderín"),
+            ("02", "Bobinas agricultura e invernadero"),
+            ("03", "Bobinas anaquel"),
+            ("04", "Bobinas empaque automático"),
+            ("05", "Bobinas Multiusos"),
+            ("06", "Bolsas comerciales"),
+            ("07", "Bolsas sellado de fondo"),
+            ("08", "Bolsas sellado lateral"),
+            ("09", "Bolsas pan y pañal"),
+            ("10", "Bolsas pollo"),
+            ("11", "Saco valvulado"),
+            ("12", "Saco industrial"),
+            ("13", "Saco industrial flow pack"),
+            ("14", "Bolsas con zipper"),
+            ("15", "Bobina de stretch"),
+            ("16", "Clisé"),
+            ("17", "Maquila"),
+            ("18", "Bolsa de empaque al vacío"),
+            ("19", "Productos Estándar"),
+        ],
+        string="Tipo de Producto",
+        compute="_compute_first_line_fields",
+        store=True,
     )
-    x_tipox = fields.Char(
-        string="Tipo de Extrusión", compute="_compute_first_line_fields", store=True
+    x_tipox = fields.Selection(
+        selection=[
+            ("01", "Extrusión"),
+            ("02", "Coextrusión"),
+            ("03", "Material de terceros"),
+        ],
+        string="Tipo de Extrusión",
+        compute="_compute_first_line_fields",
+        store=True,
     )
 
     @api.depends("x_peso", "x_totaldespachado")
@@ -69,34 +109,14 @@ class CustomSaleOrder(models.Model):
             if first_line and first_line.product_id:
                 order.product_id = first_line.product_id
 
-                # Manejar x_presentacion
-                if hasattr(first_line.product_id._fields.get("x_presentacion"), "selection"):
-                    order.x_presentacion = dict(first_line.product_id._fields["x_presentacion"].selection).get(
-                        first_line.product_id.x_presentacion, ""
-                    ) if first_line.product_id.x_presentacion else ""
-                else:
-                    order.x_presentacion = ""
-
+                # Asignar valores directamente desde el producto
+                order.x_presentacion = first_line.product_id.x_presentacion or False
                 order.uom_id = first_line.product_id.uom_id or False
-
-                # Manejar x_tipop
-                if hasattr(first_line.product_id._fields.get("x_tipop"), "selection"):
-                    order.x_tipop = dict(first_line.product_id._fields["x_tipop"].selection).get(
-                        first_line.product_id.x_tipop, ""
-                    ) if first_line.product_id.x_tipop else ""
-                else:
-                    order.x_tipop = ""
-
-                # Manejar x_tipox
-                if hasattr(first_line.product_id._fields.get("x_tipox"), "selection"):
-                    order.x_tipox = dict(first_line.product_id._fields["x_tipox"].selection).get(
-                        first_line.product_id.x_tipox, ""
-                    ) if first_line.product_id.x_tipox else ""
-                else:
-                    order.x_tipox = ""
+                order.x_tipop = first_line.product_id.x_tipop or False
+                order.x_tipox = first_line.product_id.x_tipox or False
             else:
                 order.product_id = False
-                order.x_presentacion = ""
+                order.x_presentacion = False
                 order.uom_id = False
-                order.x_tipop = ""
-                order.x_tipox = ""
+                order.x_tipop = False
+                order.x_tipox = False
