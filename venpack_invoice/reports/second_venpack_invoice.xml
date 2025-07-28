@@ -9,7 +9,7 @@
                     <t t-call="web.basic_layout">
                         <link rel='stylesheet' href="/venpack_invoice/static/src/css/custom_css_reports.css"/>
 
-                        <div class="page" style="font-size: 11pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
+                        <div class="page" style="font-size: 10pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
                             <div class="row">
                                 <div class="col-1"/>
@@ -295,7 +295,3 @@
         </template>
     </data>
 </odoo>
-
-
-
-
