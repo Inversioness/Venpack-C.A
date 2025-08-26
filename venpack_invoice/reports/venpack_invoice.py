@@ -63,10 +63,11 @@ class PalmaSuitesInvoice(models.AbstractModel):
                 if ti.x_tipoimpuesto == 'IVA':
                     tax_base += ili.price_subtotal
                     line_iva_id = docs.line_ids.search([('name', '=', ti.name), ('move_id', '=', docs.id)])
-                    if docs.x_tipodoc == 'Nota de Crédito':
-                        tax_iva = line_iva_id.debit
-                    else:
-                        tax_iva = line_iva_id.credit
+                    tax_iva = abs(line_iva_id.amount_currency)
+                    # if docs.x_tipodoc == 'Nota de Crédito':
+                    #     tax_iva = line_iva_id.debit
+                    # else:
+                    #     tax_iva = abs(line_iva_id.amount_currency)
                     percentage = line_iva_id.name
                 if ti.x_tipoimpuesto == 'EXENTO':
                     exempt_sum += ili.price_subtotal
