@@ -45,7 +45,7 @@ class PalmaSuitesInvoice(models.AbstractModel):
                 'price_total_2': locale.format_string('%10.2f', ili.price_total, grouping=True),
                 'default_code': ili.product_id.default_code,
                 'name': self.description_format(ili.name),
-                'quantity': locale.format_string('%10.2f', ili.quantity,  grouping=True),
+                'quantity': ili.quantity,
                 'product_uom_id': ili.product_uom_id.name,
                 'price_unit': ili.price_unit,
                 'price_unit_2': locale.format_string('%10.2f', ili.price_unit, grouping=True),
