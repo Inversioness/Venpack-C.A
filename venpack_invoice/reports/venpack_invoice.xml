@@ -154,7 +154,7 @@
                                                     <td name="account_invoice_line_name"><span t-esc="line['name']" t-options="{'widget': 'text'}"/></td>
 
                                                     <td class="text-start">
-                                                        <span t-esc="line['quantity']"/>
+                                                        <span t-esc="line['quantity']" t-options="{'widget': 'float', 'precision': 4}"/>
                                                         <span t-esc="line['product_uom_id']" />
                                                     </td>
                                                     <td t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
@@ -390,9 +390,9 @@
                                     <span>b) Vencido el plazo cedido se cobraran intereses a razón de la tasa actual</span>
                                 </div>
                             </div>
-                            <div class="text-end" style="font-size: 9pt;">
+                            <!-- <div class="text-end" style="font-size: 9pt;">
                                 <span t-field="o.x_ncontrol"/>
-                            </div>
+                            </div> -->
                         </div>
                     </t>
                 </t>
