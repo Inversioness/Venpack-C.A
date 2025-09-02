@@ -12,24 +12,24 @@ class CustomAccountMove(models.Model):
     x_IM_vaucher_number = fields.Char(string="No Comprobante IM")
     x_npedido = fields.Char(string="No Pedido", compute='_get_purchase_order', store=True)
 
-    x_retencion_usd = fields.Float(
-        string="Retención",
-        compute='_compute_retencion',
-        store=True,
-        default=0.0
-    )
+    # x_retencion_usd = fields.Float(
+    #     string="Retención",
+    #     compute='_compute_retencion',
+    #     store=True,
+    #     default=0.0
+    # )
 
-    @api.depends('x_impuesto', 'company_id')
-    def _compute_retencion(self):
-        for rec in self:
-            retencion = 0.0
-            if rec.x_impuesto:
-                company_id = rec.company_id.id
-                if company_id == 1:
-                    retencion = rec.x_impuesto * 0.75
-                elif company_id in [3, 6]:
-                    retencion = rec.x_impuesto * 0.1
-            rec.x_retencion_usd = retencion
+    # @api.depends('x_impuesto', 'company_id')
+    # def _compute_retencion(self):
+    #     for rec in self:
+    #         retencion = 0.0
+    #         if rec.x_impuesto:
+    #             company_id = rec.company_id.id
+    #             if company_id == 1:
+    #                 retencion = rec.x_impuesto * 0.75
+    #             elif company_id in [3, 6]:
+    #                 retencion = rec.x_impuesto * 0.1
+    #         rec.x_retencion_usd = retencion
 
     @api.depends('invoice_origin')
     def _get_purchase_order(self):

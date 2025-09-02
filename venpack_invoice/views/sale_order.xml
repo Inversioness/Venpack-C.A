@@ -12,8 +12,8 @@
                 </field> -->
 
                 <field name="tag_ids" position="after">
-                    <field name="x_totalkd"/>
-                    <field name="x_totaluds_despachadas"/>
+                    <!-- <field name="x_totalkd"/> -->
+                    <!-- <field name="x_totaluds_despachadas"/> -->
                 </field>
 
                 <xpath expr="//page[@name='other_information']" position="inside">

@@ -9,18 +9,18 @@ class CustomSaleOrder(models.Model):
 
     x_purchase_order = fields.Char(string="Orden de Compra")
     x_payment_method = fields.Char(string="Forma de Pago")
-    x_totalkd = fields.Float(
-        string="Total Kilos Despachados",
-        compute="_compute_totalkd",
-        store=True,
-        default=0,
-    )
-    x_totaluds_despachadas = fields.Float(
-        string="Total Unidades Despachadas",
-        compute="_compute_totalusd_despachadas",
-        store=True,
-        default=0,
-    )
+    # x_totalkd = fields.Float(
+    #     string="Total Kilos Despachados",
+    #     compute="_compute_totalkd",
+    #     store=True,
+    #     default=0,
+    # )
+    # x_totaluds_despachadas = fields.Float(
+    #     string="Total Unidades Despachadas",
+    #     compute="_compute_totalusd_despachadas",
+    #     store=True,
+    #     default=0,
+    # )
 
     product_id = fields.Many2one(
         "product.product",
