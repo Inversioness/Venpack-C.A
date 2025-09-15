@@ -215,18 +215,14 @@
                                 <div class="col-5" style="font-size: 8pt;">
                                     <t t-if="o.x_tipodoc == 'Factura'">
                                         <p style="text-align: justify;">
-                                            Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.
+                                            Si la cancelación de esta factura se realiza en divisas en efectivo, transferencias o depósitos en bancos en el exterior se debe adicionar el 3% del IGTF, de acuerdo a lo establecido en la G.O. 42.339 del 17/03/2022
                                         </p>
+                                        <span>Tasa Oficial BCV: </span>
+                                        <span t-field="o.x_tasa"/>
+                                        <span> FECHA: </span>
+                                        <span t-field="o.invoice_date"/>
                                     </t>
                                     <t t-else="">
-                                        <t t-if="o.x_tipodoc == 'Nota de Débito'">
-                                            <span>TASA BCV </span>
-                                            <span t-field="o.x_tasa"/>
-                                            <span> FECHA </span>
-                                            <span t-field="o.invoice_date"/>
-                                            <br/>
-                                            <br/>
-                                        </t>
                                         <span>TOTAL FACTURA BsD </span>
                                         <span t-field="o.reversed_entry_id.amount_total"/>
                                         <span>// FECHA </span>
