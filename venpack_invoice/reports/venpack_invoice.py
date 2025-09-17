@@ -75,7 +75,7 @@ class PalmaSuitesInvoice(models.AbstractModel):
                 else:
                     discount_sum += 0.0
 
-                amount_untaxed += ili.unit_price_without_tax
+                # amount_untaxed += ili.unit_price_without_tax
                 if ti.x_tipoimpuesto == 'IVA':
                     tax_base += ili.price_subtotal
                     line_iva_id = docs.line_ids.search([('name', '=', ti.name), ('move_id', '=', docs.id)])
@@ -119,6 +119,8 @@ class PalmaSuitesInvoice(models.AbstractModel):
         tax_base_rate = 0.0
         exempt_sum_rate = 0.0
         amount_total_rate = 0.0
+
+        amount_untaxed = docs.amount_untaxed
 
         if docs.currency_id.name == 'VES':
             # Las variables _ves son las calculadas, las _rate se obtienen dividiendo entre la tasa
