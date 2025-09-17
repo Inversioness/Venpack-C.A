@@ -241,133 +241,60 @@
                                             <t t-set="currency_usd" t-value="request.env['res.currency'].search([('name','=','USD')], limit=1)"/>
                                             <t t-set="currency_ves" t-value="request.env['res.currency'].search([('name','=','VES')], limit=1)"/>
                                             <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
-
+                                                
                                                 <!--Tax totals-->
+                                                <t t-if="o.currency_id.name == 'VES'">
+                                                    <t t-set="amount_untaxed_usd" t-value="amount_untaxed/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="discount_sum_usd" t-value="discount_sum/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="tax_iva_usd" t-value="tax_iva/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="amount_total_usd" t-value="o.amount_total/o.x_tasa if o.x_tasa else 0"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="amount_untaxed_bs" t-value="amount_untaxed * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="discount_sum_bs" t-value="discount_sum * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="tax_iva_bs" t-value="tax_iva * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="amount_total_bs" t-value="o.amount_total * o.x_tasa if o.x_tasa else 0"/>
+                                                </t>
+
+
+
                                                 <tr class="border-black o_subtotal">
                                                     <td><strong style="line-height: 100%">Base Imponible</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <span t-att-class="oe_subtotal_footer_separator" t-esc="amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" style="line-height: 100%"/>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-set="amount_untaxed_bs" t-value="amount_untaxed * o.x_tasa if o.x_tasa else 0"/>
-                                                            <span t-esc="amount_untaxed_bs" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                        </t>
+                                                        <span t-esc="tax_base_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
                                                     </td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-set="amount_untaxed_usd" t-value="amount_untaxed/o.x_tasa if o.x_tasa else 0"/>
-                                                            <span t-esc="amount_untaxed_usd" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <span t-esc="amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                        </t>
+                                                        <span t-esc="tax_base_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <td><strong style="line-height: 100%">Descuento</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-if="discount_sum">
-                                                                <span t-att-class="oe_subtotal_footer_separator" t-esc="discount_sum" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" style="line-height: 100%"/>
-                                                            </t>
-                                                            <t t-if="not discount_sum">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" t-att-class="oe_subtotal_footer_separator" style="line-height: 100%"/>
-                                                            </t>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-if="discount_sum">
-                                                                <t t-set="discount_sum_bs" t-value="discount_sum * o.x_tasa if o.x_tasa else 0"/>
-                                                                <span t-esc="discount_sum_bs" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                            </t>
-                                                            <t t-if="not discount_sum">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                            </t>
-                                                        </t>
+                                                        <span t-esc="discount_sum_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
                                                     </td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-if="discount_sum">
-                                                                <t t-set="discount_sum_usd" t-value="discount_sum/o.x_tasa if o.x_tasa else 0"/>
-                                                                <span t-esc="discount_sum_usd" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                            <t t-if="not discount_sum">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-if="discount_sum">
-                                                                <span t-esc="discount_sum" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                            <t t-if="not discount_sum">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                        </t>
+                                                        <span t-esc="discount_sum_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <td><strong style="line-height: 100%">Total a IVA 16%</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-if="tax_iva">
-                                                                <span t-att-class="oe_subtotal_footer_separator" t-esc="tax_iva" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" style="line-height: 100%"/>
-                                                            </t>
-                                                            <t t-if="not tax_iva">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" t-att-class="oe_subtotal_footer_separator" style="line-height: 100%"/>
-                                                            </t>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-if="tax_iva">
-                                                                <t t-set="tax_iva_bs" t-value="tax_iva * o.x_tasa if o.x_tasa else 0"/>
-                                                                <span t-esc="tax_iva_bs" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                            </t>
-                                                            <t t-if="not tax_iva">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                            </t>
-                                                        </t>
+                                                        <span t-esc="tax_iva_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
                                                     </td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-if="tax_iva">
-                                                                <t t-set="tax_iva_usd" t-value="tax_iva/o.x_tasa if o.x_tasa else 0"/>
-                                                                <span t-esc="tax_iva_usd" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                            <t t-if="not tax_iva">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-if="tax_iva">
-                                                                <span t-esc="tax_iva" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                            <t t-if="not tax_iva">
-                                                                <span t-esc="0.0" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                            </t>
-                                                        </t>
+                                                        <span t-esc="tax_iva_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr class="border-black o_total">
                                                     <td><strong style="line-height: 100%">Total a Pagar</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <span t-att-class="oe_subtotal_footer_separator" t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" style="line-height: 100%"/>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <t t-set="amount_total_bs" t-value="o.amount_total * o.x_tasa if o.x_tasa else 0"/>
-                                                            <span t-esc="amount_total_bs" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
-                                                        </t>
+                                                        <span t-esc="amount_total_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
                                                     </td>
                                                     <td class="text-end">
-                                                        <t t-if="o.currency_id.name == 'VES'">
-                                                            <t t-set="amount_total_usd" t-value="o.amount_total/o.x_tasa if o.x_tasa else 0"/>
-                                                            <span t-esc="amount_total_usd" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                        </t>
-                                                        <t t-else="">
-                                                            <span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
-                                                        </t>
+                                                        <span t-esc="amount_total_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
                                             </table>
