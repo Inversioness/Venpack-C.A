@@ -261,10 +261,10 @@
                                                 <tr class="border-black o_subtotal">
                                                     <td><strong style="line-height: 100%">Base Imponible</strong></td>
                                                     <td class="text-end">
-                                                        <span t-esc="tax_base_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
+                                                        <span t-esc="amount_untaxed_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
                                                     </td>
                                                     <td class="text-end">
-                                                        <span t-esc="tax_base_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
+                                                        <span t-esc="amount_untaxed_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
