@@ -9,7 +9,7 @@
                     <t t-call="web.basic_layout">
                         <link rel='stylesheet' href="/venpack_invoice/static/src/css/custom_css_reports.css"/>
 
-                        <div class="page" style="font-size: 10pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
+                        <div class="page" style="font-size: 9pt; font-family: Tahoma, Verdana, Arial, Geneva, Tahoma, sans-serif;">
                             <div class="oe_structure"/>
                             <div class="row">
                                 <div class="col-1"/>
@@ -154,7 +154,7 @@
                                                     <td name="account_invoice_line_name"><span t-esc="line['name']" t-options="{'widget': 'text'}"/></td>
 
                                                     <td class="text-start">
-                                                        <span t-esc="line['quantity']"/>
+                                                        <span t-esc="line['quantity']" t-options="{'widget': 'float', 'precision': 4}"/>
                                                         <span t-esc="line['product_uom_id']" />
                                                     </td>
                                                     <td t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
@@ -190,8 +190,7 @@
                                 </table>
                             </div>
                             <div class="row" style="line-height: 120%">
-                                <!-- <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-5'}"> -->
-                                <div class="col-4 custom_div_padding_right">
+                                <!-- <div class="col-4 custom_div_padding_right">
                                     <t t-if="o.x_tipodoc == 'Factura'">
                                         <div style="font-size: 9pt;">
                                             <t t-set="total_currency_amount" t-value="o.amount_untaxed / o.x_tasa"/>
@@ -212,67 +211,90 @@
                                         <span>// FECHA </span>
                                         <span t-field="o.reversed_entry_id.invoice_date"/>
                                     </t>
-                                </div>
-                                <!-- <div t-attf-class="#{'col-4' if o.x_tipodoc == 'Factura' else 'col-3'}" style="font-size: 8pt;"> -->
-                                <div class="col-4" style="font-size: 8pt;">
+                                </div> -->
+                                <div class="col-5" style="font-size: 8pt;">
                                     <t t-if="o.x_tipodoc == 'Factura'">
-                                        <p>Si la cancelación de esta factura se realiza en divisas entregados en efectivo ó depositadas en efectivo en la banca nacional, así como a travéz de transferencias ó depositos en bancos en el exterior se debe adicionar el 3% de IGTF, de acuerdo con lo establecido en la G.O.42.339 del 17/03/2022.</p>
+                                        <div style="text-align: justify;">
+                                            <span>
+                                                Si la cancelación de esta factura se realiza en divisas en efectivo, transferencias o depósitos en bancos en el exterior se debe adicionar el 3% del IGTF, de acuerdo a lo establecido en la G.O. 42.339 del 17/03/2022
+                                            </span>
+                                            <br/>
+                                            <span>Tasa Oficial BCV: </span>
+                                            <span t-field="o.x_tasa"/>
+                                            <span> FECHA: </span>
+                                            <span t-field="o.invoice_date"/>
+                                            <br/>
+                                            <span>CONFORME A LO ESTABLECIDO EN EL ARTÍCULO 25 DE LA LEY DEL IVA Y EL ARTÍCULO 13 NUMERAL 14 DE LA PROVIDENCIA 0071.</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <span>TOTAL FACTURA BsD </span>
+                                        <span t-field="o.reversed_entry_id.amount_total"/>
+                                        <span>// FECHA </span>
+                                        <span t-field="o.reversed_entry_id.invoice_date"/>
                                     </t>
                                 </div>
-                                <div class="col-4 custom_div_padding_left">
+                                <div class="col-1"></div>
+                                <div class="col-6 custom_div_padding_left">
                                     <div class="clearfix">
                                         <div id="total" class="row">
+                                            <t t-set="currency_usd" t-value="request.env['res.currency'].search([('name','=','USD')], limit=1)"/>
+                                            <t t-set="currency_ves" t-value="request.env['res.currency'].search([('name','=','VES')], limit=1)"/>
                                             <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
-
+                                                
                                                 <!--Tax totals-->
+                                                <t t-if="o.currency_id.name == 'VES'">
+                                                    <t t-set="amount_untaxed_usd" t-value="amount_untaxed/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="discount_sum_usd" t-value="discount_sum/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="tax_iva_usd" t-value="tax_iva/o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="amount_total_usd" t-value="o.amount_total/o.x_tasa if o.x_tasa else 0"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="amount_untaxed_bs" t-value="amount_untaxed * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="discount_sum_bs" t-value="discount_sum * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="tax_iva_bs" t-value="tax_iva * o.x_tasa if o.x_tasa else 0"/>
+                                                    <t t-set="amount_total_bs" t-value="o.amount_total * o.x_tasa if o.x_tasa else 0"/>
+                                                </t>
+
+
+
                                                 <tr class="border-black o_subtotal">
                                                     <td><strong style="line-height: 100%">Base Imponible</strong></td>
                                                     <td class="text-end">
-                                                        <span
-                                                            t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_untaxed" style="line-height: 100%"
-                                                        />
+                                                        <span t-esc="amount_untaxed_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span t-esc="amount_untaxed_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <td><strong style="line-height: 100%">Descuento</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="discount_sum">
-                                                            <span
-                                                                t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="discount_sum" style="line-height: 100%"
-                                                            />
-                                                        </t>
-                                                        <t t-if="not discount_sum">
-                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
-                                                        </t>
+                                                        <span t-esc="discount_sum_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span t-esc="discount_sum_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <td><strong style="line-height: 100%">Total a IVA 16%</strong></td>
                                                     <td class="text-end">
-                                                        <t t-if="tax_iva">
-                                                            <span
-                                                                t-att-class="oe_subtotal_footer_separator"
-                                                                t-esc="tax_iva" style="line-height: 100%"
-                                                            />
-                                                        </t>
-                                                        <t t-if="not tax_iva">
-                                                            <span t-att-class="oe_subtotal_footer_separator" style="line-height: 100%">0.0</span>
-                                                        </t>
+                                                        <span t-esc="tax_iva_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span t-esc="tax_iva_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr class="border-black o_total">
                                                     <td><strong style="line-height: 100%">Total a Pagar</strong></td>
-
                                                     <td class="text-end">
-                                                        <span
-                                                            t-att-class="oe_subtotal_footer_separator"
-                                                            t-esc="amount_total" style="line-height: 100%"
-                                                        />
+                                                        <span t-esc="amount_total_ves" t-options="{'widget': 'monetary', 'display_currency': currency_ves}"/>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span t-esc="amount_total_rate" t-options="{'widget': 'monetary', 'display_currency': currency_usd}"/>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -296,9 +318,9 @@
                                     <span>b) Vencido el plazo cedido se cobraran intereses a razón de la tasa actual</span>
                                 </div>
                             </div>
-                            <div class="text-end" style="font-size: 9pt;">
+                            <!-- <div class="text-end" style="font-size: 9pt;">
                                 <span t-field="o.x_ncontrol"/>
-                            </div>
+                            </div> -->
                         </div>
                     </t>
                 </t>
