@@ -220,7 +220,7 @@
                                             </span>
                                             <br/>
                                             <span>Tasa Oficial BCV: </span>
-                                            <span t-field="o.x_tasa"/>
+                                            <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 2}'/>
                                             <span> FECHA: </span>
                                             <span t-field="o.invoice_date"/>
                                             <br/>
@@ -243,7 +243,7 @@
                                             <table class="table table-sm" style="page-break-inside: avoid; line-height: 100%">
                                                 
                                                 <!--Tax totals-->
-                                                <t t-if="o.currency_id.name == 'VES'">
+                                                <!-- <t t-if="o.currency_id.name == 'VES'">
                                                     <t t-set="amount_untaxed_usd" t-value="amount_untaxed/o.x_tasa if o.x_tasa else 0"/>
                                                     <t t-set="discount_sum_usd" t-value="discount_sum/o.x_tasa if o.x_tasa else 0"/>
                                                     <t t-set="tax_iva_usd" t-value="tax_iva/o.x_tasa if o.x_tasa else 0"/>
@@ -254,9 +254,7 @@
                                                     <t t-set="discount_sum_bs" t-value="discount_sum * o.x_tasa if o.x_tasa else 0"/>
                                                     <t t-set="tax_iva_bs" t-value="tax_iva * o.x_tasa if o.x_tasa else 0"/>
                                                     <t t-set="amount_total_bs" t-value="o.amount_total * o.x_tasa if o.x_tasa else 0"/>
-                                                </t>
-
-
+                                                </t> -->
 
                                                 <tr class="border-black o_subtotal">
                                                     <td><strong style="line-height: 100%">Base Imponible</strong></td>
