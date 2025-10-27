@@ -9,7 +9,7 @@
 [submodule "tax_report"]
 	path = tax_report
 	url = git@gitlab.com:addons_arkisoft/tax_report.git
-	branch = 16.0_venpack
+	branch = 16.16.0_venpack_20251027
 [submodule "personalized_ledger"]
 	path = personalized_ledger
 	url = git@gitlab.com:addons_arkisoft/personalized_ledger.git
