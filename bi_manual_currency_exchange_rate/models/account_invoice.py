@@ -389,7 +389,7 @@ class account_invoice(models.Model):
     _inherit = 'account.move'
 
     manual_currency_rate_active = fields.Boolean('Apply Manual Exchange')
-    manual_currency_rate = fields.Float('Rate', digits=(12, 6))
+    manual_currency_rate = fields.Float('Rate', digits=(12, 12))
 
     @api.constrains("manual_currency_rate")
     def _check_manual_currency_rate(self):
