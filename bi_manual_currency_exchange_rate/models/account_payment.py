@@ -9,7 +9,7 @@ class account_payment(models.TransientModel):
     _inherit = 'account.payment.register'
 
     manual_currency_rate_active = fields.Boolean('Apply Manual Exchange')
-    manual_currency_rate = fields.Float('Rate', digits=(12, 6))
+    manual_currency_rate = fields.Float('Rate', digits=(12, 12))
 
     @api.model
     def default_get(self, default_fields):
