@@ -2,19 +2,27 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 from odoo import fields, models, api, tools, _
+from odoo.exceptions import UserError
 
 class SaleOrder(models.Model):
     _inherit ='sale.order'
     
     sale_manual_currency_rate_active = fields.Boolean('Apply Manual Exchange')
-    sale_manual_currency_rate = fields.Float('Rate', digits=(12, 6))
+    sale_manual_currency_rate = fields.Float('Rate', digits=(12, 12))
 
 
     def _prepare_invoice(self):
         res = super(SaleOrder,self)._prepare_invoice()
         res.update({'manual_currency_rate_active':self.sale_manual_currency_rate_active,'manual_currency_rate':self.sale_manual_currency_rate})
-        return res;
+        return res
 
+    @api.onchange('sale_manual_currency_rate_active', 'currency_id')
+    def check_currency_id(self):
+        if self.sale_manual_currency_rate_active:
+            if self.currency_id == self.company_id.currency_id:
+                self.sale_manual_currency_rate_active = False
+                raise UserError(
+                    _('Company currency and Sale currency same, You can not add manual Exchange rate for same currency.'))
 
 
 class SaleOrderLine(models.Model):
@@ -26,6 +34,7 @@ class SaleOrderLine(models.Model):
         result['manual_currency_rate'] = self.order_id.sale_manual_currency_rate
         return result
 
+    
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
@@ -53,12 +62,11 @@ class PricelistItem(models.Model):
         product.ensure_one()
         uom.ensure_one()
 
-        currency = currency or self.currency_id
+        currency = currency or self.currency_id or self.env.company.currency_id
         currency.ensure_one()
 
-        manual_currency_rate_active = self._context.get('manual_currency_rate_active')
-        manual_currency_rate = self._context.get('manual_currency_rate')
-
+        manual_currency_rate_active = product._context.get('manual_currency_rate_active')
+        manual_currency_rate = product._context.get('manual_currency_rate')
         # Pricelist specific values are specified according to product UoM
         # and must be multiplied according to the factor between uoms
         product_uom = product.uom_id
@@ -68,15 +76,27 @@ class PricelistItem(models.Model):
             convert = lambda p: p
 
         if self.compute_price == 'fixed':
-            price = convert(self.fixed_price)
+            new_price = convert(self.fixed_price)
+            if manual_currency_rate_active:
+                price = new_price * manual_currency_rate
+            else:
+                price = new_price
         elif self.compute_price == 'percentage':
             base_price = self._compute_base_price(product, quantity, uom, date, currency)
-            price = (base_price - (base_price * (self.percent_price / 100))) or 0.0
+            new_price = (base_price - (base_price * (self.percent_price / 100))) or 0.0
+            if manual_currency_rate_active:
+                price = new_price * manual_currency_rate
+            else:
+                price = new_price
         elif self.compute_price == 'formula':
             base_price = self._compute_base_price(product, quantity, uom, date, currency)
             # complete formula
             price_limit = base_price
-            price = (base_price - (base_price * (self.price_discount / 100))) or 0.0
+            new_price = (base_price - (base_price * (self.price_discount / 100))) or 0.0 * manual_currency_rate
+            if manual_currency_rate_active:
+                price = new_price * manual_currency_rate
+            else:
+                price = new_price
             if self.price_round:
                 price = tools.float_round(price, precision_rounding=self.price_round)
 
@@ -95,38 +115,41 @@ class PricelistItem(models.Model):
 
         return price
 
-    def _compute_base_price(self, product, quantity, uom, date, target_currency):
+    def _compute_base_price(self, product, quantity, uom, date, currency):
         """ Compute the base price for a given rule
 
         :param product: recordset of product (product.product/product.template)
         :param float qty: quantity of products requested (in given uom)
         :param uom: unit of measure (uom.uom record)
         :param datetime date: date to use for price computation and currency conversions
-        :param target_currency: pricelist currency
+        :param currency: pricelist currency
 
         :returns: base price, expressed in provided pricelist currency
         :rtype: float
         """
-        target_currency.ensure_one()
+        currency.ensure_one()
 
         manual_currency_rate_active = product._context.get('manual_currency_rate_active')
         manual_currency_rate = product._context.get('manual_currency_rate')
 
         rule_base = self.base or 'list_price'
         if rule_base == 'pricelist' and self.base_pricelist_id:
-            price = self.base_pricelist_id._get_product_price(product, quantity, uom, date)
+            price = self.base_pricelist_id._get_product_price(product, quantity,currency=self.base_pricelist_id.currency_id, uom=uom,date=date)
             src_currency = self.base_pricelist_id.currency_id
+
         elif rule_base == "standard_price":
             src_currency = product.cost_currency_id
-            price = product.price_compute(rule_base, uom=uom, date=date)[product.id]
-        else: # list_price
-            src_currency = product.currency_id
-            price = product.price_compute(rule_base, uom=uom, date=date)[product.id]
 
-        if src_currency != target_currency:
+            price = product._price_compute(rule_base, uom=uom, date=date)[product.id]
+        else:  # list_price
+            src_currency = product.currency_id
+            price = product._price_compute(rule_base, uom=uom, date=date)[product.id]
+
+        if src_currency != currency:
+
             if manual_currency_rate_active:
                 price = price * manual_currency_rate
             else:
-                price = src_currency._convert(price, target_currency, self.env.company, date, round=False)
+                price = src_currency._convert(price, currency, self.env.company, date, round=False)
 
         return price
