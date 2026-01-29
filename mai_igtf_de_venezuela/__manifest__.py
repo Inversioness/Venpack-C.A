@@ -1,6 +1,6 @@
 {
     'name': "IGTF workflow | Backend IGTF | IGTF de Venezuela",
-    "version": "15.3.28.7.2023",
+    "version": "17.0.0.0.3",
     "description": """
         Using this module you can add IGTF for Venezuela.
     """,

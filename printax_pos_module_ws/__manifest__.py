@@ -24,7 +24,7 @@
     "author": "Odoasys",
     "website": "https://odoasys-sales.odoo.com",
     "license": "LGPL-3",
-    "version": "15.1.0.0",
+    "version": "17.0.0.0.3",
     "category": "Sales/Point Of Sale",
     "colaborator": "Hernán N.",
     "depends": [ "point_of_sale" ],
@@ -38,14 +38,14 @@
     "qweb": [ ],
     "installable": True,
     "application": False,
-    "assets": {
-        "web.assets_backend": [ 
-            "printax_pos_module_ws/static/src/js/order_print_fisc.js",
-            "printax_pos_module_ws/static/src/js/pos_fact_fiscal.js",
-        ],
+    # "assets": {
+    #     "web.assets_backend": [ 
+    #         "printax_pos_module_ws/static/src/js/order_print_fisc.js",
+    #         "printax_pos_module_ws/static/src/js/pos_fact_fiscal.js",
+    #     ],
         
-        "web.assets_qweb": [ 
-            "printax_pos_module_ws/static/src/xml/pos_fact_fiscal_view.xml",
-        ],
-    },
+    #     "web.assets_qweb": [ 
+    #         "printax_pos_module_ws/static/src/xml/pos_fact_fiscal_view.xml",
+    #     ],
+    # },
 }
