@@ -26,3 +26,6 @@
 	path = api_exchange_rate
 	url = git@gitlab.com:addons_arkisoft/api_exchange_rate.git
 	branch = 17.0
+[submodule "pos_igtf_tax"]
+	path = pos_igtf_tax
+	url = git@gitlab.com:jorgerojasve1/pos_igtf_tax.git
