@@ -24,8 +24,8 @@
                 <form>
                     <group>
                         <group>
-                            <field name="month" attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="year" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="month" modifiers="{'readonly': [[['id', '!=', False]]]}"/>
+                            <field name="year" modifiers="{'readonly': [[['id', '!=', False]]]}"/>
                         </group>
 <!--                        <group>-->
 <!--                            <field name="file"  filename="file_name" readonly="1"/>-->
