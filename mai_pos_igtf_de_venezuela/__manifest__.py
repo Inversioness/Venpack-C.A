@@ -15,7 +15,7 @@
     "website":'http://maisolutionsllc.com/',
     "depends" : ['base', 'point_of_sale', 'mai_igtf_de_venezuela'],
 	"data": [
-        'views/pos_view.xml',
+        # 'views/pos_view.xml',
 	],
     
     # 'assets': {

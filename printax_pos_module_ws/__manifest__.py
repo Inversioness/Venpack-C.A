@@ -30,9 +30,9 @@
     "depends": [ "point_of_sale" ],
     "demo": [ ],
     "data": [
-        "views/pos_config.xml",
-        "views/pos_order_list.xml",
-        "views/pos_payment_method.xml",
+        # "views/pos_config.xml",
+        # "views/pos_order_list.xml",
+        # "views/pos_payment_method.xml",
     ],
     "test": [ ],
     "qweb": [ ],
