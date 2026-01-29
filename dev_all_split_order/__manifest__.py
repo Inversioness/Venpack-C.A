@@ -10,7 +10,7 @@
 
 {
     'name': 'All in One Split Orders - Sale, Purchase, Picking/Delivery, Sale Split, Purchase Split, Delivery Split',
-    'version': '15.0.1.0',
+    'version': '17.0.0.0.3',
     'sequence': 1,
     'category': 'Sales',
     'description':

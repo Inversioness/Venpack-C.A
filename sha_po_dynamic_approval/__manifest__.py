@@ -1,6 +1,6 @@
 {
     'name': 'Dynamic Purchase Order Approval/Purchase Approval',
-    'version': 'v16',
+    'version': '17.0.0.0.3',
     'description': """
     Purchase order approval system. 
     Any authorized designated user who is a member of PO approval team can approve the purchase. Without every members approval a purchase cannot be confirmed.
