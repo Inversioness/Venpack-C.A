@@ -15,7 +15,7 @@
     "website":'http://maisolutionsllc.com/',
     "depends" : ['base', 'sale', 'sale_management', 'account'],
 	"data": [
-        'views/res_company_view.xml',
+        # 'views/res_company_view.xml',
 	],
     "images": ['static/description/main_screenshot.png'],
     "live_test_url" : "https://youtu.be/JE5lPdkrMrI",

@@ -12,8 +12,8 @@
     'license': 'LGPL-3',
     'depends': ['base', 'purchase'],
     'data': [
-        'views/purchase_order_teams_views.xml',
-        'views/purchase_order_view.xml',
+        # 'views/purchase_order_teams_views.xml',
+        # 'views/purchase_order_view.xml',
         'security/ir.model.access.csv',
     ],
     'images': ['static/description/banner.png'],
