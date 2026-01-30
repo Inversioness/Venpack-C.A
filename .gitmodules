@@ -34,3 +34,7 @@
 	path = pos_show_dual_currency
 	url = git@gitlab.com:jorgerojasve1/pos_show_dual_currency.git
 	branch = 17.0-des
+[submodule "pos_restrict_product_stock"]
+	path = pos_restrict_product_stock
+	url = git@gitlab.com:jorgerojasve1/pos_restrict_product_stock.git
+	branch = 17.0
