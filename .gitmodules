@@ -32,3 +32,4 @@
 [submodule "pos_show_dual_currency"]
 	path = pos_show_dual_currency
 	url = git@gitlab.com:jorgerojasve1/pos_show_dual_currency.git
+	branch = 17.0-des
