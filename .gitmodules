@@ -29,6 +29,7 @@
 [submodule "pos_igtf_tax"]
 	path = pos_igtf_tax
 	url = git@gitlab.com:jorgerojasve1/pos_igtf_tax.git
+	branch = 17.0-des
 [submodule "pos_show_dual_currency"]
 	path = pos_show_dual_currency
 	url = git@gitlab.com:jorgerojasve1/pos_show_dual_currency.git
