@@ -38,3 +38,6 @@
 	path = pos_restrict_product_stock
 	url = git@gitlab.com:jorgerojasve1/pos_restrict_product_stock.git
 	branch = 17.0
+[submodule "pos_restrict_product_stock_custom"]
+	path = pos_restrict_product_stock_custom
+	url = git@gitlab_gmail:jorgerojasve1/pos_restrict_product_stock_custom.git
