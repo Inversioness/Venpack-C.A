@@ -36,8 +36,9 @@ class IslrListingCustomization(models.AbstractModel):
                 'username': self.env.user.name,
                 'start_date': start_date,
                 'final_date': final_date,
-                'tax_base_total': '0,00',
-                'tax_withheld_total': '0,00',
+                # Return numeric zeros so templates that expect floats work correctly
+                'tax_base_total': 0.0,
+                'tax_withheld_total': 0.0,
                 'data_islr_listing': [],
             }
             return docargs

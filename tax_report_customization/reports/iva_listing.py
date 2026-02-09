@@ -36,9 +36,10 @@ class IvaListingCustomization(models.AbstractModel):
                 'username': self.env.user.name,
                 'start_date': start_date,
                 'final_date': final_date,
-                'tax_base_total': '0,00',
-                'tax_iva_total': '0,00',
-                'iva_withheld_total': '0,00',
+                # Return numeric zeros so float widget can round/format them
+                'tax_base_total': 0.0,
+                'tax_iva_total': 0.0,
+                'iva_withheld_total': 0.0,
                 'data_iva_listing': [],
             }
             return docargs
