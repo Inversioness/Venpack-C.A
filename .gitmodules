@@ -29,6 +29,16 @@
 [submodule "pos_igtf_tax"]
 	path = pos_igtf_tax
 	url = git@gitlab.com:jorgerojasve1/pos_igtf_tax.git
+	branch = 17.0-des
 [submodule "pos_show_dual_currency"]
 	path = pos_show_dual_currency
 	url = git@gitlab.com:jorgerojasve1/pos_show_dual_currency.git
+	branch = 17.0-des
+[submodule "pos_restrict_product_stock"]
+	path = pos_restrict_product_stock
+	url = git@gitlab.com:jorgerojasve1/pos_restrict_product_stock.git
+	branch = 17.0
+[submodule "pos_restrict_product_stock_custom"]
+	path = pos_restrict_product_stock_custom
+	url = git@gitlab.com:jorgerojasve1/pos_restrict_product_stock_custom.git
+	branch = 17.0-des
