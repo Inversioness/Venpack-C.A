@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+tax_report_customization.access_blank_tax_report_wizard,access_blank_tax_report_wizard,tax_report_customization.model_blank_tax_report_wizard,base.group_user,1,1,1,1
