@@ -20,6 +20,8 @@ POS solutions
     'depends': ['point_of_sale', 'pos_restrict_product_stock'],
 
     # always loaded 
-    'data': []
+    'data': [
+        'views/pos_report_templates.xml',
+    ]
 }
 
