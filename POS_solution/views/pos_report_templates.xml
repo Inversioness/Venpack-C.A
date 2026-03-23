@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saledetails_inherit_fix" inherit_id="point_of_sale.report_saledetails">
+        <!-- modificacion de vista del reporte detalle de venta -->
+        <xpath expr="//table[1]/tbody" position="replace">
+            <tbody>
+                <t t-foreach="products" t-as="line">
+                    <tr>
+                        <td class="text-muted" style="font-size: 0.8em;">Venta POS</td>
+                        
+                        <td>
+                            <span t-if="line.get('code')">[<t t-out="line['code']"/>] </span>
+                            <span t-out="line.get('product_name', 'Producto sin nombre')"/>
+                        </td>
+                        
+                        <td class="text-end">
+                            <span t-out="line.get('quantity', 0)"/>
+                            <t t-if="line.get('uom') and line['uom'] != 'Units'">
+                                <small t-out="line['uom']"/>
+                            </t>
+                        </td>
+                        
+                        <td class="text-end">
+                            <t t-set="line_total" t-value="line.get('quantity', 0) * line.get('price_unit', 0)"/>
+                            <span t-out="line_total" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
+                        </td>
+                    </tr>
+                </t>
+
+                <tr t-if="products_info" style="background-color: #dee2e6; font-weight: bold;">
+                    <td colspan="2">TOTAL VENTAS</td>
+                    <td class="text-end">
+                        <span t-out="products_info.get('qty') or products_info.get('quantity', 0)"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-out="products_info.get('total') or products_info.get('total_amount', 0.0)" 
+                              t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
+                    </td>
+                </tr>
+            </tbody>
+        </xpath>
+
+        <xpath expr="//t[@t-foreach='payments']" position="replace">
+            <t t-foreach="payments or []" t-as="method">
+                <t t-if="method and method.get('count')">
+                    <tr>
+                        <td><strong><span t-out="method.get('name', 'Pago')"/></strong></td>
+                        <td/>
+                        <td class="text-end">
+                            <t t-set="final_amt" t-value="method.get('final_count', 0.0)"/>
+                            <span t-if="currency.get('position')">
+                                <span t-out="final_amt" t-options="{'widget': 'float', 'precision': currency.get('precision', 2)}"/>
+                                <span t-out="currency.get('symbol')"/>
+                            </span>
+                            <span t-else="">
+                                <span t-out="currency.get('symbol')"/>
+                                <span t-out="final_amt" t-options="{'widget': 'float', 'precision': currency.get('precision', 2)}"/>
+                            </span>
+                        </td>
+                        <td t-if="(state == 'closed' or state == 'multiple')" class="text-end">
+                            <span t-out="method.get('money_counted', 0.0)" t-options="{'widget': 'float', 'precision': currency.get('precision', 2)}"/>
+                        </td>
+                        <td t-if="(state == 'closed' or state == 'multiple')" class="text-end">
+                            <span t-out="method.get('money_difference', 0.0)" t-options="{'widget': 'float', 'precision': currency.get('precision', 2)}"/>
+                        </td>
+                    </tr>
+                    <tr t-if="(state == 'closed' or state == 'multiple')" t-foreach="method.get('cash_moves', [])" t-as="move">
+                        <td/>
+                        <td><span t-out="move.get('name', 'Movimiento')"/></td>
+                        <td class="text-end">
+                            <span t-out="move.get('amount', 0.0)" t-options="{'widget': 'float', 'precision': currency.get('precision', 2)}"/>
+                        </td>
+                        <td/><td/>
+                    </tr>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>
