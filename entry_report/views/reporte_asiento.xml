@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_asiento_contable_amount_signed_final" model="ir.ui.view">
+        <field name="name">report.asiento.contable.amount.signed.final</field>
+        <field name="inherit_id" ref="studio_customization.studio_report_docume_0a913904-201f-4277-8177-1b6d8358287f"/>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//table[contains(@class, 'table')]//thead//tr//th[contains(., 'Etiqueta')]" position="after">
+                <th class="text-right" style="border-bottom: 2px solid black;">
+                    <strong>Monto Firmado</strong>
+                </th>
+            </xpath>
+
+            <xpath expr="//table[contains(@class, 'table')]//tbody//tr//td[span[@t-field='table_line.name'] or contains(., 'table_line.name')]" position="after">
+                <td class="text-right">
+                    <span t-field="table_line.amount_signed"/>
+                </td>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
