@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_asiento_contable_venpack_final">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>N° Asiento: <span t-field="doc.name"/></h2>
+                            </div>
+                        </div>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-3">
+                                <strong>Usuario:</strong>
+                                <p t-field="doc.create_uid.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Diario:</strong>
+                                <p t-field="doc.journal_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Referencia:</strong>
+                                <p t-field="doc.ref"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb32">
+                            <div class="col-3">
+                                <strong>Tasa:</strong>
+                                <p t-field="doc.x_tasa"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Fecha:</strong>
+                                <p t-field="doc.date"/>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Cuenta</th>
+                                    <th>Empresa</th>
+                                    <th>Etiqueta</th>
+                                    <th class="text-right">Importe en Moneda</th>
+                                    <th class="text-right">Débito</th>
+                                    <th class="text-right">Crédito</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-field="line.account_id"/></td>
+                                        <td><span t-field="line.partner_id"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <td class="text-right">
+                                            <span t-field="line.amount_currency"/>
+                                            <span t-field="line.currency_id.symbol"/>
+                                        </td>
+                                        <td class="text-right"><span t-field="line.debit"/></td>
+                                        <td class="text-right"><span t-field="line.credit"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_asiento_custom" model="ir.actions.report">
+        <field name="name">Asiento Contable (Importe)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">solution_report.report_asiento_contable_venpack_final</field>
+        <field name="report_file">solution_report.report_asiento_contable_venpack_final</field>
+        <field name="print_report_name">'Asiento - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
