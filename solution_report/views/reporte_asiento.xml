@@ -13,16 +13,27 @@
 
                         <div class="row mt32 mb32">
                             <div class="col-3">
-                                <strong>Fecha:</strong>
-                                <p t-field="doc.date"/>
+                                <strong>Usuario:</strong>
+                                <p t-field="doc.create_uid.name"/>
                             </div>
                             <div class="col-3">
                                 <strong>Diario:</strong>
-                                <p t-field="doc.journal_id"/>
+                                <p t-field="doc.journal_id.name"/>
                             </div>
                             <div class="col-3">
                                 <strong>Referencia:</strong>
                                 <p t-field="doc.ref"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb32">
+                            <div class="col-3">
+                                <strong>Tasa:</strong>
+                                <p t-field="doc.x_tasa"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Fecha:</strong>
+                                <p t-field="doc.date"/>
                             </div>
                         </div>
                         
