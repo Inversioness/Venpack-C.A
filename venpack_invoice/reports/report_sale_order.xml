@@ -153,12 +153,14 @@
                         <t t-set="price_subtotal" t-value="line.price_subtotal * doc.x_tasav"/>
                         <t t-set="price_total" t-value="line.price_total * doc.x_tasav"/>
                     
-                        <span t-esc="price_subtotal" t-options='{"widget": "monetary", "display_currency": currency_obj}' groups="account.group_show_line_subtotals_tax_excluded"/>
-                        <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": currency_obj}' groups="account.group_show_line_subtotals_tax_included"/>
+                        <span t-esc="price_subtotal" t-options='{"widget": "monetary", "display_currency": currency_obj}'/>
+                        <!-- <span t-esc="price_subtotal" t-options='{"widget": "monetary", "display_currency": currency_obj}' groups="account.group_show_line_subtotals_tax_excluded"/> -->
+                        <!-- <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": currency_obj}' groups="account.group_show_line_subtotals_tax_included"/> -->
                     </t>
                     <t t-else="">
-                        <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                        <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                        <span t-field="line.price_subtotal"/>
+                        <!-- <span t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/> -->
+                        <!-- <span t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/> -->
                     </t>
                 </td>
             </xpath>
