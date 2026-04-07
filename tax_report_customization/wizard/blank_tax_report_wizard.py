@@ -15,12 +15,13 @@ class BlankTaxReportWizard(models.TransientModel):
     def generate_report(self):
         self.ensure_one()
         data = {
-            'start_date': self.start_date,
-            'end_date': self.end_date,
+            'start_date': str(self.start_date),
+            'end_date': str(self.end_date),
         }
+        empty_moves = self.env['account.move']
         if self.report_type == 'iva_listing':
-            return self.env.ref('tax_report.iva_listing_report').report_action(self, data=data)
+            return self.env.ref('tax_report.iva_listing_report').report_action(empty_moves, data=data)
         elif self.report_type == 'islr_listing':
-            return self.env.ref('tax_report.islr_listing_report').report_action(self, data=data)
+            return self.env.ref('tax_report.islr_listing_report').report_action(empty_moves, data=data)
         elif self.report_type == 'iva_txt':
-            return self.env.ref('tax_report.iva_txt_report').report_action(self, data=data)
+            return self.env.ref('tax_report.iva_txt_report').report_action(empty_moves, data=data)
