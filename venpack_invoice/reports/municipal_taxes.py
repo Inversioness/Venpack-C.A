@@ -89,7 +89,7 @@ class MunicipalTaxes(models.AbstractModel):
         amount_impm_paid = tax_base_impm - tax_impm_withheld
 
         if docs.currency_id.name != 'VES':
-            amount_total = amount_total * docs.x_tasa
+            # amount_total = amount_total * docs.x_tasa
             tax_base_impm = tax_base_impm * docs.x_tasa
             amount_impm_paid = amount_impm_paid * docs.x_tasa
             tax_impm_withheld = tax_impm_withheld * docs.x_tasa
