@@ -1,4 +1,60 @@
+# -*- coding: utf-8 -*-
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
+
+class AccountPayment(models.Model):
+    _inherit = 'account.payment'
+
+    manual_currency_rate_active = fields.Boolean(string="Aplica tasa manual")
+    manual_rate_date = fields.Date(string="Fecha de Tasa Manual")
+
+    @api.onchange('manual_currency_rate_active', 'manual_rate_date')
+    def _onchange_set_manual_rate(self):
+        """
+        Busca la tasa en res.currency.rate 
+        """
+        if not self.manual_currency_rate_active or not self.manual_rate_date:
+            return
+
+        usd_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        
+        if not usd_currency:
+            _logger.error("No se encontró la moneda con nombre 'USD'")
+            return
+
+        rate_obj = self.env['res.currency.rate'].sudo().search([
+            ('currency_id', '=', usd_currency.id),
+            ('name', '=', self.manual_rate_date)
+        ], limit=1, order='name desc')
+
+        if rate_obj:
+            self.manual_currency_rate = rate_obj.rate 
+            
+            if rate_obj.rate > 0:
+                self.x_tasa = 1 / rate_obj.rate
+        else:
+            self.manual_currency_rate = 0.0
+            self.x_tasa = 0.0
+
+    def action_post(self):
+        """
+        Inyectamos la tasa en el contexto para que el estándar de Odoo
+        use el valor de manual_currency_rate al crear el asiento.
+        """
+        if self.manual_currency_rate_active and getattr(self, 'manual_currency_rate', 0) > 0:
+            self = self.with_context(
+                manual_currency_rate=self.manual_currency_rate,
+                manual_currency_rate_active=True,
+                check_move_validity=False
+            )
+        
+        return super(AccountPayment, self).action_post()
+    
+    
+    
+    """from odoo import models, fields, api
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -73,10 +129,10 @@ class AccountPayment(models.Model):
         ]
 
     def action_post(self):
-        """
+       
         Inyectamos la tasa en el contexto para que cualquier llamada oculta a _convert 
         dentro del módulo de mai_igtf_venezuela use la tasa manual.
-        """
+        
         if self.manual_currency_rate_active and self.manual_currency_rate > 0:
             self = self.with_context(
                 manual_currency_rate=self.manual_currency_rate,
@@ -92,4 +148,4 @@ class AccountPayment(models.Model):
                     'manual_currency_rate': pay.manual_currency_rate,
                     'manual_currency_rate_active': True,
                 })
-        return res
+        return res"""

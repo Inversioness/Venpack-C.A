@@ -16,6 +16,7 @@ class MunicipalTaxes(models.AbstractModel):
         tax_base_impm = 0.0
         code_tax_impm = ''
         percentage_impm = 0
+        tax_base_iva = 0.0
         tax_base = 0.0
         tax_iva = 0.0
         exempt_sum = 0.0
@@ -24,6 +25,7 @@ class MunicipalTaxes(models.AbstractModel):
         iva_withheld = 0.0
 
         for ili in docs.invoice_line_ids:
+            tax_base += ili.price_subtotal
             for ti in ili.tax_ids:
                 if ti.x_tipoimpuesto == 'IMPM':
                     tax_base_impm += ili.price_subtotal
@@ -32,7 +34,7 @@ class MunicipalTaxes(models.AbstractModel):
                     percentage_impm = abs(ti.amount)
 
                 if ti.x_tipoimpuesto == 'IVA':
-                    tax_base += ili.price_subtotal
+                    tax_base_iva += ili.price_subtotal
                     #line_iva_id = docs.line_ids.search([('account_id', '=', ili.account_id.id), ('name', '=', ti.name), ('move_id', '=', docs.id)]) #fix: no sirvio
                     line_iva_id = docs.line_ids.search([('name', '=', ti.name), ('move_id', '=', docs.id)])
                     if len(line_iva_id) > 1:
@@ -61,6 +63,10 @@ class MunicipalTaxes(models.AbstractModel):
         #     tax_base = tax_base * docs.x_tasa
         #     exempt_sum = exempt_sum * docs.x_tasa
 
+        if docs.currency_id.name != 'VES':
+            tax_base = tax_base * docs.x_tasa
+            exempt_sum = exempt_sum * docs.x_tasa
+
         amount_total = tax_iva + tax_base + exempt_sum
 
         if percentage != '':
@@ -83,7 +89,7 @@ class MunicipalTaxes(models.AbstractModel):
         amount_impm_paid = tax_base_impm - tax_impm_withheld
 
         if docs.currency_id.name != 'VES':
-            amount_total = amount_total * docs.x_tasa
+            # amount_total = amount_total * docs.x_tasa
             tax_base_impm = tax_base_impm * docs.x_tasa
             amount_impm_paid = amount_impm_paid * docs.x_tasa
             tax_impm_withheld = tax_impm_withheld * docs.x_tasa
