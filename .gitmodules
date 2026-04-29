@@ -42,3 +42,7 @@
 	path = pos_restrict_product_stock_custom
 	url = git@gitlab.com:jorgerojasve1/pos_restrict_product_stock_custom.git
 	branch = 17.0-des
+[submodule "inventory_movement"]
+	path = inventory_movement
+	url = git@gitlab.com:addons_arkisoft/inventory_movement.git
+	branch = 17.0

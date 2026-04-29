@@ -18,7 +18,7 @@
     'version': '17.0.0.5',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'stock', 'sale', 'mai_igtf_de_venezuela'],
+    'depends': ['base', 'account', 'stock', 'sale'],
 
     # always loaded
     'data': [
