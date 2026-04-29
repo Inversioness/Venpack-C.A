@@ -1,5 +1,4 @@
 from odoo import api, models, _
-import locale
 import logging
 from datetime import datetime
 from odoo.exceptions import ValidationError
@@ -12,8 +11,6 @@ class IslrListing(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        print('funcion para obtener datos del cliente para el reporte')
-        locale.setlocale(locale.LC_ALL, 'es_ES.utf8')
         if not docids:
             docs = self.env['account.move'].search([('company_id', '=', self.env.company.id)], limit=1)
             start_date = datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%d/%m/%Y')
@@ -38,8 +35,8 @@ class IslrListing(models.AbstractModel):
         final_date = invoice_ids[-1].date.strftime('%d/%m/%Y')
 
         data_islr_listing = []
-        tax_base_total = 0
-        tax_withheld_total = 0
+        tax_base_total = 0.0
+        tax_withheld_total = 0.0
         now = datetime.today().strftime('%d/%m/%Y')
         username = self.env.user.name
         for invoice in invoice_ids:
@@ -47,14 +44,12 @@ class IslrListing(models.AbstractModel):
             if invoice_line_group_by_name_tax:
                 for key, value in invoice_line_group_by_name_tax.items():
                     tax_withheld = 0.0
-                    price_subtotal = 0
+                    price_subtotal = 0.0
                     line_id = invoice.line_ids.search([('name', '=', key), ('move_id', '=', invoice.id)])
-                    # tax_withheld_line = abs(line_id.amount_currency)
                     tax_withheld += abs(line_id.amount_currency)
                     account_tax_id = self.env['account.tax'].search([('name', '=', key)])
                     retention_code = str(account_tax_id.x_conceptoret)
-                    retention_number = key[:6]
-                    retention_percentage = locale.format_string('%10.2f', account_tax_id.amount, grouping=True).replace("-", "")
+                    retention_percentage = abs(account_tax_id.amount)
 
                     for ili in value:
                         price_subtotal += ili.price_subtotal
@@ -69,8 +64,6 @@ class IslrListing(models.AbstractModel):
 
                     tax_base_total += price_subtotal
                     tax_withheld_total += tax_withheld
-
-                    amount_price_subtotal = locale.format_string('%10.2f', price_subtotal, grouping=True)
 
                     date = invoice.date.strftime('%d/%m/%Y')
                     rif_supplier = self.rif_format(invoice.fiscal_provider.vat)
@@ -94,8 +87,8 @@ class IslrListing(models.AbstractModel):
                         'control_number': invoice.x_ncontrol,
                         'retention_date': date,
                         'retention_percentage': retention_percentage,
-                        'tax_base': amount_price_subtotal,
-                        'tax_withheld': locale.format_string('%10.2f', tax_withheld, grouping=True)
+                        'tax_base': price_subtotal,
+                        'tax_withheld': tax_withheld,
                     }
                     data_islr_listing.append(invoice_islr_data)
 
@@ -108,8 +101,8 @@ class IslrListing(models.AbstractModel):
             'username': username,
             'start_date': start_date,
             'final_date': final_date,
-            'tax_base_total': locale.format_string('%10.2f', tax_base_total, grouping=True),
-            'tax_withheld_total': locale.format_string('%10.2f', tax_withheld_total, grouping=True),
+            'tax_base_total': tax_base_total,
+            'tax_withheld_total': tax_withheld_total,
             'data_islr_listing': data_islr_listing,
         }
         return docargs
