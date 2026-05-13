@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_valuation_layer_tree_inherit_tasa_corregido" model="ir.ui.view">
+        <field name="name">stock.valuation.layer.tree.inherit.tasa.corregido</field>
+        <field name="model">stock.valuation.layer</field>
+        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='value']" position="after">
+
+                <field name="currency_usd_id" invisible="1"/>
+    
+                <field name="unit_cost_usd" widget="monetary" options="{'currency_field': 'currency_usd_id'}"/>
+                
+                <field name="total_value_usd" 
+                       widget="monetary" 
+                       options="{'currency_field': 'currency_usd_id'}"
+                       sum="Total USD"/>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>
