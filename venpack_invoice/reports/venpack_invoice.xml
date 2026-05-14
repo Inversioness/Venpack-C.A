@@ -235,7 +235,7 @@
                                             </span>
                                             <br/>
                                             <span>Tasa Oficial BCV: </span>
-                                            <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 2}'/>
+                                            <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 4}'/>
                                             <span> FECHA: </span>
                                             <span t-field="o.invoice_date"/>
                                             <br/>
@@ -243,10 +243,15 @@
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <span>TOTAL FACTURA BsD </span>
-                                        <span t-field="o.reversed_entry_id.amount_total"/>
-                                        <span>// FECHA </span>
-                                        <span t-field="o.reversed_entry_id.invoice_date"/>
+                                        <div style="line-height: 150%;">
+                                            <span><strong>N° Documento afectado: </strong><span t-field="o.reversed_entry_id.ref"/></span>
+                                            <span style="margin-left: 8px;"><strong>Fecha Doc.: </strong><span t-field="o.reversed_entry_id.create_date" t-options="{'widget': 'date'}"/></span>
+                                            <br/>
+                                            <span><strong>Base imponible: </strong><span t-field="o.reversed_entry_id.amount_untaxed"/></span>
+                                            <span style="margin-left: 8px;"><strong>Impuesto IVA 16%: </strong><span t-field="o.reversed_entry_id.amount_tax"/></span>
+                                            <br/>
+                                            <strong>Total: </strong><span t-field="o.reversed_entry_id.amount_total"/>
+                                        </div>
                                     </t>
                                 </div>
                                 <div class="col-1"></div>

@@ -164,22 +164,27 @@
                                     <t t-if="o.x_tipodoc == 'Factura'">
                                         <div name="payment_currency" style="font-size: 9pt;">
                                             <t t-set="total_currency_amount" t-value="o.amount_untaxed / o.x_tasa"/>
-                                            <p> ESTA FACTURA REPRESENTA U$D <span t-esc="total_currency_amount" t-options='{"widget": "float", "precision": 2}'/> A TASA BCV BsD. <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 2}'/> FECHA <span t-field="o.invoice_date"/> CONFORME A LO ESTABLECIDO EN EL ART. 25 DE LA LEY DE IVA Y ART. 13 No 14 PROVIDENCIA 0071</p>
+                                            <p> ESTA FACTURA REPRESENTA U$D <span t-esc="total_currency_amount" t-options='{"widget": "float", "precision": 2}'/> A TASA BCV BsD. <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 4}'/> FECHA <span t-field="o.invoice_date"/> CONFORME A LO ESTABLECIDO EN EL ART. 25 DE LA LEY DE IVA Y ART. 13 No 14 PROVIDENCIA 0071</p>
                                         </div>
                                     </t>
                                     <t t-else="">
                                         <t t-if="o.x_tipodoc == 'Nota de Débito'">
                                             <span style="line-height: 120%">TASA BCV </span>
-                                            <span t-field="o.x_tasa" style="line-height: 120%"/>
+                                            <span t-field="o.x_tasa" t-options='{"widget": "float", "precision": 4}' style="line-height: 120%"/>
                                             <span style="line-height: 120%"> FECHA </span>
                                             <span t-field="o.invoice_date" style="line-height: 120%"/>
                                             <br/>
                                             <br/>
                                         </t>
-                                        <span>TOTAL FACTURA BsD </span>
-                                        <span t-field="o.reversed_entry_id.amount_total" style="line-height: 120%"/>
-                                        <span style="line-height: 120%">// FECHA </span>
-                                        <span t-field="o.reversed_entry_id.invoice_date" style="line-height: 120%"/>
+                                        <div style="line-height: 150%; font-size: 9pt;">
+                                            <span><strong>N° Documento afectado: </strong><span t-field="o.reversed_entry_id.ref"/></span>
+                                            <span style="margin-left: 8px;"><strong>Fecha Doc.: </strong><span t-field="o.reversed_entry_id.create_date" t-options="{'widget': 'date'}"/></span>
+                                            <br/>
+                                            <span><strong>Base imponible: </strong><span t-field="o.reversed_entry_id.amount_untaxed"/></span>
+                                            <span style="margin-left: 8px;"><strong>Impuesto IVA 16%: </strong><span t-field="o.reversed_entry_id.amount_tax"/></span>
+                                            <br/>
+                                            <strong>Total: </strong><span t-field="o.reversed_entry_id.amount_total"/>
+                                        </div>
                                     </t>
                                 </div>
                                 <div class="col-6" style="font-size: 8pt;">
