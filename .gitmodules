@@ -21,7 +21,7 @@
 [submodule "custom_account_report"]
 	path = custom_account_report
 	url = git@gitlab.com:addons_arkisoft/custom_account_report.git
-	branch = fix/bimoneda-aged-balance-report
+	branch = 17.0
 [submodule "api_exchange_rate"]
 	path = api_exchange_rate
 	url = git@gitlab.com:addons_arkisoft/api_exchange_rate.git
