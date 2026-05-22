@@ -217,12 +217,24 @@
                             </div>
                             <div class="row" style="line-height: 120%">
 
-                                <div class="col-5">
+                                <div class="col-7">
                                     <t t-if="o.narration">
                                         <span t-field="o.narration" style="line-height: 100%;"/>
                                     </t>
+                                    <br/>
+                                    <t t-if="o.x_tipodoc != 'Factura'">
+                                        <div style="line-height: 150%;">
+                                            <span><strong>N° Documento afectado: </strong><span t-field="o.reversed_entry_id.ref"/></span>
+                                            <span style="margin-left: 8px;"><strong>Fecha Doc.: </strong><span t-field="o.reversed_entry_id.create_date" t-options="{'widget': 'date'}"/></span>
+                                            <br/>
+                                            <span><strong>Base imponible: </strong><span t-field="o.reversed_entry_id.amount_untaxed"/></span>
+                                            <span style="margin-left: 8px;"><strong>Impuesto IVA 16%: </strong><span t-field="o.reversed_entry_id.amount_tax"/></span>
+                                            <br/>
+                                            <strong>Total: </strong><span t-field="o.reversed_entry_id.amount_total"/>
+                                        </div>
+                                    </t>
                                 </div>
-                                <div class="col-3"/>
+                                <div class="col-1"/>
 
                                 <div class="col-4">
                                     <div class="clearfix">
