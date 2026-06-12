@@ -28,9 +28,16 @@ Purchase Line MAH
         'views/ir_action.xml',
         'wizards/report_purchase_line_wizard_view.xml',
         
-        #botonces imprimir
+       #botonces imprimir
         'reports/server_actions.xml',
+        'reports/balance_mes_report.xml',
+        'reports/balance_mayor.xml',
         #'reports/report_purchase_line_template.xml',
-    ]
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'purchase_line/static/src/js/account_report_custom.js',
+        ],
+    },
 }
 
