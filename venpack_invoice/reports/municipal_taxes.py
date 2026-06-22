@@ -65,9 +65,10 @@ class MunicipalTaxes(models.AbstractModel):
 
         if docs.currency_id.name != 'VES':
             tax_base = tax_base * docs.x_tasa
+            tax_base_iva = tax_base_iva * docs.x_tasa
             exempt_sum = exempt_sum * docs.x_tasa
 
-        amount_total = tax_iva + tax_base + exempt_sum
+        amount_total = tax_iva + tax_base_iva + exempt_sum
 
         if percentage != '':
             retention_percentage = percentage[4:]
