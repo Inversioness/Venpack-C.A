@@ -22,6 +22,11 @@ POS solutions
     # always loaded 
     'data': [
         'views/pos_report_templates.xml',
-    ]
+    ],
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'POS_solution/static/src/app/**/*',
+        ],
+    },
 }
 
