@@ -109,6 +109,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <t t-set="retained_partner" t-value="o.fiscal_provider if 'fiscal_provider' in o._fields and o.fiscal_provider else o.partner_id"/>
                                         <tr>
                                             <td>
                                                 <span style="font-size: 9pt;"><strong>NOMBRE O RAZON SOCIAL</strong></span>
@@ -122,19 +123,19 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <span t-field="o.partner_id.name"/>
+                                                <span t-field="retained_partner.name"/>
                                             </td>
                                             <td>
-                                                <span t-field="o.partner_id.vat"/>
+                                                <span t-field="retained_partner.vat"/>
                                             </td>
                                             <td>
-                                                <span t-field="o.partner_id.x_patent_number"/>
+                                                <span t-field="retained_partner.x_patent_number"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3">
                                                 <span style="font-size: 9pt;"><strong>DIRECCION FISCAL: </strong></span>
-                                                <span t-field="o.partner_id.street"/>
+                                                <span t-field="retained_partner.contact_address_complete"/>
                                             </td>
                                         </tr>
                                         <tr>

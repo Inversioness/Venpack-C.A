@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_form_inherit_measures" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit.measures</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='qty_received']" position="after">
+                <field name="qty_dispatch" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_packaging_id']" position="after">      
+                <field name="packaging_qty_info" optional="show"/>
+                <field name="qty_uom" optional="show"/>
+                <field name="product_uom_sale" optional="show"/>
+                <field name="qty_wherehouse" optional="show"/>
+                <field name="qty_receive" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

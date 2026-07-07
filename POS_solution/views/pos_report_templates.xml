@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="report_saledetails_inherit_fix" inherit_id="point_of_sale.report_saledetails">
-        <!-- modificacion de vista del reporte detalle de venta -->
+        <xpath expr="//table[1]/thead/tr" position="inside">
+            <th class="text-end">Total $</th>
+        </xpath>
+
         <xpath expr="//table[1]/tbody" position="replace">
             <tbody>
                 <t t-foreach="products" t-as="line">
@@ -24,6 +27,10 @@
                             <t t-set="line_total" t-value="line.get('quantity', 0) * line.get('price_unit', 0)"/>
                             <span t-out="line_total" t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
                         </td>
+
+                        <td class="text-end">
+                            <span t-out="line.get('total_usd', 0.0)" t-options='{"widget": "float", "precision": 2}'/> $
+                        </td>
                     </tr>
                 </t>
 
@@ -35,6 +42,9 @@
                     <td class="text-end">
                         <span t-out="products_info.get('total') or products_info.get('total_amount', 0.0)" 
                               t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>
+                    </td>
+                    <td class="text-end">
+                        <span t-out="products_info.get('total_usd_amount', 0.0)" t-options='{"widget": "float", "precision": 2}'/> $
                     </td>
                 </tr>
             </tbody>

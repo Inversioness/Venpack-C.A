@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_custom" inherit_id="sale.report_saleorder_document">
+
+       <xpath expr="//t[@t-set='address']" position="replace">
+            <t t-set="address">
+                </t>
+        </xpath>
+
+        <xpath expr="//t[@t-set='information_block']" position="replace">
+            <t t-set="information_block">
+                </t>
+        </xpath>
+
+        <xpath expr="//div[@class='page']" position="before">
+            <div class="row mb-4" style="font-size: 14px;">
+                <div class="col-6">
+                    <strong>Cliente:</strong><br/>
+                    <span t-field="doc.partner_id.name"/><br/>
+                    <span t-field="doc.partner_id.street"/> 
+                    <span t-if="doc.partner_id.street2" t-field="doc.partner_id.street2"/><br/>
+                    <span t-field="doc.partner_id.city"/> <span t-field="doc.partner_id.state_id.code"/> <span t-field="doc.partner_id.zip"/><br/>
+                    <span t-if="doc.partner_id.vat">
+                        <strong>N° Identificación:</strong> <span t-field="doc.partner_id.vat"/>
+                    </span>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//t[@t-set='information_block']" position="replace">
+            <t t-set="information_block">
+                </t>
+        </xpath>
+        
+        <xpath expr="//div[@name='informations_date']" position="after">
+            <div t-if="doc.x_canal" class="col-auto col-3 mw-100 mb-2" name="informations_canal">
+                <strong>Canal:</strong><br/>
+                <span class="m-0" t-field="doc.x_canal"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@t-if='doc.user_id.name']" position="replace">
+            <div t-if="doc.x_studio_responsable" class="col-auto col-3 mw-100 mb-2" name="informations_responsable">
+                <strong>Responsable:</strong><br/>
+                <span class="m-0" t-field="doc.x_studio_responsable"/>
+            </div>
+            <!--div class="col-auto col-3 mw-100 mb-2" name="informations_tasa">
+                <strong>Tasa:</strong><br/>
+                <span class="m-0" t-field="doc.x_tasav"/>
+            </div-->
+        </xpath>
+        
+        <xpath expr="//th[@name='th_discount']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']" position="attributes">
+            <attribute name="t-if">doc.amount_tax > 0</attribute>
+        </xpath>
+
+        <xpath expr="//td[@name='td_priceunit']/span" position="replace">
+            <t t-set="net_price" t-value="line.price_unit * (1 - (line.discount / 100.0))"/>
+            <span t-out="net_price" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+        </xpath>
+
+        <xpath expr="//th[@name='th_priceunit']" position="after">
+            <th name="th_custom_price_bs" class="text-end" t-if="doc.currency_id.name == 'USD'">Precio unitario Bs</th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_priceunit']" position="after">
+            <td name="td_custom_price_bs" class="text-end" t-if="doc.currency_id.name == 'USD'">
+                <span t-esc="(line.price_unit * (1 - (line.discount / 100.0))) * doc.x_tasav" 
+                      t-options='{"widget": "monetary", "display_currency": env.ref("base.VES")}'/>
+            </td>
+        </xpath>
+
+        <xpath expr="//td[@t-if='display_discount']" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+
+        
+        
+        <xpath expr="//td[@name='td_taxes']" position="attributes">
+            <attribute name="t-if">doc.amount_tax > 0</attribute>
+        </xpath>
+
+        <xpath expr="//th[@name='th_subtotal']" position="after">
+            <th name="th_custom_subtotal_bs" class="text-end" t-if="doc.currency_id.name == 'USD'">
+                Importe Bs
+            </th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_subtotal']" position="after">
+            <td name="td_custom_subtotal_bs" class="text-end" t-if="doc.currency_id.name == 'USD'">
+                <t t-set="line_net_price" t-value="line.price_unit * (1 - (line.discount / 100.0))"/>
+                <span t-esc="(line_net_price * line.product_uom_qty) * doc.x_tasav" 
+                      t-options='{"widget": "monetary", "display_currency": env.ref("base.VES")}'/>
+            </td>
+        </xpath>
+
+        <xpath expr="//div[@id='total']" position="after">
+            <div class="row justify-content-end" style="margin-top: 5px;" t-if="doc.currency_id.name == 'USD'">
+                <div class="col-6 ms-auto">
+                    <table class="table table-sm table-borderless" style="margin-bottom: 0px;">
+                        <tr class="border-black o_total">
+                            <td><strong>Total Bs</strong></td>
+                            <td class="text-end">
+                                <span t-esc="doc.amount_total * doc.x_tasav" 
+                                      t-options='{"widget": "monetary", "display_currency": env.ref("base.VES")}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row justify-content-end" style="margin-top: 10px;">
+                <div class="col-6 ms-auto">
+                    <table class="table table-sm table-borderless">
+                        <tr class="border-black o_total">
+                            <td><strong>Peso Total</strong></td>
+                            <td class="text-end">
+                                <t t-set="total_peso" t-value="sum(line.x_studio_peso for line in doc.order_line if not line.display_type)"/>
+                                <span t-out="'%.2f' % (total_peso)"/> kg
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+
+
+    </template>
+</odoo>
