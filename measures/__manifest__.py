@@ -5,7 +5,7 @@
     'summary': "purchasing measures",
 
     'description': """
-Image Quote
+measures
     """,
 
     'author': "Arkisoft / Nikolays Toro",
