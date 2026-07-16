@@ -28,7 +28,7 @@ class AccountMoveLine(models.Model):
     importe_divisa_custom = fields.Monetary(
         string='Importe Divisa',
         compute='_compute_importe_divisa_custom',
-        currency_field='company_currency_id',
+        #currency_field='company_currency_id',
         store=False
     )
 

@@ -18,8 +18,8 @@
                 
                 <field name="x_tasa_dinamica" string="Tasa de Cambio" optional="hide"/>
 
-                <field name="importe_divisa_custom" string="Importe Divisa" sum="Total Divisa" widget="monetary"/>
-                <field name="amount_currency" string="Importe en moneda" optional="hide"/>
+                <field name="importe_divisa_custom" string="Importe en moneda" widget="monetary"/>
+                <!--field name="amount_currency" string="Importe en moneda" optional="hide"/-->
                 
                 <field name="debit" sum="Total Débito" widget="monetary"/>
                 <field name="credit" sum="Total Crédito" widget="monetary"/>
