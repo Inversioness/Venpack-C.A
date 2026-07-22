@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_line_origin_tree_custom" model="ir.ui.view">
+        <field name="name">account.move.line.tree.origin.custom</field>
+        <field name="model">account.move.line</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <tree string="Apuntes contables origen" create="false" edit="false" sample="1">
+                <field name="company_currency_id" column_invisible="True"/>
+                
+                <field name="date"/>
+                <field name="move_id"/>
+                <field name="account_id"/>
+                <field name="partner_id" string="Empresa"/>
+                <field name="origen_documento_real" string="Origen"/>
+                <field name="x_bl_custom"/>
+                <field name="name" string="Etiqueta"/>
+                
+                <field name="x_tasa_dinamica" string="Tasa de Cambio" optional="hide"/>
+
+                <field name="importe_divisa_custom" string="Importe en moneda" widget="monetary"/>
+                <!--field name="amount_currency" string="Importe en moneda" optional="hide"/-->
+                
+                <field name="debit" sum="Total Débito" widget="monetary"/>
+                <field name="credit" sum="Total Crédito" widget="monetary"/>
+                
+                <field name="create_uid" string="Creado por" widget="many2one_avatar_user"/>
+                <field name="create_date" string="Creado el"/>
+                <field name="parent_state" widget="badge" 
+                       decoration-info="parent_state == 'draft'" 
+                       decoration-success="parent_state == 'posted'"
+                       string="Estado"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_move_line_origin_tree" model="ir.actions.act_window">
+        <field name="name">Apuntes contables origen</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_move_line_origin_tree_custom"/>
+        <field name="search_view_id" ref="account.view_account_move_line_filter"/>
+        <field name="context">{'search_default_posted': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No se encontraron asientos contables de origen.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_action_move_line_origin"
+              name="Apuntes contables origen"
+              parent="account.menu_finance_entries"
+              action="action_move_line_origin_tree"
+              sequence="20"/>
+</odoo>
