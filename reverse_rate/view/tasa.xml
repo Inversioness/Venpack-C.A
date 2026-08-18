@@ -32,7 +32,7 @@
                         invisible="not is_retencion_iva or is_ves_currency" 
                         required="is_retencion_iva and not is_ves_currency"/>
                  
-                 <!--field name="x_tasa" 
+                 <!--zzzfield name="x_tasa" 
                         readonly="True" 
                         invisible="not is_retencion_iva or is_ves_currency"
                         force_save="True"/-->
