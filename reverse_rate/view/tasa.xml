@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_register_form_inherit_manual_rate" model="ir.ui.view">
+        <field name="name">account.payment.register.form.inherit.manual.rate</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//form" position="inside">
+                <field name="manual_currency_rate_active" invisible="True"/>
+                <field name="is_retencion_iva" invisible="True"/>
+                <field name="is_ves_currency" invisible="True"/>
+            </xpath>
+
+            <!-- 1. Ocultamos el campo amount original cuando es Retención -->
+            <xpath expr="//field[@name='amount']" position="attributes">
+                <attribute name="invisible">is_retencion_iva</attribute>
+            </xpath>
+
+            <!-- 2. Agregamos nuestro nuevo campo justo al lado del original. 
+                 Esto hará que la moneda (que viene después) se quede pegada a nuestro campo. -->
+            <xpath expr="//field[@name='amount']" position="after">
+                <field name="x_amount_retencion" 
+                       invisible="not is_retencion_iva" 
+                       required="is_retencion_iva"
+                       class="oe_inline"/> <!-- oe_inline hace que se vea junto a la moneda -->
+            </xpath>
+
+            <!-- 3. Los campos de Bs y Tasa debajo de la fecha -->
+            <xpath expr="//field[@name='payment_date']" position="after">
+                 <field name="amount_bs" 
+                        invisible="not is_retencion_iva or is_ves_currency" 
+                        required="is_retencion_iva and not is_ves_currency"/>
+                 
+                 <!--field name="x_tasa" 
+                        readonly="True" 
+                        invisible="not is_retencion_iva or is_ves_currency"
+                        force_save="True"/-->
+            </xpath>
+            
+        </field>
+    </record>
+</odoo>
