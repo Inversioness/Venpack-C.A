@@ -28,7 +28,7 @@ class CustomAccountMove(models.Model):
                 if company_id == 1:
                     retencion = rec.x_impuesto * 0.75
                 elif company_id in [3, 6]:
-                    retencion = rec.x_impuesto * 1
+                    retencion = rec.x_impuesto
             rec.x_retencion_usd = retencion
 
     @api.depends('invoice_origin')
