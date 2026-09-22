@@ -28,7 +28,6 @@ class AccountMoveLine(models.Model):
     importe_divisa_custom = fields.Monetary(
         string='Importe Divisa',
         compute='_compute_importe_divisa_custom',
-        #currency_field='company_currency_id',
         store=False
     )
 
@@ -100,20 +99,28 @@ class AccountMoveLine(models.Model):
     @api.depends('move_id', 'move_id.x_BL', 'origen_documento_real')
     def _compute_x_bl_custom(self):
         for line in self:
+            bl_value = False
+            
             if line.move_id.x_BL:
-                line.x_bl_custom = line.move_id.x_BL
-            elif line.origen_documento_real and line.origen_documento_real.strip():
+                bl_value = line.move_id.x_BL
+            
+            if not bl_value and 'stock.landed.cost' in self.env:
+                landed_cost = self.env['stock.landed.cost'].sudo().search([
+                    ('account_move_id', '=', line.move_id.id)
+                ], limit=1)
+                if landed_cost and hasattr(landed_cost, 'vendor_bill_id') and landed_cost.vendor_bill_id.x_BL:
+                    bl_value = landed_cost.vendor_bill_id.x_BL
+
+            if not bl_value and line.origen_documento_real and line.origen_documento_real.strip():
                 asiento_con_bl = self.env['account.move'].sudo().search([
                     ('invoice_origin', '=', line.origen_documento_real),
                     ('move_type', 'in', ('in_invoice', 'in_refund')),
                     ('x_BL', '!=', False)
                 ], limit=1)
                 if asiento_con_bl:
-                    line.x_bl_custom = asiento_con_bl.x_BL
-                else:
-                    line.x_bl_custom = False
-            else:
-                line.x_bl_custom = False
+                    bl_value = asiento_con_bl.x_BL
+            
+            line.x_bl_custom = bl_value
 
     def _search_origen_documento_real(self, operator, value):
         if operator not in ('=', 'ilike', 'like', '=like') or not value:
@@ -156,6 +163,14 @@ class AccountMoveLine(models.Model):
             ('move_type', 'in', ('in_invoice', 'in_refund'))
         ])
         
+        asientos_landed_costs_ids = []
+        if asientos_con_bl_directo and 'stock.landed.cost' in self.env:
+            landed_costs = self.env['stock.landed.cost'].sudo().search([
+                ('vendor_bill_id', 'in', asientos_con_bl_directo.ids),
+                ('account_move_id', '!=', False)
+            ])
+            asientos_landed_costs_ids = landed_costs.mapped('account_move_id').ids
+
         origenes_validos = []
         for move in asientos_con_bl_directo:
             lineas_compra = move.invoice_line_ids.mapped('purchase_line_id')
@@ -167,7 +182,7 @@ class AccountMoveLine(models.Model):
                     po = self.env['purchase.order'].sudo().search([('name', '=', origen_temp)], limit=1)
                     if po and po.partner_id.name == move.partner_id.name:
                         origenes_validos.append(origen_temp)
-        
+
         movimientos_relacionados_ids = []
         if origenes_validos:
             pos = self.env['purchase.order'].sudo().search([('name', 'in', origenes_validos)])
@@ -175,6 +190,6 @@ class AccountMoveLine(models.Model):
             asientos_inv = stock_moves.mapped('account_move_ids')
             movimientos_relacionados_ids = asientos_inv.ids
 
-        total_move_ids = asientos_con_bl_directo.ids + movimientos_relacionados_ids
+        total_move_ids = asientos_con_bl_directo.ids + asientos_landed_costs_ids + movimientos_relacionados_ids
 
         return [('move_id', 'in', list(set(total_move_ids)))]

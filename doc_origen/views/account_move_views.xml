@@ -6,7 +6,6 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <tree string="Apuntes contables origen" create="false" edit="false" sample="1">
-                <!-- Monedas base para los widgets monetary -->
                 <field name="company_currency_id" column_invisible="True"/>
                 <field name="currency_id" column_invisible="True"/>
                 
@@ -21,12 +20,12 @@
                 <field name="x_tasa_dinamica" string="Tasa de Cambio" optional="hide"/>
 
                 <field name="importe_divisa_custom" string="Importe en moneda" widget="monetary"/>
-                <!--field name="amount_currency" string="Importe en moneda" optional="hide"/-->
                 
                 <field name="debit" sum="Total Débito" widget="monetary"/>
                 <field name="credit" sum="Total Crédito" widget="monetary"/>
                 
-                <!-- NUEVAS COLUMNAS: Importes Residuales -->
+                <field name="balance" string="Saldo" sum="Total Saldo" widget="monetary"/>
+                
                 <field name="amount_residual" string="Residual" sum="Total Residual" widget="monetary" optional="show"/>
                 <field name="amount_residual_currency" string="Residual en Moneda" sum="Total Residual Moneda" widget="monetary" optional="show"/>
                 
